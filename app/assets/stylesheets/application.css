@@ -12,5 +12,6 @@
  *= require_directory
  *= require gritter
  *= require chosen
+ *= require formtastic
 
 */

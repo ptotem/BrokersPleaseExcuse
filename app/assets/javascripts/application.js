@@ -17,3 +17,4 @@
 //= require gritter
 //= require chosen-jquery
 //= require jquery_nested_form
+//= require autocomplete-rails

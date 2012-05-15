@@ -6,4 +6,5 @@ class Locality < ActiveRecord::Base
   has_many :poi_types, :through => :pois
   has_many :building_localities
   has_many :buildings, :through => :building_localities
+  has_many :primary_localities, :foreign_key => 'primary_locality_id'
 end

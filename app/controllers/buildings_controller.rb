@@ -1,4 +1,7 @@
 class BuildingsController < ApplicationController
+
+  autocomplete :building, :name
+
   # GET /buildings
   # GET /buildings.json
   def index

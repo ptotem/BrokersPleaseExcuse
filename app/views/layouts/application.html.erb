@@ -6,9 +6,19 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <script type="text/javascript">
-      $(function () {
-      });
-  </script>
+        $(function () {
+
+            $("form.submit_on_change").each(function (idx, form) {
+                $(form).find("select.autosubmit").each(function (idx, element) {
+                    $(element).change(function () {
+                        $(form).submit();
+                        return false;
+                    });
+                });
+            });
+
+        });
+    </script>
   <%= yield(:head) %>
 </head>
 <body>

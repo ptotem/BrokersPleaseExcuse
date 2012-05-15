@@ -7,6 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create!(:email=>'admin@tss.com',:password=>'secret',:password_confirmation=>'secret',:admin=>true)
+Contact.create!(:name=>"Administrator")
+
 MovingRequirement.create!(:name=>"Landlord NOC")
 MovingRequirement.create!(:name=>"Police Notification")
 MovingRequirement.create!(:name=>"Clubhouse Formalities")

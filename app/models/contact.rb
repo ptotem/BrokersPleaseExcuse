@@ -2,9 +2,8 @@ class Contact < ActiveRecord::Base
 
   belongs_to :rltn
 
-  has_and_belongs_to_many :tasks
-  has_and_belongs_to_many :task_actions
   has_and_belongs_to_many :labellings
+  has_and_belongs_to_many :contact_types
 
   has_many :connections, :dependent => :destroy
   has_many :addresses, :dependent => :destroy

@@ -6,6 +6,7 @@ class Building < ActiveRecord::Base
   has_many :flats, :dependent => :destroy
   has_many :building_localities
   has_many :localities, :through => :building_localities
+  belongs_to :primary_locality, :foreign_key => 'primary_locality_id', :class_name => "Locality"
   has_and_belongs_to_many :moving_requirements
   has_and_belongs_to_many :facilities
   has_and_belongs_to_many :facility_features
