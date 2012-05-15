@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  task_id: 1
+  contact_id: 1
+  flat_id: 1
+
+two:
+  task_id: 1
+  contact_id: 1
+  flat_id: 1

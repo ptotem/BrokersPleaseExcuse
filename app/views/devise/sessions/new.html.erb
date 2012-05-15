@@ -1,0 +1,24 @@
+<div class="span8" style="margin-top: 10%;margin-left:15%;background: white;padding:20px;border-radius: 20px;">
+  <h1 style="color: black;">
+    <%= image_tag "logo.png", :style => "height:80px;" %>
+    Brokers Please Excuse</h1>
+                            <br/>
+                            <br/>
+
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+      <div><%= f.label :email %>
+        <%= f.email_field :email %></div>
+
+      <div><%= f.label :password %>
+        <%= f.password_field :password %></div>
+
+      <% if devise_mapping.rememberable? -%>
+          <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+      <% end -%>
+
+      <div><%= f.submit "Sign in" %></div>
+  <% end %>
+
+  <%= render "links" %>
+
+</div>

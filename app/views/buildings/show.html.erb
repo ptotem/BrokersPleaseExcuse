@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @building.name %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @building.address %>
+</p>
+
+<p>
+  <b>Road:</b>
+  <%= @building.road %>
+</p>
+
+<p>
+  <b>Pincode:</b>
+  <%= @building.pincode %>
+</p>
+
+<p>
+  <b>Latitude:</b>
+  <%= @building.latitude %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @building.longitude %>
+</p>
+
+<p>
+  <b>Localities:</b>
+  <% @building.localities.each do |locality| %>
+      <%= locality.name%>
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_building_path(@building) %> |
+<%= link_to 'Back', buildings_path %>

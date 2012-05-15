@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  building_id: 1
+  locality_id: 1
+  primary: false
+
+two:
+  building_id: 1
+  locality_id: 1
+  primary: false

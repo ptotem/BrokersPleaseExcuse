@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Brokers Please Excuse</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+      $(function () {
+      });
+  </script>
+  <%= yield(:head) %>
+</head>
+<body>
+<div id="wrapper">
+  <div class="navbar navbar-fixed-top" style="z-index: 999999999">
+    <div class="navbar-inner" style="z-index: 999999999">
+      <div class="container-fluid">
+        <a class="brand" href="/"><%= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
+          BrokersPleaseExcuse.com</a>
+        <ul class="nav" style="margin-top: 5px;">
+          <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
+            <a class="dropdown-toggle"
+               data-toggle="dropdown"
+               href="#">
+              Properties
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "View All", buildings_path %></li>
+              <li><%= link_to "Add New", new_building_path %></li>
+            </ul>
+          </li>
+          <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
+            <a class="dropdown-toggle"
+               data-toggle="dropdown"
+               href="#">
+              Contacts
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "View All", contacts_path %></li>
+              <li><%= link_to "Add New", new_contact_path %></li>
+            </ul>
+          </li>
+          <li style="color:white;font-size:18px;line-height:20px;background: #000000">
+                    <%= link_to "Add Task", new_task_path %>
+          </li>
+          <!--<li style="color:white;font-size:18px;line-height:20px;background: #000000"><a href="#">Intranet</a></li>-->
+        </ul>
+
+        <% if !user_signed_in? %>
+            <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "pull-right navbar-form"}) do |f| %>
+                <%= f.email_field :email, :class => "input-small span3", :placeholder => "Email" %>
+                <%= f.password_field :password, :class => "input-small", :placeholder => "Password" %>
+                <%= f.submit "Sign In", :class => "btn-warning btn" %>
+            <% end %>
+        <% else %>
+            <div class="pull-right" style="margin-top: 15px;color:white;font-size: 18px;">
+              <%= current_user.email %>
+              <span class="nav_link">
+              | <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :style => "color:white;" %>
+            </span>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <%= js extend_gritter :position => :bottom_right %>
+    <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
+    <%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
+    <%= yield %>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
+

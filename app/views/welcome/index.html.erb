@@ -1,0 +1,57 @@
+<div style="margin-top: 35px;">
+  <div class="row-fluid">
+    <div class="span4">
+      <div class="row-fluid" style="margin-bottom: 5px;">
+        <div class="span11" style="text-align: center;background: white;margin:auto;border-radius:10px;border:solid 1px #000000;padding:10px">
+        <h3>Show All Action History</h3>
+        </div>
+      </div>
+      <% @tasks.each do |task| %>
+          <div class="row-fluid" style="margin-bottom: 5px;">
+            <div class="span11" style="background: white;margin:auto;border-radius:10px;border:solid 1px #000000; padding:10px">
+              <div class="row-fluid">
+                <div class="span9">
+                  <h4><%= task.procesz_step.name %></h4>
+                  <%= task.task_notes.first.comment %>
+                  <br/>
+                  <br/>
+                </div>
+                <div class="span3" style="text-align: right;">
+                  <h2><%= task.due_date.strftime("%e %b") %></h2>
+                  <br/>
+                </div>
+              </div>
+              <div class="row-fluid ">
+                <div class="span12 onlyhead" style="margin-left: -4px;padding-left: 5px;">
+                  <span style="font-weight: bold"><%= Contact.find(task.assigned_to).name %> | </span>
+                  <% task.contacts.each do |contact| %>
+                      <% case contact.rltn.name %>
+                  <% when "Vendor" %>
+                          <% @col="#ff0000" %>
+                      <% when "Client" %>
+                          <% @col="#00ff00" %>
+                      <% when "Employee" %>
+                          <% @col="#0000ff" %>
+                      <% when "Partner" %>
+                          <% @col="#ff00ff" %>
+                      <% else %>
+                          <% @col="#ff00ff" %>
+                      <% end %>
+
+                      <style type="text/css">
+                          #cnt_<%= contact.id %>_<%= task.id %> {
+                              color: <%= @col %>;
+                          }
+                      </style>
+
+                      <a href="<%= contact_path(contact) %>" id="cnt_<%= contact.id %>_<%= task.id %>"><%= contact.name %></a>
+                      |
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

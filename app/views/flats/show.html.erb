@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Building:</b>
+  <%= @flat.building_id %>
+</p>
+
+<p>
+  <b>Bhk config:</b>
+  <%= @flat.bhk_config_id %>
+</p>
+
+<p>
+  <b>Direction:</b>
+  <%= @flat.direction_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @flat.name %>
+</p>
+
+<p>
+  <b>Area:</b>
+  <%= @flat.area %>
+</p>
+
+<p>
+  <b>Floor:</b>
+  <%= @flat.floor %>
+</p>
+
+
+<%= link_to 'Edit', edit_flat_path(@flat) %> |
+<%= link_to 'Back', flats_path %>
