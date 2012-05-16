@@ -22,6 +22,8 @@ BPEv075::Application.routes.draw do
 
   resources :tasks
 
+
+
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   get "welcome/index"

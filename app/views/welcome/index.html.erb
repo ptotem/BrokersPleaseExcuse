@@ -3,18 +3,24 @@
     <div class="span4">
       <div class="row-fluid" style="margin-bottom: 5px;">
         <div class="span11" style="text-align: center;background: white;margin:auto;border-radius:10px;border:solid 1px #000000;padding:10px">
-        <h3>Show All Action History</h3>
+          <h3>Show All Action History</h3>
         </div>
       </div>
-      <% @tasks.each do |task| %>
+      <% @tasks.each_with_index do |task, index| %>
           <div class="row-fluid" style="margin-bottom: 5px;">
             <div class="span11" style="background: white;margin:auto;border-radius:10px;border:solid 1px #000000; padding:10px">
               <div class="row-fluid">
                 <div class="span9">
-                  <h4><%= task.procesz_step.name %></h4>
-                  <%= task.task_notes.first.comment %>
+                  <h4><%#= task.procesz_step.name %></h4>
+                  <%= task.interaction.comment %>
                   <br/>
                   <br/>
+                  <% if task.active %>
+                  <%= "Active" %>
+                      <%else %>
+                  <%= "InActive" %>
+                  <% end %>
+
                 </div>
                 <div class="span3" style="text-align: right;">
                   <h2><%= task.due_date.strftime("%e %b") %></h2>
@@ -24,8 +30,8 @@
               <div class="row-fluid ">
                 <div class="span12 onlyhead" style="margin-left: -4px;padding-left: 5px;">
                   <span style="font-weight: bold"><%= Contact.find(task.assigned_to).name %> | </span>
-                  <% task.contacts.each do |contact| %>
-                      <% case contact.rltn.name %>
+                  <% task.interaction.contacts.each do |contact| %>
+                      <% case contact.name %>
                   <% when "Vendor" %>
                           <% @col="#ff0000" %>
                       <% when "Client" %>
@@ -39,7 +45,7 @@
                       <% end %>
 
                       <style type="text/css">
-                          #cnt_<%= contact.id %>_<%= task.id %> {
+                          #cnt_<%= contact.id %>_ <%= task.id %> {
                               color: <%= @col %>;
                           }
                       </style>
@@ -47,11 +53,61 @@
                       <a href="<%= contact_path(contact) %>" id="cnt_<%= contact.id %>_<%= task.id %>"><%= contact.name %></a>
                       |
                   <% end %>
+
                 </div>
+                <a class="btn btn-success" data-toggle="modal" href="#complete_task_modal<%= index %>">Mark as
+                  Complete</a>|<a class="btn btn-inverse" data-toggle="modal" href="#reschedule_task_modal<%= index %>">Re-Schedule</a>|
+                <a class="btn btn-danger" data-toggle="modal" href="#cancel_task_modal<%= index %>">Cancel</a>
               </div>
             </div>
           </div>
+
+
+          <div class="modal fade" id="cancel_task_modal<%= index %>">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">×</button>
+              <h3>Cancel Task</h3>
+            </div>
+            <div class="modal-body">
+              <%= render 'interactions/form', :locals => {:task => task,:prev_comment=>"Canclled"} %>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn">Close</a>
+            </div>
+          </div>
+
+          <div class="modal fade" id="reschedule_task_modal<%= index %>">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">×</button>
+              <h3>Reschedule task</h3>
+            </div>
+            <div class="modal-body">
+              <%= render 'interactions/form', :locals => {:task => task,:prev_comment=>"Rescheduled"} %>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn">Close</a>
+            </div>
+          </div>
+
+          <div class="modal fade" id="complete_task_modal<%= index %>">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">×</button>
+              <h3>Mark Task As Complete</h3>
+            </div>
+            <div class="modal-body">
+              <%= render 'interactions/form', :locals => {:task => task,:prev_comment=>"Marked As Complete"} %>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn">Close</a>
+            </div>
+          </div>
+
+
       <% end %>
     </div>
   </div>
 </div>
+
+
+
+
