@@ -237,3 +237,8 @@ Furnstat.create!(:name=>"Furnished")
 Furnstat.create!(:name=>"Semi-Furnished")
 Furnstat.create!(:name=>"Unfurnished")
 Furnstat.create!(:name=>"Bare")
+
+InteractionType.create(name:"Note")
+InteractionType.create(name:"Meet")
+InteractionType.create(name:"Email")
+InteractionType.create(name:"Call")

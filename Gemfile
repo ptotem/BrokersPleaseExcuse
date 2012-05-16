@@ -11,8 +11,10 @@ gem 'thesilverspoon'
 gem 'geocoder'
 gem 'chosen-rails'
 gem 'cocoon'
+gem 'formtastic', " ~> 2.1.1"
+
 gem 'formtastic-bootstrap'
-gem 'formtastic'
+#gem 'formtastic'
 gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 gem 'jquery_datepicker'
 gem 'rails3-jquery-autocomplete'

@@ -18,3 +18,4 @@
 //= require chosen-jquery
 //= require jquery_nested_form
 //= require autocomplete-rails
+//= require jquery-ui-timepicker-addon

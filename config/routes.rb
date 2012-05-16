@@ -1,5 +1,14 @@
 BPEv075::Application.routes.draw do
 
+  resources :interaction_entities
+
+  resources :taskings
+
+  resources :interactions
+
+  resources :interaction_types
+
+
 
   resources :buildings do
     get :autocomplete_building_name, :on => :collection
