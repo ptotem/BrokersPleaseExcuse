@@ -55,9 +55,11 @@
                   <% end %>
 
                 </div>
+                <% if task.active? %>
                 <a class="btn btn-success" data-toggle="modal" href="#complete_task_modal<%= index %>">Mark as
                   Complete</a>|<a class="btn btn-inverse" data-toggle="modal" href="#reschedule_task_modal<%= index %>">Re-Schedule</a>|
                 <a class="btn btn-danger" data-toggle="modal" href="#cancel_task_modal<%= index %>">Cancel</a>
+                    <% end %>
               </div>
             </div>
           </div>
