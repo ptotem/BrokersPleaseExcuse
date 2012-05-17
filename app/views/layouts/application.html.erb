@@ -6,19 +6,40 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <script type="text/javascript">
-        $(function () {
+      $(function () {
 
-            $("form.submit_on_change").each(function (idx, form) {
-                $(form).find("select.autosubmit").each(function (idx, element) {
-                    $(element).change(function () {
-                        $(form).submit();
-                        return false;
-                    });
-                });
-            });
+          $("form.submit_on_change").each(function (idx, form) {
+              $(form).find("select.autosubmit").each(function (idx, element) {
+                  $(element).change(function () {
+                      $(form).submit();
+                      return false;
+                  });
+              });
+          });
 
-        });
-    </script>
+
+
+
+      });
+
+
+      //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
+      $(".timepicker").datetimepicker({
+
+          dateFormat:'dd-mm-yy'
+
+
+      });
+
+
+      $(".multi-select-chosen0").chosen();
+      $(".multi-select-chosen1").chosen();
+      $(".multi-select-chosen2").chosen();
+
+
+
+
+  </script>
   <%= yield(:head) %>
 </head>
 <body>
@@ -53,11 +74,19 @@
               <li><%= link_to "Add New", new_contact_path %></li>
             </ul>
           </li>
-          <li style="color:white;font-size:18px;line-height:20px;background: #000000">
-                    <%= link_to "Add Task", new_task_path %>
-          </li>
+          <% if current_user %>
+              <li style="color:white;font-size:18px;line-height:20px;background: #000000">
+
+                <% @interaction=Interaction.new %>
+                <% @interaction.taskings.build %>
+
+                <a data-toggle="modal" href="#new_interaction_form">Add Task</a>
+              </li>
+
+          <% end %>
           <!--<li style="color:white;font-size:18px;line-height:20px;background: #000000"><a href="#">Intranet</a></li>-->
         </ul>
+
 
         <% if !user_signed_in? %>
             <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "pull-right navbar-form"}) do |f| %>
@@ -83,6 +112,20 @@
     <%= yield %>
   </div>
 </div>
+
+<div class="modal fade" id="new_interaction_form">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Mark Task As Complete</h3>
+  </div>
+  <div class="modal-body">
+    <%= render 'interactions/form', :locals => {} %>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn">Close</a>
+  </div>
+</div>
+
 
 
 </body>
