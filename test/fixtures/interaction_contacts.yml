@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  interaction_id: 1
+  contact_id: 1
+
+two:
+  interaction_id: 1
+  contact_id: 1

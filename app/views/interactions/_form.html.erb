@@ -1,0 +1,125 @@
+<%= semantic_form_for(@interaction) do |f| %>
+    <% if @interaction.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@interaction.errors.count, "error") %> prohibited this interaction from being saved:</h2>
+
+          <ul>
+            <% @interaction.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="row">
+
+      <div class="span2">
+        <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:16px" %>
+
+        <br/>
+        <br/>
+        <%= f.input :interaction_type_id, :as => :radio, :collection => InteractionType.all %>
+
+      </div>
+      <div class="span4">
+        <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:16px" %>
+
+        <br/>
+        <br/>
+        <%= f.text_area :comment, :cols => 60, :rows => 10 %>
+      </div>
+
+
+      <div class="span4">
+        <h4>Task This Interaction</h4>
+        <br>
+        <br>
+        <%= f.semantic_fields_for :taskings do |builder| %>
+            <div class="field">
+              <%= builder.label :due_date %>
+              <br/>
+              <%= builder.text_field :due_date, :class => "timepicker" %>
+
+            </div>
+            <br>
+
+            <div class="field">
+              <%= builder.label :assigned_to %>
+              <br/>
+              <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
+
+            </div>
+            <div class="field">
+
+              <%= builder.hidden_field :active, :value => true %>
+
+            </div>
+
+
+        <% end %>
+
+      </div>
+
+      <div class="span6">
+        <h4>Tag This Interaction</h4>
+        <br>
+        <br>
+        <%= f.input :flats, :input_html => {:class => "multi-select-chosen0"} %>
+        <br>
+
+        <%= f.input :contacts, :input_html => {:autocomplete => "on", :size => 10, :class => "multi-select-chosen1"} %>
+        <!--#TODO: convert to chozen, else put in "Add New Entity" link next to multiselect-->
+        <!--#TODO: add number in the multiselect-->
+        <!--#TODO: add the contact(participant)/building(properties) from which interaction is created in the multiselect by default-->
+
+        <!--#TODO: add flat key and building name in the multi select-->
+
+
+      </div>
+
+
+    </div>
+
+    <div class="row">
+      <div class="span2">..</div>
+      <div class="span4">..</div>
+      <div class="span4">
+        <div class="actions">
+          <%= f.submit "SUBMIT", :class => "btn btn-info", :style => "height:30px;width:120px" %>
+        </div>
+      </div>
+      <div class="span6"></div>
+    </div>
+
+    <%= f.hidden_field :created_by, :value => current_user.id %>
+
+    <% if !locals[:task].nil? %>
+        <%= hidden_field_tag :prev_interaction_id, locals[:task].interaction.id %>
+        <%= hidden_field_tag :prev_comment, locals[:prev_comment] %>
+
+
+
+    <% end %>
+
+
+
+
+<% end %>
+
+<script type="text/javascript">
+
+    //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
+    $(".timepicker").datetimepicker({
+
+        dateFormat:'dd-mm-yy'
+
+
+    });
+
+
+    $(".multi-select-chosen0").chosen();
+    $(".multi-select-chosen1").chosen();
+    $(".multi-select-chosen2").chosen();
+
+
+</script>
