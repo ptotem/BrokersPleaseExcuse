@@ -1,14 +1,12 @@
 BPEv075::Application.routes.draw do
 
+  match 'property/(:building_id)/new', :to => "buildings#new", :as => "new_property"
+  match 'building/:building_id/flat/:id/edit', :to => "buildings#edit", :as => "edit_property"
 
-  resources :buildings do
-    get :autocomplete_building_name, :on => :collection
-    resources :flats
-  end
+  resources :buildings
+  resources :flats
   resources :contacts
   resources :connections
-
-  match ':building_id/flat/:id/edit', :to => "flats#edit"
 
 
   resources :tasks

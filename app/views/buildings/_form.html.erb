@@ -1,33 +1,100 @@
 <script type="text/javascript">
     $(function () {
-
+        $('select').chosen();
     })
 </script>
 
-<div class="content" style="margin-top: 25px;">
-
-  <div class="row">
-    <h1 style="margin-left: 20px">
-      Property
-      <small>Quick Add</small>
-    </h1>
-  </div>
-</div>
-
 <div class="content">
-  <div class="row-fluid">
-    <div class="span4">
-      <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'name'), {:include_blank => '', :class => 'autosubmit'} %>
-    </div>
-    <%= form_for(@building, :html => {:class => "submit_on_change"}) do |b| %>
-        <div class="span4">
-          <%= b.text_field :name %>
-          <%= b.select :primary_locality_id, options_from_collection_for_select(@localities, 'id', 'name', @building.primary_locality_id) %>
-        </div>
-        <div class="span4">
 
-        </div>
-        <%= b.submit %>
-    <% end %>
-  </div>
+  <%= form_for(@building, :html => {:class => "submit_on_change"}) do |b| %>
+      <div class="row-fluid">
+        <% if @building_selected %>
+            <h3>
+              <div class="blabel">Building Name:</div>
+              <%= @building.name %>, <%= @building.main_locality.name %>
+            </h3>
+        <% else %>
+            <div class="blabel">Building Name:</div>
+            <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'full_name'), {:include_blank => '', :class => 'autosubmit', :'data-placeholder' => "Select the building"} %>
+            <br>
+            <span style="font-style: italic;">Can't find the building you are looking for?</span>
+            <a data-backdrop="static" data-toggle="modal" href="#add_building">Add it!</a>
+            <br>
+            <br>
+
+            <div class="modal hide fade" id="add_building">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+
+                <h3>Add it!</h3>
+              </div>
+              <div class="modal-body">
+                Building Name : <%= b.text_field :name, :value => nil %>
+                <%= b.select :primary_locality_id, options_from_collection_for_select(@localities, 'id', 'name', @building.primary_locality_id) %>
+              </div>
+              <div class="modal-footer">
+                <%= b.submit "Save Changes", :class => "btn btn-primary" %>
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+              </div>
+            </div>
+        <% end %>
+      </div>
+      <%= b.fields_for :flats, @flat do |f| %>
+          <div class="row-fluid ">
+
+            <% unless params[:id].blank? %>
+                <h3>
+                  <div class="blabel">
+                    Flat Key:
+                  </div>
+                  <%= @flat.flat_key.upcase %>
+                </h3>
+                <br>
+                <br>
+            <% end %>
+
+
+            <div class="blabel">
+              Flat Name*:
+            </div>
+
+            <%= f.text_field :name, :value => @flat.name %>
+            <br>
+            <br>
+
+            <div class="blabel">Source:</div>
+            <%= f.select :flatype_id, options_from_collection_for_select(@sources, 'id', 'name', @flat.flatype_id), {:include_blank => ''} %>
+            <br>
+
+            <div class="blabel">Configuration*:</div>
+            <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''}, {} %>
+            <br>
+
+            <div class="blabel">Furnishing Status:</div>
+            <%= f.select :furnstat_id, options_from_collection_for_select(@furnstats, 'id', 'name', @flat.furnstat_id), {:include_blank => ''} %>
+            <br>
+            <br>
+
+            <div class="blabel">Expected Rent:</div>
+            <%= f.fields_for :expected_rents, @expected_rent do |er| %>
+                <%= er.text_field :value %>
+            <% end %>
+            <br>
+
+            <div class="blabel">Available From:</div>
+            <%= f.fields_for :available_froms, @available_from do |er| %>
+                <%#= er.datepicker :avdate, :value=>@flat.available_froms.last.avdate, :dateFormat => "dd/mm/yy" %>
+            <% end %>
+            <br>
+
+
+          </div>
+      <% end %>
+      <br>
+      <br>
+
+
+      <%= b.submit "Save Property", :class => "btn btn-inverse btn-large" %>
+
+  <% end %>
 </div>
