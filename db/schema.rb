@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120404173925) do
+ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -306,6 +306,7 @@ ActiveRecord::Schema.define(:version => 20120404173925) do
     t.integer  "bhk_config_id"
     t.integer  "direction_id"
     t.string   "name"
+    t.string   "flat_key"
     t.integer  "area"
     t.integer  "floor"
     t.datetime "created_at",    :null => false
@@ -324,6 +325,41 @@ ActiveRecord::Schema.define(:version => 20120404173925) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "interaction_contacts", :force => true do |t|
+    t.integer  "interaction_id"
+    t.integer  "contact_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "interaction_entities", :force => true do |t|
+    t.integer  "interaction_id"
+    t.integer  "entity_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "interaction_flats", :force => true do |t|
+    t.integer  "interaction_id"
+    t.integer  "flat_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "interaction_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "interactions", :force => true do |t|
+    t.text     "comment"
+    t.integer  "created_by"
+    t.integer  "interaction_type_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "interiors_qualities", :force => true do |t|
@@ -458,6 +494,15 @@ ActiveRecord::Schema.define(:version => 20120404173925) do
     t.text     "comment"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "taskings", :force => true do |t|
+    t.integer  "interaction_id"
+    t.datetime "due_date"
+    t.integer  "assigned_to"
+    t.boolean  "active"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|

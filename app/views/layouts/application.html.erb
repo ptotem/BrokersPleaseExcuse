@@ -6,19 +6,18 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <script type="text/javascript">
-        $(function () {
-
-            $("form.submit_on_change").each(function (idx, form) {
-                $(form).find("select.autosubmit").each(function (idx, element) {
-                    $(element).change(function () {
-                        $(form).submit();
-                        return false;
-                    });
-                });
-            });
-
-        });
-    </script>
+      $(function () {
+          $("form.submit_on_change").each(function (idx, form) {
+              $(form).find("select.autosubmit").each(function (idx, element) {
+                  $(element).change(function () {
+                      $(form).submit();
+                      return false;
+                  });
+              });
+          });
+      });
+      //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
+  </script>
   <%= yield(:head) %>
 </head>
 <body>
@@ -28,36 +27,59 @@
       <div class="container-fluid">
         <a class="brand" href="/"><%= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
           BrokersPleaseExcuse.com</a>
-        <ul class="nav" style="margin-top: 5px;">
-          <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
-            <a class="dropdown-toggle"
-               data-toggle="dropdown"
-               href="#">
-              Properties
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "View All", buildings_path %></li>
-              <li><%= link_to "Add New", new_building_path %></li>
+        <% if current_user %>
+
+            <ul class="nav" style="margin-top: 5px;">
+              <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
+                <a class="dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="#">
+                  Properties
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "View All", buildings_path %></li>
+                  <li><%= link_to "Add New", new_building_path %></li>
+                </ul>
+              </li>
+              <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
+                <a class="dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="#">
+                  Contacts
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "View All", contacts_path %></li>
+                  <li><%= link_to "Add New", new_contact_path %></li>
+                </ul>
+              </li>
+              <li style="color:white;font-size:18px;line-height:20px;background: #000000">
+
+                <% @interaction=Interaction.new %>
+                <% @interaction.taskings.build %>
+
+                <a data-toggle="modal" href="#new_interaction_form">Add Task</a>
+
+                <div class="modal fade" id="new_interaction_form">
+                  <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Mark Task As Complete</h3>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row-fluid">
+                      <%= render 'interactions/form', :locals => {} %>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <a href="#" class="btn">Close</a>
+                  </div>
+                </div>
+              </li>
+              <!--<li style="color:white;font-size:18px;line-height:20px;background: #000000"><a href="#">Intranet</a></li>-->
             </ul>
-          </li>
-          <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
-            <a class="dropdown-toggle"
-               data-toggle="dropdown"
-               href="#">
-              Contacts
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "View All", contacts_path %></li>
-              <li><%= link_to "Add New", new_contact_path %></li>
-            </ul>
-          </li>
-          <li style="color:white;font-size:18px;line-height:20px;background: #000000">
-                    <%= link_to "Add Task", new_task_path %>
-          </li>
-          <!--<li style="color:white;font-size:18px;line-height:20px;background: #000000"><a href="#">Intranet</a></li>-->
-        </ul>
+        <% end %>
+
 
         <% if !user_signed_in? %>
             <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "pull-right navbar-form"}) do |f| %>

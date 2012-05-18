@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Interaction:</b>
+  <%= @tasking.interaction_id %>
+</p>
+
+<p>
+  <b>Due date:</b>
+  <%= @tasking.due_date %>
+</p>
+
+<p>
+  <b>Assigned to:</b>
+  <%= @tasking.assigned_to %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @tasking.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_tasking_path(@tasking) %> |
+<%= link_to 'Back', taskings_path %>
