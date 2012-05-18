@@ -28,7 +28,7 @@ class Flat < ActiveRecord::Base
   accepts_nested_attributes_for :view_qualities, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :flat_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :expected_rents, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :available_froms, :reject_if => :any_blank, :allow_destroy => true
+  accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true
 
   validates_presence_of :name
   validates_presence_of :bhk_config_id
