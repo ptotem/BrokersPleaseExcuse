@@ -1,28 +1,18 @@
 BPEv075::Application.routes.draw do
 
+  match 'property/(:building_id)/new', :to => "buildings#new", :as => "new_property"
+  match 'building/:building_id/flat/:id/edit', :to => "buildings#edit", :as => "edit_property"
+
+
   resources :interaction_entities
-
   resources :taskings
-
   resources :interactions
-
   resources :interaction_types
-
-
-
-  resources :buildings do
-    get :autocomplete_building_name, :on => :collection
-    resources :flats
-  end
   resources :contacts
   resources :connections
-
-  match ':building_id/flat/:id/edit', :to => "flats#edit"
-
-
+  resources :buildings
+  resources :flats
   resources :tasks
-
-
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 

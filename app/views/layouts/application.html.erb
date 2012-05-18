@@ -7,7 +7,6 @@
   <%= csrf_meta_tags %>
   <script type="text/javascript">
       $(function () {
-
           $("form.submit_on_change").each(function (idx, form) {
               $(form).find("select.autosubmit").each(function (idx, element) {
                   $(element).change(function () {
@@ -16,18 +15,8 @@
                   });
               });
           });
-
-
-
-
       });
-
-
       //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
-
-
-
-
   </script>
   <%= yield(:head) %>
 </head>
@@ -70,6 +59,21 @@
                 <% @interaction.taskings.build %>
 
                 <a data-toggle="modal" href="#new_interaction_form">Add Task</a>
+
+                <div class="modal fade" id="new_interaction_form">
+                  <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Mark Task As Complete</h3>
+                  </div>
+                  <div class="modal-body">
+                    <%= render 'interactions/form', :locals => {} %>
+                  </div>
+                  <div class="modal-footer">
+                    <a href="#" class="btn">Close</a>
+                  </div>
+                </div>
+
+
               </li>
 
           <% end %>
@@ -101,20 +105,6 @@
     <%= yield %>
   </div>
 </div>
-
-<div class="modal fade" id="new_interaction_form">
-  <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Mark Task As Complete</h3>
-  </div>
-  <div class="modal-body">
-    <%= render 'interactions/form', :locals => {} %>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn">Close</a>
-  </div>
-</div>
-
 
 
 </body>
