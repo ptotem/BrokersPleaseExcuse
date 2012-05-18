@@ -27,6 +27,7 @@ Locality.create!(:name=>"Mahim West",:area_id=>'1',:quality_id=>'2')
 Locality.create!(:name=>"Cadell Road",:area_id=>'1',:quality_id=>'3')
 Locality.create!(:name=>"Reclamation",:area_id=>'2',:quality_id=>'2')
 Locality.create!(:name=>"Union Park",:area_id=>'2',:quality_id=>'1')
+Locality.create!(:name=>"Poonam Nagar",:area_id=>'3',:quality_id=>'1')
 
 BhkConfig.create!(:name=>'1 RK')
 BhkConfig.create!(:name=>'1 BHK')
