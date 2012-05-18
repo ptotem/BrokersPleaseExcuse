@@ -60,7 +60,6 @@ class BuildingsController < ApplicationController
     @expected_rent = @flat.expected_rents.last
     @available_from = @flat.available_froms.last
 
-
     @building_selected = true
 
     @buildings = Building.all
@@ -68,7 +67,27 @@ class BuildingsController < ApplicationController
     @bhks=BhkConfig.all
     @sources=Flatype.all
     @furnstats=Furnstat.all
+    @moving_requirements=MovingRequirement.all
+    @services=Service.all
 
+    @facilities=Facility.where("is_building=?", true)
+    @features=Hash.new
+    @facilities.each do |facility|
+      @features[facility.name]=facility.facility_features
+    end
+
+    @flat_facilities=Facility.where("is_building=?", false)
+    @flat_features=Hash.new
+    @flat_facilities.each do |facility|
+      @flat_features[facility.name]=facility.facility_features
+    end
+
+    @building_service = @building.building_services.build
+    @building_localities = @building.building_localities.build
+
+
+    @flat.flat_notes.build
+    @building.building_notes.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -107,6 +126,13 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       if @building.update_attributes(params[:building])
+
+        if !params[:came_from_edit].nil?
+          @flat=Flat.find(params[:came_from_edit])
+          format.html { redirect_to edit_property_path(@building,@flat), notice: 'Building was successfully updated.' }
+        end
+
+
         format.html { redirect_to flats_path, notice: 'Building was successfully updated.' }
         format.json { head :no_content }
       else

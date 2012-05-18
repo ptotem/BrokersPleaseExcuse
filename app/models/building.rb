@@ -29,6 +29,7 @@ class Building < ActiveRecord::Base
   accepts_nested_attributes_for :building_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_routes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_services, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :building_localities, :reject_if => :all_blank, :allow_destroy => true
 
   def full_address
     "#{self.name}, #{self.address}, #{self.road}, Mumbai, India"

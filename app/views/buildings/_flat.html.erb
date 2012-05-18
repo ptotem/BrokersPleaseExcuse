@@ -1,0 +1,43 @@
+
+
+<h2>Flat Features</h2>
+<div>
+  <div class="row">
+    <div class="span9">
+      <%= hidden_field_tag "flat[facility_ids][]", nil %>
+      <% @flat_facilities.each do |facility| %>
+          <%= check_box_tag "flat[facility_ids][]", facility.id, @flat.facility_ids.include?(facility.id), id: dom_id(facility), :onchange => "$(this).next().next().toggle();" %>
+          <%= label_tag dom_id(facility), facility.name %>
+          <% if @flat.facility_ids.include?(facility.id) %>
+              <div class="blocky">
+                <%= hidden_field_tag "flat[facility_feature_ids][]", nil %>
+                <% facility.facility_features.each do |facility_feature| %>
+                    <%= check_box_tag "flat[facility_feature_ids][]", facility_feature.id, @flat.facility_feature_ids.include?(facility_feature.id), id: dom_id(facility_feature) %>
+                    <%= label_tag dom_id(facility_feature), facility_feature.name %>
+                <% end %>
+              </div>
+              <br/>
+          <% else %>
+              <div style="display:none;" class="blocky">
+                <%= hidden_field_tag "flat[facility_feature_ids][]", nil %>
+                <% facility.facility_features.each do |facility_feature| %>
+                    <%= check_box_tag "flat[facility_feature_ids][]", facility_feature.id, @flat.facility_feature_ids.include?(facility_feature.id), id: dom_id(facility_feature) %>
+                    <%= label_tag dom_id(facility_feature), facility_feature.name %>
+                <% end %>
+              </div>
+              <br/>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<br>
+<h2>Flat Notes</h2>
+
+<%= f.fields_for :flat_notes do |builder| %>
+    <%= builder.text_area :note, :rows => 2, :class => "span11" %>
+    <%= builder.link_to_remove "Remove" %>
+<% end %>
+
+<%= f.link_to_add 'Add Note', :flat_notes %> <br/>

@@ -1,0 +1,64 @@
+<h2>Building Quality</h2>
+
+<div class="row-fluid">
+  <div class="span3">
+    Overall Quality:
+  </div>
+  <div class="span4">
+    <%= b.fields_for :building_qualities do |builder| %>
+        <%= builder.select :quality_id, options_from_collection_for_select(@qualities, :id, :name, @bldgq.quality_id), {}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+    <% end %>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span3">
+    Approach Quality:
+  </div>
+  <div class="span4">
+    <%= b.fields_for :approach_qualities do |builder| %>
+        <%= builder.select :quality_id, options_from_collection_for_select(@qualities, :id, :name, @appq.quality_id), {}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+    <% end %>
+  </div>
+</div>
+
+
+
+<h2>Building Facilities</h2>
+
+<div class="row">
+  <div class="span9">
+    <%= hidden_field_tag "building[facility_ids][]", nil %>
+    <% @facilities.each do |facility| %>
+        <%= check_box_tag "building[facility_ids][]", facility.id, @building.facility_ids.include?(facility.id), id: dom_id(facility), :onchange => "$(this).next().next().toggle();" %>
+        <%= label_tag dom_id(facility), facility.name %>
+        <% if @building.facility_ids.include?(facility.id) %>
+            <div class="blocky">
+              <%= hidden_field_tag "building[facility_feature_ids][]", nil %>
+              <% facility.facility_features.each do |facility_feature| %>
+                  <%= check_box_tag "building[facility_feature_ids][]", facility_feature.id, @building.facility_feature_ids.include?(facility_feature.id), id: dom_id(facility_feature) %>
+                  <%= label_tag dom_id(facility_feature), facility_feature.name %>
+              <% end %>
+            </div>
+            <br/>
+        <% else %>
+            <div style="display:none;" class="blocky">
+              <%= hidden_field_tag "building[facility_feature_ids][]", nil %>
+              <% facility.facility_features.each do |facility_feature| %>
+                  <%= check_box_tag "building[facility_feature_ids][]", facility_feature.id, @building.facility_feature_ids.include?(facility_feature.id), id: dom_id(facility_feature) %>
+                  <%= label_tag dom_id(facility_feature), facility_feature.name %>
+              <% end %>
+            </div>
+            <br/>
+        <% end %>
+    <% end %>
+  </div>
+</div>
+<br>
+<h2>Building Notes</h2>
+
+<%= b.fields_for :building_notes do |builder| %>
+    <%= builder.text_area :comment, :rows => 2, :class => "span11" %>
+    <%= builder.link_to_remove "Remove" %>
+<% end %>
+
+<%= b.link_to_add 'Add Note', :building_notes %> <br/>

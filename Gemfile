@@ -12,6 +12,7 @@ gem 'geocoder'
 gem 'chosen-rails'
 gem 'cocoon'
 gem 'formtastic', " ~> 2.1.1"
+gem 'thin'
 
 gem 'formtastic-bootstrap'
 #gem 'formtastic'

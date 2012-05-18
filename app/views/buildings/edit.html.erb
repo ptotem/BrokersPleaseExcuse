@@ -1,78 +1,86 @@
-<div class="content" style="margin-top: 25px;">
-
-  <div class="row">
-    <h1 style="margin-left: 20px">
-      <div class="blabel">Property</div>
-      <small>Detailed Input Form</small>
-    </h1>
-    <h3 style="margin-left: 20px">
-      <div class="blabel">Building:</div>
-      <%= @building.name %>, <%= @building.main_locality.name %>
-      <br>
-      <div class="blabel">
-        Flat Key:
-      </div>
-      <%= @flat.flat_key.upcase %>
-    </h3>
-  </div>
-</div>
-<br>
-
 <script type="text/javascript">
     $(function () {
-        $('select').chosen();
+
+
+        $('.panel-link').click(function () {
+            $('.detail-panel').hide();
+            var panel = $(this).attr("id");
+            $("#" + panel + "-panel").show();
+        });
+
+        $('.submitter').click(function(){
+            $('.detail-panel').hide();
+            $(this).parent().next().show();
+        })
     })
 </script>
 
-<div class="content">
 
-  <%= form_for(@building) do |b| %>
+<%= nested_form_for(@building, :remote=>true) do |b| %>
+    <%= b.fields_for :flats, @flat do |f| %>
 
-      <%= b.fields_for :flats, @flat do |f| %>
-          <div class="row-fluid ">
+        <%= hidden_field_tag :came_from_edit, @flat.id %>
 
-            <div class="blabel">
-              Flat Name*:
+        <div class="content" style="margin-top: 25px;">
+          <div class="row-fluid">
+            <div class="span5">
+              <h1 style="margin-left: 20px">
+                <div class="blabel">Property</div>
+                <small>Detailed Input Form</small>
+              </h1>
+              <h3 style="margin-left: 20px">
+                <div class="blabel">Building:</div>
+                <small><%= @building.name %>, <%= @building.main_locality.name %></small>
+                <br>
+
+                <div class="blabel">
+                  Flat Key:
+                </div>
+                <small><%= @flat.flat_key.upcase %></small>
+              </h3>
             </div>
-
-            <%= f.text_field :name, :value => @flat.name %>
-            <br>
-            <br>
-
-            <div class="blabel">Source:</div>
-            <%= f.select :flatype_id, options_from_collection_for_select(@sources, 'id', 'name', @flat.flatype_id), {:include_blank => ''} %>
-            <br>
-
-            <div class="blabel">Configuration*:</div>
-            <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''}, {} %>
-            <br>
-
-            <div class="blabel">Furnishing Status:</div>
-            <%= f.select :furnstat_id, options_from_collection_for_select(@furnstats, 'id', 'name', @flat.furnstat_id), {:include_blank => ''} %>
-            <br>
-            <br>
-
-            <div class="blabel">Expected Rent:</div>
-            <%= f.fields_for :expected_rents, @expected_rent do |er| %>
-                <%= er.text_field :value %>
-            <% end %>
-            <br>
-
-            <div class="blabel">Available From:</div>
-            <%= f.fields_for :available_froms, @available_from do |er| %>
-                <%#= er.datepicker :avdate, :value=>@flat.available_froms.last.avdate, :dateFormat => "dd/mm/yy" %>
-                <%= er.text_field :avdate %>
-            <% end %>
-            <br>
-
-
+            <div class="span7">
+              <div class="row-fluid" style="margin-top: 20px;">
+                <%= link_to "Basic Data", '#', :class => "btn btn-inverse btn-large panel-link", :id => "basic" %>
+                <%= link_to "Location", '#', :class => "btn btn-inverse btn-large panel-link", :id => "location" %>
+                <%= link_to "Building", '#', :class => "btn btn-inverse btn-large panel-link", :id => "building" %>
+                <%= link_to "Flat", '#', :class => "btn btn-inverse btn-large panel-link", :id => "flat" %>
+                <%= link_to "More Info", '#', :class => "btn btn-inverse btn-large panel-link", :id => "info" %>
+                <%= link_to "Photos", '#', :class => "btn btn-inverse btn-large panel-link", :id => "photos" %>
+              </div>
+            </div>
           </div>
-      <% end %>
-      <br>
-      <br>
+        </div>
+
+        <br>
+
+        <div class="content detail-panel" id="basic-panel">
+          <%= render 'basic', :f => f %>
+          <br>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-basic" %>
+        </div>
+        <div class="content hide detail-panel" id="location-panel">
+          <%= render 'location', :b => b %>
+          <br>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-location" %>
+        </div>
+        <div class="content hide detail-panel" id="building-panel">
+          <%= render 'building', :b => b %>
+          <br>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-building" %>
+        </div>
+        <div class="content hide detail-panel" id="flat-panel">
+          <%= render 'flat', :f => f %>
+          <br>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-flat" %>
+        </div>
+        <div class="content hide detail-panel" id="info-panel">
+          <%= render 'info', :b => b %>
+          <br>
+          <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large", :id=>"submit-info" %>
+        </div>
 
 
-      <%= b.submit "Save Property", :class => "btn btn-inverse btn-large" %>
 
-  <% end %>
-</div>
+    <% end %>
+<% end %>
