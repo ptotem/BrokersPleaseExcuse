@@ -306,6 +306,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
     t.integer  "bhk_config_id"
     t.integer  "direction_id"
     t.string   "name"
+    t.string   "flat_key"
     t.integer  "area"
     t.integer  "floor"
     t.datetime "created_at",    :null => false

@@ -1,1 +1,78 @@
-<%= render 'form' %>
+<div class="content" style="margin-top: 25px;">
+
+  <div class="row">
+    <h1 style="margin-left: 20px">
+      <div class="blabel">Property</div>
+      <small>Detailed Input Form</small>
+    </h1>
+    <h3 style="margin-left: 20px">
+      <div class="blabel">Building:</div>
+      <%= @building.name %>, <%= @building.main_locality.name %>
+      <br>
+      <div class="blabel">
+        Flat Key:
+      </div>
+      <%= @flat.flat_key.upcase %>
+    </h3>
+  </div>
+</div>
+<br>
+
+<script type="text/javascript">
+    $(function () {
+        $('select').chosen();
+    })
+</script>
+
+<div class="content">
+
+  <%= form_for(@building) do |b| %>
+
+      <%= b.fields_for :flats, @flat do |f| %>
+          <div class="row-fluid ">
+
+            <div class="blabel">
+              Flat Name*:
+            </div>
+
+            <%= f.text_field :name, :value => @flat.name %>
+            <br>
+            <br>
+
+            <div class="blabel">Source:</div>
+            <%= f.select :flatype_id, options_from_collection_for_select(@sources, 'id', 'name', @flat.flatype_id), {:include_blank => ''} %>
+            <br>
+
+            <div class="blabel">Configuration*:</div>
+            <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''}, {} %>
+            <br>
+
+            <div class="blabel">Furnishing Status:</div>
+            <%= f.select :furnstat_id, options_from_collection_for_select(@furnstats, 'id', 'name', @flat.furnstat_id), {:include_blank => ''} %>
+            <br>
+            <br>
+
+            <div class="blabel">Expected Rent:</div>
+            <%= f.fields_for :expected_rents, @expected_rent do |er| %>
+                <%= er.text_field :value %>
+            <% end %>
+            <br>
+
+            <div class="blabel">Available From:</div>
+            <%= f.fields_for :available_froms, @available_from do |er| %>
+                <%#= er.datepicker :avdate, :value=>@flat.available_froms.last.avdate, :dateFormat => "dd/mm/yy" %>
+                <%= er.text_field :avdate %>
+            <% end %>
+            <br>
+
+
+          </div>
+      <% end %>
+      <br>
+      <br>
+
+
+      <%= b.submit "Save Property", :class => "btn btn-inverse btn-large" %>
+
+  <% end %>
+</div>

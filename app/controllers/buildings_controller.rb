@@ -27,31 +27,25 @@ class BuildingsController < ApplicationController
   # GET /buildings/new
   # GET /buildings/new.json
   def new
-    @building = Building.new
-    @buildings = Building.all
-    @flat = @building.flats.build
-    @flats=@building.flats
-    @bhk_configs=BhkConfig.all
 
-    @building_service = @building.building_services.build
-    @building_services=@building.building_services
-    @services=Service.all
-
-    @localities=Locality.all
-    @moving_requirements=MovingRequirement.all
-    @facilities=Facility.where("is_building=?", true)
-
-    @features=Hash.new
-    @facilities.each do |facility|
-      @features[facility.name]=facility.facility_features
+    if params[:building_id].blank?
+      @building = Building.new
+      @building_selected = false
+    else
+      @building = Building.find(params[:building_id])
+      @building_selected = true
     end
 
-    @restrictions=Restriction.all
-    @qualities=Quality.all
 
-    @bldgq=@building.building_qualities.build
-    @appq=@building.approach_qualities.build
-    @mc=@building.moving_charges.build
+    @buildings = Building.all
+    @localities = Locality.all
+    @bhks=BhkConfig.all
+    @sources=Flatype.all
+    @furnstats=Furnstat.all
+
+    @flat = @building.flats.build
+    @expected_rent = @flat.expected_rents.build
+    @available_from = @flat.available_froms.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -61,39 +55,24 @@ class BuildingsController < ApplicationController
 
   # GET /buildings/1/edit
   def edit
-    @building = Building.find(params[:id])
+    @building = Building.find(params[:building_id])
+    @flat = Flat.find(params[:id])
+    @expected_rent = @flat.expected_rents.last
+    @available_from = @flat.available_froms.last
+
+
+    @building_selected = true
+
     @buildings = Building.all
-    @flat = @building.flats.build
-    @flats=@building.flats
-    @bhk_configs=BhkConfig.all
-
-    @building_service = @building.building_services.build
-    @building_services=@building.building_services
-    @services=Service.all
+    @localities = Locality.all
+    @bhks=BhkConfig.all
+    @sources=Flatype.all
+    @furnstats=Furnstat.all
 
 
-    @localities=Locality.all
-    @moving_requirements=MovingRequirement.all
-    @facilities=Facility.where("is_building=?", true)
-
-    @features=Hash.new
-    @facilities.each do |facility|
-      @features[facility.name]=facility.facility_features
-    end
-
-    @restrictions=Restriction.all
-    @qualities=Quality.all
-
-    unless @bldgq=@building.building_qualities.first
-    @bldgq=@building.building_qualities.build
-    end
-
-    unless @appq=@building.approach_qualities.first
-    @appq=@building.approach_qualities.build
-    end
-
-    unless @mc=@building.moving_charges.first
-    @mc=@building.moving_charges.build
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @building }
     end
 
   end
@@ -104,13 +83,20 @@ class BuildingsController < ApplicationController
     @building = Building.new(params[:building])
 
     respond_to do |format|
-      if @building.save
-        format.html { redirect_to edit_building_path(@building), notice: 'Building was successfully created.' }
-        format.json { render json: @building, status: :created, location: @building }
+
+      if !params[:selected_building].blank?
+        @selected_building=Building.find(params[:selected_building])
+        format.html { redirect_to new_property_path(@selected_building), notice: "You selected #{@selected_building.name}. Now add the flat." }
       else
-        format.html { render action: "new" }
-        format.json { render json: @building.errors, status: :unprocessable_entity }
+        if @building.save
+          format.html { redirect_to new_property_path(@building), notice: 'Building was successfully created.' }
+          format.json { render json: @building, status: :created, location: @building }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @building.errors, status: :unprocessable_entity }
+        end
       end
+
     end
   end
 
@@ -121,7 +107,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       if @building.update_attributes(params[:building])
-        format.html { redirect_to edit_building_path(@building), notice: 'Building was successfully updated.' }
+        format.html { redirect_to flats_path, notice: 'Building was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
