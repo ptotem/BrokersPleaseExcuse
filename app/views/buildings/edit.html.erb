@@ -2,21 +2,45 @@
     $(function () {
 
 
+        $('select').on("mouseover", function () {
+            alert("hello");
+         $(this).chosen();
+        });
+
         $('.panel-link').click(function () {
             $('.detail-panel').hide();
             var panel = $(this).attr("id");
             $("#" + panel + "-panel").show();
         });
 
-        $('.submitter').click(function(){
+        $('.submitter').click(function () {
             $('.detail-panel').hide();
             $(this).parent().next().show();
-        })
+        });
+
+        $('form').bind('ajax:success', function (evt, data) {
+            $.get("<%= get_contact_list_path %>", function (data1) {
+
+                var contact_option = data1.split("|");
+
+                $(".contact-select").html("<option></option>");
+                for (var i = 0; i < contact_option.length - 1; i++) {
+                    $(".contact-select").append(new Option(contact_option[i].split("--")[1], contact_option[i].split("--")[0]));
+                }
+                $('.modal').modal("hide");
+
+                //$(".contact-select").html(data1);
+            });
+            //$('.contact-select');
+
+            //return true;
+        });
+
     })
 </script>
 
 
-<%= nested_form_for(@building, :remote=>true) do |b| %>
+<%= nested_form_for(@building, :remote => true, :'data-update-target' => 'select') do |b| %>
     <%= b.fields_for :flats, @flat do |f| %>
 
         <%= hidden_field_tag :came_from_edit, @flat.id %>
@@ -55,29 +79,29 @@
         <br>
 
         <div class="content detail-panel" id="basic-panel">
-          <%= render 'basic', :f => f %>
+          <%= render 'basic', {:f => f, :b => b} %>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-basic" %>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
         </div>
         <div class="content hide detail-panel" id="location-panel">
           <%= render 'location', :b => b %>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-location" %>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-location" %>
         </div>
         <div class="content hide detail-panel" id="building-panel">
           <%= render 'building', :b => b %>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-building" %>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-building" %>
         </div>
         <div class="content hide detail-panel" id="flat-panel">
           <%= render 'flat', :f => f %>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id=>"submit-flat" %>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-flat" %>
         </div>
         <div class="content hide detail-panel" id="info-panel">
           <%= render 'info', :b => b %>
           <br>
-          <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large", :id=>"submit-info" %>
+          <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large", :id => "submit-info" %>
         </div>
 
 

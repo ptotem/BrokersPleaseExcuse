@@ -29,6 +29,8 @@ class Flat < ActiveRecord::Base
   accepts_nested_attributes_for :flat_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :expected_rents, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :flat_contacts, :reject_if => lambda { |a| a[:contact_id].blank? or a[:contact_type_id].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :contacts, :reject_if => :all_blank, :allow_destroy => true
 
   validates_presence_of :name
   validates_presence_of :bhk_config_id
@@ -36,7 +38,7 @@ class Flat < ActiveRecord::Base
   before_create :create_flat_key
 
   def create_flat_key
-    self.flat_key= self.building.name[0..2] + (Flat.all.empty? ? '10000' : "#{Flat.last.flat_key[-5,5].to_i+1}")
+    self.flat_key= self.building.name[0..2] + (Flat.all.empty? ? 'BPE10000' : "#{Flat.last.flat_key[-5,5].to_i+1}")
   end
 
 end

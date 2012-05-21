@@ -20,6 +20,8 @@ BPEv075::Application.routes.draw do
 
   devise_for :users
 
+  match "get_contact_list"=>"buildings#get_contact_list"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

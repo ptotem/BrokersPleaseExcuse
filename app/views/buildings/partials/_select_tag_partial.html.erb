@@ -1,0 +1,7 @@
+
+<% @contact_types=ContactType.all %>
+<% @contacts=Contact.all %>
+<%= fc.select :contact_type_id, options_from_collection_for_select(@contact_types, "id", "name", flat_contact.contact_type_id), {:include_blank => ''} %>
+
+
+<%= fc.select :contact_id, options_from_collection_for_select(@contacts, "id", "name", flat_contact.contact_id), {:include_blank => ''}, {:class=>"contact-select"} %>
