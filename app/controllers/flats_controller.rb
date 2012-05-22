@@ -4,6 +4,11 @@ class FlatsController < ApplicationController
   def index
     @flats = Flat.all
 
+    @facilities=Facility.where("is_building=?", true)
+    @features=Hash.new
+    @facilities.each do |facility|
+      @features[facility.name]=facility.facility_features
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @flats }
