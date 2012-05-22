@@ -36,6 +36,7 @@
     <th></th>
   </tr>
 
+
   <% @flats.each do |flat| %>
       <tr>
         <td><%= flat.id %></td>
@@ -71,8 +72,8 @@
         <td><%= link_to 'Destroy', flat, confirm: 'Are you sure?', method: :delete %></td>
       </tr>
   <% end %>
-</table>
 
+</table>
 <br/>
 
 <%= link_to 'New Flat', new_flat_path %>

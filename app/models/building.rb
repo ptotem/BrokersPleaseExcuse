@@ -20,7 +20,7 @@ class Building < ActiveRecord::Base
   has_many :building_services, :dependent => :destroy
   has_many :services, :through => :building_services
 
-  accepts_nested_attributes_for :flats, :reject_if => proc { |attrs| reject = %w(name bhk_config_id).all?{|a| attrs[a].blank?} }, :allow_destroy => true
+  accepts_nested_attributes_for :flats, :reject_if => proc { |attrs| reject = %w(name bhk_config_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :building_qualities, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :approach_qualities, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :moving_charges, :reject_if => :all_blank, :allow_destroy => true
@@ -29,17 +29,18 @@ class Building < ActiveRecord::Base
   accepts_nested_attributes_for :building_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_routes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_services, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :building_localities, :reject_if => :all_blank, :allow_destroy => true
 
   def full_address
     "#{self.name}, #{self.address}, #{self.road}, Mumbai, India"
   end
 
   def main_locality
-   primary_locality_id.blank? ? nil:Locality.find(self.primary_locality_id)
+    primary_locality_id.blank? ? nil :Locality.find(self.primary_locality_id)
   end
 
   def full_name
-    main_locality.nil? ? "#{self.name}": "#{self.name}, #{self.main_locality.name}"
+    main_locality.nil? ? "#{self.name}" : "#{self.name}, #{self.main_locality.name}"
   end
 
 
