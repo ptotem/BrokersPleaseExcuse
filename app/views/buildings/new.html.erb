@@ -76,13 +76,13 @@
 
             <div class="blabel">Expected Rent:</div>
             <%= f.fields_for :expected_rents, @expected_rent do |er| %>
-                <%= er.text_field :value %>
+                <%= er.text_field :expected_rent %>
             <% end %>
             <br>
 
             <div class="blabel">Available From:</div>
             <%= f.fields_for :available_froms, @available_from do |er| %>
-                <%= er.datepicker :avdate, :value=>@flat.available_froms.last.avdate, :dateFormat => "dd/mm/yy" %>
+                <%= er.datepicker :name, :value=>@flat.available_froms.last.name, :dateFormat => "dd/mm/yy" %>
             <% end %>
             <br>
 

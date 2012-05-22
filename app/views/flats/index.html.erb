@@ -1,33 +1,79 @@
+<%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+<%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+
+
 <h1>Listing flats</h1>
 
-<table>
+<table class="dhtmlxGrid" gridWidth="600" gridHeight="400">
   <tr>
-    <th>Building</th>
-    <th>Bhk config</th>
-    <th>Direction</th>
-    <th>Name</th>
+    <th>Flat-Id</th>
+    <th>Flat Name</th>
+    <th>Building Name</th>
+    <th>Locality</th>
     <th>Area</th>
+    <th>BHK Config</th>
+    <th>Furn Status</th>
+    <th>Rent</th>
+    <th>Related People</th>
+    <th>Flat Status</th>
+    <th>Available from</th>
     <th>Floor</th>
+    <th>Bathroom</th>
+    <th>Parking Slots</th>
+    <th>Facilities</th>
+    <th>Features</th>
+    <th>Utilities</th>
+    <th>Restrictions</th>
+    <th>Flat Quality</th>
+    <th>Approach Quality</th>
+    <th>Building Quality</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @flats.each do |flat| %>
-  <tr>
-    <td><%= flat.building_id %></td>
-    <td><%= flat.bhk_config_id %></td>
-    <td><%= flat.direction_id %></td>
-    <td><%= flat.name %></td>
-    <td><%= flat.area %></td>
-    <td><%= flat.floor %></td>
-    <td><%= link_to 'Show', flat %></td>
-    <td><%= link_to 'Edit', edit_flat_path(flat) %></td>
-    <td><%= link_to 'Destroy', flat, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+  <% @flats.each do |flat| %>
+      <tr>
+        <td><%= flat.id %></td>
+        <td><%= flat.name %></td>
+        <td><%= flat.building.name %></td>
+        <td><%= flat.building.localities.join(",") %></td>
+        <td><%= flat.area %></td>
+        <td><%= flat.bhk_config.name %></td>
+        <td><%= flat.furnstat.name %></td>
+        <td><%= flat.expected_rents.join(",") %></td>
+        <td><%= flat.contacts.join(",") %></td>
+        <%#= #TODO: use flat status  %>
+        <td><%= flat.bhk_config.name %></td>
+        <!--flat status-->
+        <td><%= flat.bhk_config.name %></td>
+        <td><%= flat.floor %></td>
+        <td><%= flat.bathrooms.count %></td>
+        <td><%= flat.parkings.count %></td>
+        <td><%= flat.facilities.join(",") %></td>
+        <td><%= flat.features.join(",") %></td>
+        <td><%= flat.utilities.join(",") %></td>
+        <td><%= flat.restrictions.join(",") %></td>
+        <!--flat quality-->
+        <td><%= flat.bhk_config.name %></td>
+        <!--flat quality-->
+
+        <td><%= flat.approach %></td>
+        <td><%= flat.building.qualities.join(",") %></td>
+
+
+        <td><%= link_to 'Show', flat %></td>
+        <td><%= link_to 'Edit', edit_flat_path(flat) %></td>
+        <td><%= link_to 'Destroy', flat, confirm: 'Are you sure?', method: :delete %></td>
+      </tr>
+  <% end %>
 </table>
 
-<br />
+<br/>
 
 <%= link_to 'New Flat', new_flat_path %>
+

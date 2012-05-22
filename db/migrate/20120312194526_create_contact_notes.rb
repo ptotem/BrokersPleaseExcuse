@@ -2,7 +2,7 @@ class CreateContactNotes < ActiveRecord::Migration
   def change
     create_table :contact_notes do |t|
       t.integer :contact_id
-      t.text :comment
+      t.text :name
 
       t.timestamps
     end

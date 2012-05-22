@@ -5,7 +5,7 @@ class CreateFlatContacts < ActiveRecord::Migration
       t.integer :contact_id
       t.integer :rent_year
       t.string :contact_type
-      t.text :comment
+      t.text :name
 
       t.timestamps
     end

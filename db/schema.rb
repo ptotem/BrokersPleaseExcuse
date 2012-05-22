@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
-    t.string   "address"
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "available_froms", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "rent_year"
-    t.date     "avdate"
+    t.date     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "building_notes", :force => true do |t|
     t.integer  "building_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -97,21 +97,21 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "building_routes", :force => true do |t|
     t.integer  "building_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
   create_table "building_service_helplines", :force => true do |t|
     t.integer  "building_service_id"
-    t.string   "phone"
+    t.string   "name"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
 
   create_table "building_service_notes", :force => true do |t|
     t.integer  "building_service_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
@@ -178,7 +178,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "contact_notes", :force => true do |t|
     t.integer  "contact_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "emails", :force => true do |t|
     t.integer  "contact_id"
-    t.string   "email"
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "expected_rents", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "rent_year"
-    t.integer  "value"
+    t.integer  "expected_rent"
     t.integer  "minimum_value"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "flat_notes", :force => true do |t|
     t.integer  "flat_id"
-    t.text     "note"
+    t.text     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -296,7 +296,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "flat_restrictions", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "restriction_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -355,7 +355,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   end
 
   create_table "interactions", :force => true do |t|
-    t.text     "comment"
+    t.text     "name"
     t.integer  "created_by"
     t.integer  "interaction_type_id"
     t.datetime "created_at",          :null => false
@@ -365,7 +365,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "interiors_qualities", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "quality_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -394,7 +394,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "locality_notes", :force => true do |t|
     t.integer  "locality_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -422,7 +422,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
 
   create_table "phones", :force => true do |t|
     t.integer  "contact_id"
-    t.string   "phone"
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -464,7 +464,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "rental_terms", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "rent_year"
-    t.text     "comment"
+    t.text     "name"
     t.boolean  "deposit"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -491,7 +491,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "showings", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "task_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -527,7 +527,7 @@ ActiveRecord::Schema.define(:version => 20120516072655) do
   create_table "view_qualities", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "quality_id"
-    t.text     "comment"
+    t.text     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

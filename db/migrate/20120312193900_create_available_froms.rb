@@ -3,7 +3,7 @@ class CreateAvailableFroms < ActiveRecord::Migration
     create_table :available_froms do |t|
       t.integer :flat_id
       t.integer :rent_year
-      t.date :avdate
+      t.date :name
 
       t.timestamps
     end
