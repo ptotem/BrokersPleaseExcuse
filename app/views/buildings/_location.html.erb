@@ -52,7 +52,7 @@
 
     <h2>Directions</h2>
     <%= b.fields_for :building_routes do |builder| %>
-        <%= builder.text_area :comment, :rows => 3, :class => "span3" %>
+        <%= builder.text_area :name, :rows => 3, :class => "span3" %>
         <%= builder.link_to_remove "Remove" %> <br/>
     <% end %>
     <%= b.link_to_add 'Add Route', :building_routes %> <br/>

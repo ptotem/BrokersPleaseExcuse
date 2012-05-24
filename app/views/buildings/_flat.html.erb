@@ -1,5 +1,3 @@
-
-
 <h2>Flat Features</h2>
 <div>
   <div class="row">
@@ -33,10 +31,27 @@
 </div>
 
 <br>
+
+<h2>Flat Restrictions</h2>
+<div>
+  <div class="row">
+    <div class="span9">
+      <%= hidden_field_tag "flat[restriction_ids][]", nil %>
+      <% @restrictions.each do |restriction| %>
+          <%= check_box_tag "flat[restriction_ids][]", restriction.id, @flat.restriction_ids.include?(restriction.id), id: dom_id(restriction) %>
+          <%= label_tag dom_id(restriction), restriction.name %>
+          <br>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<br>
+
 <h2>Flat Notes</h2>
 
 <%= f.fields_for :flat_notes do |builder| %>
-    <%= builder.text_area :note, :rows => 2, :class => "span11" %>
+    <%= builder.text_area :name, :rows => 2, :class => "span11" %>
     <%= builder.link_to_remove "Remove" %>
 <% end %>
 

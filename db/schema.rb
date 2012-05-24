@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   create_table "expected_rents", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "rent_year"
-    t.integer  "expected_rent"
+    t.integer  "name"
     t.integer  "minimum_value"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
@@ -279,9 +279,9 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   create_table "flat_contacts", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "contact_id"
+    t.text     "name"
     t.integer  "rent_year_id"
     t.integer  "contact_type_id"
-    t.text     "comment"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -365,7 +365,7 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   create_table "interiors_qualities", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "quality_id"
-    t.text     "name"
+    t.text     "comment"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

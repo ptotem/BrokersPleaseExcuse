@@ -76,15 +76,12 @@
 
             <div class="blabel">Expected Rent:</div>
             <%= f.fields_for :expected_rents, @expected_rent do |er| %>
-                <%= er.text_field :expected_rent %>
+                <%= er.text_field :name %>
             <% end %>
 
             <div class="blabel">Available From:</div>
             <%= f.fields_for :available_froms, @available_from do |er| %>
-<<<<<<< HEAD
                 <%= er.datepicker :name, :value=>@flat.available_froms.last.name, :dateFormat => "dd/mm/yy" %>
-=======
-                <%= er.datepicker :avdate, :value => @flat.available_froms.last.avdate, :dateFormat => "dd/mm/yy" %>
             <% end %>
             <br>
 
@@ -93,9 +90,8 @@
             <%= f.fields_for :flat_contacts do |fc| %>
                 <%= fc.select :contact_type_id, options_from_collection_for_select(@contact_types, "id", "name"), {:include_blank => ''} %>
                 <%= fc.select :contact_id, options_from_collection_for_select(@contacts, "id", "name"), {:include_blank => ''} %>
-                <%= fc.text_field :comment, :placeholder => "Add a comment" %>
+                <%= fc.text_field :name, :placeholder => "Add a comment" %>
                 <%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>
->>>>>>> origin/arijit
             <% end %>
             <%= f.link_to_add 'Add another', :flat_contacts %>
             <br>
@@ -117,12 +113,12 @@
                     <br>
                     <%= contact.fields_for :phones, @phone do |phone| %>
                         <div class="blabel">Phone</div>
-                        <%= phone.phone_field :phone %>
+                        <%= phone.phone_field :name %>
                     <% end %>
                     <br>
                     <%= contact.fields_for :emails, @email do |email| %>
                         <div class="blabel">Email</div>
-                        <%= email.text_field :email %>
+                        <%= email.text_field :name %>
                     <% end %>
                 <% end %>
               </div>

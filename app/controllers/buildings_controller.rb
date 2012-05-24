@@ -78,6 +78,8 @@ class BuildingsController < ApplicationController
     @services=Service.all
     @contacts=Contact.all
     @contact_types=ContactType.all
+    @qualities= Quality.all
+    @restrictions= Restriction.all
     @rent_year= RentYear.where('name=?', Time.now.year).first
 
     @facilities=Facility.where("is_building=?", true)
@@ -105,6 +107,11 @@ class BuildingsController < ApplicationController
 
     @flat.flat_notes.build
     @building.building_notes.build
+    @building_quality= BuildingQuality.find_all_by_building_id(@building.id).first ||=  @building.building_qualities.build
+    @approach_quality= ApproachQuality.find_all_by_building_id(@building.id).first ||=  @building.approach_qualities.build
+
+    @flat_restrictions= @flat.flat_restrictions ||= @flat.flat_restrictions.build
+    @bathrooms= @flat.bathrooms ||= @flat.bathrooms.build
 
     respond_to do |format|
       format.html # new.html.erb

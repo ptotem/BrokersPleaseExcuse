@@ -2,38 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06837963-2292-4e9e-918c-22405a285d6d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/exclusions/dhtmlxcommon.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/exclusions/dhtmlxgrid.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/exclusions/dhtmlxgrid_filter.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/exclusions/dhtmlxgrid_srnd.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/exclusions/dhtmlxgrid_start.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/exclusions/dhtmlxgridcell.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/stylesheets/dhtmlxgrid.css" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/exclusions/jquery.dataTables.min.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/BPEv0.75.iml" afterPath="$PROJECT_DIR$/.idea/BPEv0.75.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/flats_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/flats_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/buildings_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/buildings_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/buildings/_basic.html.erb" afterPath="$PROJECT_DIR$/app/views/buildings/_basic.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/buildings/_building.html.erb" afterPath="$PROJECT_DIR$/app/views/buildings/_building.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/buildings/_flat.html.erb" afterPath="$PROJECT_DIR$/app/views/buildings/_flat.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/buildings/_location.html.erb" afterPath="$PROJECT_DIR$/app/views/buildings/_location.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/buildings/edit.html.erb" afterPath="$PROJECT_DIR$/app/views/buildings/edit.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/buildings/new.html.erb" afterPath="$PROJECT_DIR$/app/views/buildings/new.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/flats/index.html.erb" afterPath="$PROJECT_DIR$/app/views/flats/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/interactions/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/interactions/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312190226_create_locality_notes.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312190226_create_locality_notes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312190717_create_building_notes.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312190717_create_building_notes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312190749_create_building_routes.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312190749_create_building_routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312191834_create_building_service_helplines.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312191834_create_building_service_helplines.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312191935_create_building_service_notes.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312191935_create_building_service_notes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312192706_create_view_qualities.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312192706_create_view_qualities.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312192840_create_flat_restrictions.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312192840_create_flat_restrictions.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312193604_create_flat_contacts.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312193604_create_flat_contacts.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312193713_create_expected_rents.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312193713_create_expected_rents.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312193832_create_rental_terms.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312193832_create_rental_terms.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312193900_create_available_froms.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312193900_create_available_froms.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312194022_create_showings.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312194022_create_showings.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312194336_create_emails.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312194336_create_emails.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312194406_create_phones.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312194406_create_phones.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312194437_create_addresses.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312194437_create_addresses.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120312194526_create_contact_notes.rb" afterPath="$PROJECT_DIR$/db/migrate/20120312194526_create_contact_notes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120404173328_create_flat_notes.rb" afterPath="$PROJECT_DIR$/db/migrate/20120404173328_create_flat_notes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20120515064852_create_interactions.rb" afterPath="$PROJECT_DIR$/db/migrate/20120515064852_create_interactions.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
     </list>
     <ignored path="BPEv0.75.iws" />
@@ -56,46 +34,64 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="application.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="8" selection-start="247" selection-end="247" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="seeds.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/seeds.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="255" column="29" selection-start="10832" selection-end="10832" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="buildings_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="buildings_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/buildings_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="171" column="43" selection-start="4822" selection-end="4822" vertical-scroll-proportion="0.0">
+            <state line="113" column="51" selection-start="3175" selection-end="3175" vertical-scroll-proportion="0.8492462">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/flats/index.html.erb">
+      <file leaf-file-name="building.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/building.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="12" selection-start="696" selection-end="696" vertical-scroll-proportion="-15.0">
+            <state line="14" column="10" selection-start="557" selection-end="557" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <file leaf-file-name="_building.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/buildings/_building.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="39" selection-start="586" selection-end="586" vertical-scroll-proportion="0.0">
+            <state line="19" column="13" selection-start="563" selection-end="879" vertical-scroll-proportion="-8.333333">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_flat.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/buildings/_flat.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="14" selection-start="2041" selection-end="2041" vertical-scroll-proportion="-21.458334">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="flat.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/flat.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_location.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/buildings/_location.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="35" selection-start="1493" selection-end="1493" vertical-scroll-proportion="-18.75">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_info.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/buildings/_info.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="47" selection-start="730" selection-end="730" vertical-scroll-proportion="-6.875">
               <folding />
             </state>
           </provider>
@@ -104,43 +100,16 @@
       <file leaf-file-name="edit.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/buildings/edit.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="58" selection-start="686" selection-end="686" vertical-scroll-proportion="1.875">
+            <state line="2" column="7" selection-start="52" selection-end="52" vertical-scroll-proportion="-1.25">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="20120312193604_create_flat_contacts.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20120312193604_create_flat_contacts.rb">
+      <file leaf-file-name="new.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/buildings/new.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="4" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="20120312193713_create_expected_rents.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20120312193713_create_expected_rents.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="20120312193832_create_rental_terms.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20120312193832_create_rental_terms.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="contact.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/contact.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="87" selection-start="560" selection-end="591" vertical-scroll-proportion="0.0">
+            <state line="64" column="137" selection-start="2336" selection-end="2356" vertical-scroll-proportion="-9.583333">
               <folding />
             </state>
           </provider>
@@ -166,22 +135,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/db/seeds.rb" />
-        <option value="$PROJECT_DIR$/app/models/building.rb" />
-        <option value="$PROJECT_DIR$/app/models/contact.rb" />
-        <option value="$PROJECT_DIR$/db/migrate/20120521064629_create_rent_years.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/application.js" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/silverspoon.css.scss" />
         <option value="$PROJECT_DIR$/app/models/flat.rb" />
-        <option value="$PROJECT_DIR$/app/views/buildings/new.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/buildings_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/buildings/partials/_select_tag_partial.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/buildings/_basic.html.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/buildings/edit.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/flats/index.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20120312193604_create_flat_contacts.rb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/_basic.html.erb" />
+        <option value="$PROJECT_DIR$/db/migrate/20120312193713_create_expected_rents.rb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/new.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/flats/index.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/_location.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/_info.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/building.rb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/edit.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/_building.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/buildings/_flat.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/buildings_controller.rb" />
       </list>
     </option>
   </component>
@@ -396,6 +365,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BPEv0.75" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BrokersPleaseExcuse" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -421,7 +408,7 @@
       <recent name="$PROJECT_DIR$/app/views/buildings" />
     </key>
   </component>
-  <component name="RunManager" selected="Rake.db:migrate:reset">
+  <component name="RunManager" selected="Rake.db:seed">
     <configuration default="false" name="db:migrate:reset" type="RakeRunConfigurationType" factoryName="Rake" temporary="true">
       <module name="BPEv0.75" />
       <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -808,7 +795,11 @@
       <created>1337671104720</created>
       <updated>1337671104720</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Merge changes with Rushabh's dhtmlx">
+      <created>1337848720318</created>
+      <updated>1337848720318</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -827,16 +818,16 @@
     <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3259958" sideWeight="0.49806094" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3259958" sideWeight="0.49806094" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.32914045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="65" y="24" width="1857" height="1085" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34293628" sideWeight="0.6740042" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34293628" sideWeight="0.6813417" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914045" sideWeight="0.49806094" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3186583" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3186583" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -884,7 +875,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merged with Rushabh's dhtmlx&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge changes with Rushabh's dhtmlx" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -904,101 +895,120 @@
     <MESSAGE value="After speaking to Ken" />
     <MESSAGE value="added ability to add contact from quick property form...&#10;" />
     <MESSAGE value="Merged with Rushabh's dhtmlx&#10;" />
+    <MESSAGE value="Merge changes with Rushabh's dhtmlx" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/silverspoon.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="25" selection-start="2930" selection-end="2930" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/buildings/_info.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="35" selection-start="1522" selection-end="1522" vertical-scroll-proportion="0.78533095" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/buildings/_basic.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.47202796" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/buildings/partials/_select_tag_partial.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="12" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/buildings/new.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="103" selection-start="3014" selection-end="3014" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/flat.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="115" selection-start="1676" selection-end="1676" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="8" selection-start="247" selection-end="247" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/seeds.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="255" column="29" selection-start="10832" selection-end="10832" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="39" selection-start="586" selection-end="586" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/contact.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="87" selection-start="560" selection-end="591" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/buildings_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="43" selection-start="4822" selection-end="4822" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/flats/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="12" selection-start="696" selection-end="696" vertical-scroll-proportion="-15.0">
+        <state line="55" column="71" selection-start="1738" selection-end="1738" vertical-scroll-proportion="0.5339286">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20120311205928_create_buildings.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20120312191007_create_building_qualities.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/building_quality.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/building.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="10" selection-start="557" selection-end="557" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/buildings/edit.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="58" selection-start="686" selection-end="686" vertical-scroll-proportion="1.875">
+        <state line="2" column="7" selection-start="52" selection-end="52" vertical-scroll-proportion="-1.25">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120312193604_create_flat_contacts.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/buildings/new.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="4" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
+        <state line="64" column="137" selection-start="2336" selection-end="2356" vertical-scroll-proportion="-9.583333">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120312193713_create_expected_rents.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20120312192840_create_flat_restrictions.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/facility.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120312193832_create_rental_terms.rb">
+    <entry file="file://$PROJECT_DIR$/app/models/flat.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/buildings/_building.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="13" selection-start="563" selection-end="879" vertical-scroll-proportion="-8.333333">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/buildings/_flat.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="14" selection-start="2041" selection-end="2041" vertical-scroll-proportion="-21.458334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/buildings/_basic.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="38" selection-start="2580" selection-end="2580" vertical-scroll-proportion="-22.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bathroom.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20120312193009_create_bathrooms.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/buildings_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="113" column="51" selection-start="3175" selection-end="3175" vertical-scroll-proportion="0.8492462">
           <folding />
         </state>
       </provider>
