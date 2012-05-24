@@ -3,7 +3,7 @@ class CreateFlatRestrictions < ActiveRecord::Migration
     create_table :flat_restrictions do |t|
       t.integer :flat_id
       t.integer :restriction_id
-      t.text :comment
+      t.text :name
 
       t.timestamps
     end

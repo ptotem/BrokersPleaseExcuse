@@ -3,7 +3,7 @@ class CreateViewQualities < ActiveRecord::Migration
     create_table :view_qualities do |t|
       t.integer :flat_id
       t.integer :quality_id
-      t.text :comment
+      t.text :name
 
       t.timestamps
     end

@@ -3,7 +3,7 @@ class CreateShowings < ActiveRecord::Migration
     create_table :showings do |t|
       t.integer :flat_id
       t.integer :task_id
-      t.text :comment
+      t.text :name
 
       t.timestamps
     end
