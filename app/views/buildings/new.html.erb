@@ -42,6 +42,7 @@
               <div class="modal-body">
                 Building Name : <%= b.text_field :name, :value => nil %>
                 <%= b.select :primary_locality_id, options_from_collection_for_select(@localities, 'id', 'name', @building.primary_locality_id) %>
+                <%= hidden_field_tag :contact_id,@default_contact_id %>
               </div>
               <div class="modal-footer">
                 <%= b.submit "Save Changes", :class => "btn btn-primary" %>
@@ -89,7 +90,7 @@
             <br>
             <%= f.fields_for :flat_contacts do |fc| %>
                 <%= fc.select :contact_type_id, options_from_collection_for_select(@contact_types, "id", "name"), {:include_blank => ''} %>
-                <%= fc.select :contact_id, options_from_collection_for_select(@contacts, "id", "name"), {:include_blank => ''} %>
+                <%= fc.select :contact_id, options_from_collection_for_select(@contacts, "id", "name", @default_contact_id), {:include_blank => ''} %>
                 <%= fc.text_field :name, :placeholder => "Add a comment" %>
                 <%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>
             <% end %>

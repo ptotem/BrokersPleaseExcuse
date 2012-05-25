@@ -54,7 +54,7 @@
           <td <%= flat.id+5 %>><%= flat.bhk_config.name %></td>
           <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
           <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
-          <td <%= flat.id+8 %>><%= flat.contacts.join(",") %></td>
+          <td <%= flat.id+8 %>><%= flat.contacts.map{|c| c.name}.join(",") %></td>
           <%#= #TODO: use flat status  %>
           <td <%= flat.id+9 %>><%= flat.bhk_config.name %></td>
           <!--flat status-->

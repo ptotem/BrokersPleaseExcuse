@@ -1,7 +1,5 @@
 class Contact < ActiveRecord::Base
 
-  belongs_to :rltn
-
   has_and_belongs_to_many :labellings
   has_and_belongs_to_many :contact_types
 
@@ -14,11 +12,21 @@ class Contact < ActiveRecord::Base
   has_many :flat_contacts, :dependent => :destroy
   has_many :flats, :through => :flat_contacts
 
-  accepts_nested_attributes_for :emails, :reject_if => lambda { |a| a[:email].blank? }
-  accepts_nested_attributes_for :phones, :reject_if => lambda { |a| a[:phone].blank? }
-  accepts_nested_attributes_for :addresses, :reject_if => lambda { |a| a[:address].blank? }
+  accepts_nested_attributes_for :emails, :reject_if => lambda { |a| a[:name].blank? }
+  accepts_nested_attributes_for :phones, :reject_if => lambda { |a| a[:name].blank? }
+  accepts_nested_attributes_for :addresses, :reject_if => lambda { |a| a[:name].blank? }
+  accepts_nested_attributes_for :contact_types, :reject_if => lambda { |a| a[:name].blank? }
   accepts_nested_attributes_for :contact_notes
 
   accepts_nested_attributes_for :connections, :reject_if => lambda { |a| a[:other_id].blank? } , :allow_destroy => true
+
+  validates_presence_of :name
+  validate :email_or_phone
+
+  def email_or_phone
+    if emails.size==0 and phones.size==0
+      errors.add(:name, "could not be saved as you have to enter either Email or Phone Number")
+    end
+  end
 
 end

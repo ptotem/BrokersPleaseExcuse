@@ -189,6 +189,11 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "contact_types_contacts", :id => false, :force => true do |t|
+    t.integer "contact_id"
+    t.integer "contact_type_id"
+  end
+
   create_table "contacts", :force => true do |t|
     t.integer  "rltn_id"
     t.string   "name"
@@ -197,11 +202,6 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.text     "qknote"
-  end
-
-  create_table "contacts_contact_types", :id => false, :force => true do |t|
-    t.integer "contact_id"
-    t.integer "contact_type_id"
   end
 
   create_table "contacts_labellings", :id => false, :force => true do |t|
@@ -477,12 +477,6 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   end
 
   create_table "restrictions", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "rltns", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
