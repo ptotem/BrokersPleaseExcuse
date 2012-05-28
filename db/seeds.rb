@@ -6,8 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+if User.find_by_email("admin@tss.com").nil?
 User.create!(:email=>'admin@tss.com',:password=>'secret',:password_confirmation=>'secret',:admin=>true)
+end
+Email.create!(:name=>"admin@tss.com",:contact_id=>1)
+Phone.create!(:name=>"9769655345",:contact_id=>1)
 Contact.create!(:name=>"Administrator")
+
 
 MovingRequirement.create!(:name=>"Landlord NOC")
 MovingRequirement.create!(:name=>"Police Notification")
@@ -216,11 +221,11 @@ Labelling.create!(:name=>'Landlord')
 Labelling.create!(:name=>'Cleaning Client')
 Labelling.create!(:name=>'Broker')
 
-Rltn.create!(:name=>'Client')
-Rltn.create!(:name=>'Partner')
-Rltn.create!(:name=>'Vendor')
-Rltn.create!(:name=>'Employee')
-Rltn.create!(:name=>'Friend')
+ContactType.create!(:name=>'Client')
+ContactType.create!(:name=>'Partner')
+ContactType.create!(:name=>'Vendor')
+ContactType.create!(:name=>'Employee')
+ContactType.create!(:name=>'Friend')
 
 Labelling.create!(:name=>'Ignore')
 Labelling.create!(:name=>'Priority')
@@ -245,10 +250,8 @@ InteractionType.create(name:"Email")
 InteractionType.create(name:"Call")
 InteractionType.create(name:"Showing")
 
-ContactType.create!(:name=>'Landlord')
-ContactType.create!(:name=>'Broker')
-ContactType.create!(:name=>'Other')
-
+#TODO: check if rental year is required or not
+#
 RentYear.create!(:name=>"2012")
 RentYear.create!(:name=>"2013")
 RentYear.create!(:name=>"2014")

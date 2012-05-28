@@ -44,7 +44,7 @@
                   <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "View All", buildings_path %></li>
+                  <li><%= link_to "View All", flats_path %></li>
                   <li><%= link_to "Add New", new_property_path %></li>
                 </ul>
               </li>
@@ -65,12 +65,12 @@
                 <% @interaction=Interaction.new %>
                 <% @interaction.taskings.build %>
 
-                <a data-toggle="modal" href="#new_interaction_form">Add Task</a>
+                <a data-toggle="modal" href="#new_interaction_form">Add Interaction</a>
 
-                <div class="modal fade" id="new_interaction_form">
+                <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;">
                   <div class="modal-header">
                     <button class="close" data-dismiss="modal">×</button>
-                    <h3>Mark Task As Complete</h3>
+                    <h1>Add Interaction</h1>
                   </div>
                   <div class="modal-body">
                     <div class="row-fluid">
@@ -107,7 +107,7 @@
   <div class="container-fluid">
     <%= js extend_gritter :position => :bottom_right %>
     <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
-    <%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
+    <%= js add_gritter(flash[:alert], :image => :error, :title => "Alert!", :sticky => true) %>
     <%= yield %>
   </div>
 </div>

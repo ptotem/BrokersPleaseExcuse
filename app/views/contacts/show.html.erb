@@ -2,8 +2,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $(".chzn-container-multi").chosen();
-            $(".chzn-select").chosen();
+            $("select").chosen();
             $('#all_connections').dataTable({
                 "bJQueryUI":true,
                 "sPaginationType":"full_numbers",
@@ -75,18 +74,18 @@
 
             <small style="margin-left: 20px;">
               <% unless @contact.phones.blank? %>
-                  <%= @contact.phones.first.phone %> |
+                  <%= @contact.phones.first.name %> |
               <% end %>
-              <% unless @contact.phones.blank? %>
-                  <%= @contact.emails.first.email %> |
+              <% unless @contact.emails.blank? %>
+                  <%= @contact.emails.first.name %> |
               <% end %>
-              <%= @contact.rltn.name %>
+              <%= @contact.contact_types.first.name %>
             </small>
           </h1>
           <%= select_tag "contact[labelling_ids][]", options_from_collection_for_select(@labellings, :id, :name, @contact.labelling_ids), :multiple => true, :class => "chzn-container-multi span7", :'data-placeholder' => "Add labels to the contact..." %>
         </div>
         <div class="span5">
-          <%= f.text_area :qknote, :style=>"height:59px;", :class=>"span4", :placeholder=>"Enter the Status Update for the Contact here" %>
+          <%= f.text_area :qknote, :style => "height:59px;", :class => "span4", :placeholder => "Enter the Status Update for the Contact here" %>
           <%= f.submit "Confirm", :class => "btn btn-inverse", :style => "height:69px;width:65px;" %>
           <%= link_to image_tag("facebook.png", :size => "60x60", :class => "pull-right", :style => "margin-top:7px"), @contact.linkedin %>
           <%= link_to image_tag("facebook1.png", :size => "60x60", :class => "pull-right", :style => "margin-top:7px"), @contact.facebook %>
@@ -105,7 +104,7 @@
         <div class="span5" style="margin-left: 20px;">
 
           <div class="content" style="height:450px;overflow: auto;">
-          <div id="moreinfo" class="modal hide fade">
+            <div id="moreinfo" class="modal hide fade">
               <div class="modal-header">
                 <h1><%= @contact.name %></h1>
               </div>
@@ -114,7 +113,7 @@
                   <div class="span3" style="text-align: left;margin-left: 0;font-weight: bold">Phone:</div>
                   <div class="span9">
                     <% @contact.phones.each do |phone| %>
-                        <%= phone.phone %>
+                        <%= phone.name %>
                         <br/>
                     <% end %>
                   </div>
@@ -124,7 +123,7 @@
                   <div class="span3" style="text-align: left;margin-left: 0;font-weight: bold">Email:</div>
                   <div class="span9">
                     <% @contact.emails.each do |email| %>
-                        <%= email.email %>
+                        <%= email.name %>
                         <br/>
                     <% end %>
                   </div>
@@ -134,7 +133,7 @@
                   <div class="span3" style="text-align: left;margin-left: 0;font-weight: bold">Address:</div>
                   <div class="span9">
                     <% @contact.addresses.each do |address| %>
-                        <%= raw(address.address) %>
+                        <%= raw(address.name) %>
                         <br/>
                     <% end %>
                   </div>
@@ -150,6 +149,7 @@
               <div class="span9" style="font-weight: bold;">
                 <h3 style="margin-bottom: 5px;">Properties</h3>
               </div>
+              <%= link_to "Add Property", new_property_path(:contact=>@contact.id) %>
               <%= render :partial => 'properties_table' %>
             </div>
             <br/>

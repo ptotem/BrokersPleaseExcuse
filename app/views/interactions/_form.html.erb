@@ -1,3 +1,9 @@
+<style type="text/css">
+    ul.inputs-list li {
+        display: inline;
+    }
+</style>
+
 <%= semantic_form_for(@interaction) do |f| %>
     <% if @interaction.errors.any? %>
         <div id="error_explanation">
@@ -11,62 +17,54 @@
         </div>
     <% end %>
 
-    <div class="row">
+    <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:20px" %>
+    <br>
+    <div class="row-fluid blocky" style="color:black;font-size: 16px">
+      <% InteractionType.all.each do |interaction| %>
+          <%= f.radio_button :interaction_type_id, interaction.id %>
+          <%= interaction.name %>
+      <% end %>
+    </div>
 
-      <div class="span2">
-        <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:16px" %>
+    <br>
 
+    <div class="row-fluid">
+      <div class="span6">
+        <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:20px" %>
         <br/>
-        <br/>
-        <%= f.input :interaction_type_id, :as => :radio, :collection => InteractionType.all %>
-
+        <%= f.text_area :name, :rows => 5, :style => "margin-left:0; width:100%" %>
       </div>
-      <div class="span4">
-        <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:16px" %>
-
-        <br/>
-        <br/>
-        <%= f.text_area :name, :cols => 60, :rows => 10 %>
-      </div>
-
-
-      <div class="span4">
-        <h4>Task This Interaction</h4>
-        <br>
+      <div class="span4 offset2">
         <br>
         <%= f.semantic_fields_for :taskings do |builder| %>
             <div class="field">
               <%= builder.label :due_date %>
-              <br/>
               <%= builder.text_field :due_date, :class => "timepicker" %>
-
             </div>
             <br>
-
             <div class="field">
               <%= builder.label :assigned_to %>
-              <br/>
               <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
-
             </div>
             <div class="field">
-
               <%= builder.hidden_field :active, :value => true %>
-
             </div>
-
-
         <% end %>
 
       </div>
+    </div>
 
-      <div class="span6">
+    <div class="row-fluid">
+
+      <div class="span4">
         <h4>Tag This Interaction</h4>
         <br>
-        <br>
         <%= f.input :flats, :input_html => {:class => "multi-select-chosen0"} %>
-        <br>
+        </div>
+      <div class="span4">
 
+        <br>
+        <br>
         <%= f.input :contacts, :input_html => {:autocomplete => "on", :size => 10, :class => "multi-select-chosen1"} %>
         <!--#TODO: convert to chozen, else put in "Add New Entity" link next to multiselect-->
         <!--#TODO: add number in the multiselect-->
@@ -76,7 +74,6 @@
 
 
       </div>
-
 
     </div>
 

@@ -1,7 +1,8 @@
 class WelcomeController < ApplicationController
 
   def index
-    @tasks=Tasking.all
+    @tasks=Tasking.order("created_at DESC").all
+    @interactions=Interaction.all
     @interaction=Interaction.new
     @interaction.taskings.build
 

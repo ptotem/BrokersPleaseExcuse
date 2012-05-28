@@ -49,6 +49,13 @@ class BuildingsController < ApplicationController
     @flat = @building.flats.build
     @expected_rent = @flat.expected_rents.build
     @available_from = @flat.available_froms.build
+
+    if params[:contact]
+      @default_contact_id=params[:contact]
+    else
+      @default_contact_id=0
+    end
+
     @flat_contacts=@flat.flat_contacts.build
     @contact=@flat.contacts.build
     @phone=@contact.phones.build
@@ -78,6 +85,8 @@ class BuildingsController < ApplicationController
     @services=Service.all
     @contacts=Contact.all
     @contact_types=ContactType.all
+    @qualities= Quality.all
+    @restrictions= Restriction.all
     @rent_year= RentYear.where('name=?', Time.now.year).first
 
     @facilities=Facility.where("is_building=?", true)
@@ -105,6 +114,16 @@ class BuildingsController < ApplicationController
 
     @flat.flat_notes.build
     @building.building_notes.build
+    unless @building_quality= BuildingQuality.find_by_building_id(@building.id)
+      @building_quality=@building.building_qualities.build
+    end
+    unless @approach_quality= ApproachQuality.find_by_building_id(@building.id)
+      @approach_quality=@building.approach_qualities.build
+    end
+
+    unless @flat_restrictions= @flat.flat_restrictions
+      @flat_restrictions=@flat.flat_restrictions.build
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -116,19 +135,21 @@ class BuildingsController < ApplicationController
   # POST /buildings
   # POST /buildings.json
   def create
+
     @building = Building.new(params[:building])
+
     @contact=Contact.new(params[:contact])
 
     respond_to do |format|
 
       if !@contact.name.blank? && @contact.save!
-        format.html { redirect_to new_property_path, notice: 'Contact was successfully created.' }
+        format.html { redirect_to new_property_path(:contact=>params[:contact_id]), notice: 'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
-        format.html { redirect_to new_property_path(@selected_building), notice: "You selected #{@selected_building.name}. Now add the flat." }
+        format.html { redirect_to new_property_path(@selected_building,:contact=>params[:contact_id]), notice: "You selected #{@selected_building.name}. Now add the flat." }
       else
         if @building.save
-          format.html { redirect_to new_property_path(@building), notice: 'Building was successfully created.' }
+          format.html { redirect_to new_property_path(@building,:contact=>params[:contact_id]), notice: 'Building was successfully created.' }
           format.json { render json: @building, status: :created, location: @building }
         else
           format.html { render action: "new" }
