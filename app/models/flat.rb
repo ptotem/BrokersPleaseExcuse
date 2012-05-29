@@ -23,6 +23,7 @@ class Flat < ActiveRecord::Base
   has_many :parkings, :dependent => :destroy
   has_many :rental_terms, :dependent => :destroy
   has_many :showings, :dependent => :destroy
+  has_many :photos, :dependent => :destroy
 
   accepts_nested_attributes_for :interiors_qualities, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :view_qualities, :reject_if => :all_blank, :allow_destroy => true
@@ -31,6 +32,7 @@ class Flat < ActiveRecord::Base
   accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :flat_contacts, :reject_if => lambda { |a| a[:contact_id].blank? or a[:contact_type_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :contacts, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :photos, :reject_if => :all_blank, :allow_destroy => true
 
   validates_presence_of :name
   validates_presence_of :bhk_config_id

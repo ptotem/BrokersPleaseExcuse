@@ -103,6 +103,7 @@ class BuildingsController < ApplicationController
 
 
     @flat_contacts=@flat.flat_contacts.build
+  #  @flat_photos=@flat.photos.build
 
     @building_service = @building.building_services.build
     @building_localities = @building.building_localities.build
@@ -211,4 +212,24 @@ class BuildingsController < ApplicationController
    #TODO: send only the contacts not included previously so the data processing becomes lighter
 
   end
+
+  def save_photo_positions
+
+
+    @no_of_records=params[:fields].count
+
+
+    @no_of_records.times do |i|
+      @photo=Photo.find(params[:fields][i][:photo_id])
+      @photo.xpos=params[:fields][i][:xpos]
+      @photo.ypos=params[:fields][i][:ypos]
+      @photo.save!
+    end
+
+     render :text=>"DOne"
+
+
+    end
 end
+
+

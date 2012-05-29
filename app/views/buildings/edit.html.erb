@@ -65,6 +65,7 @@
                 <%= link_to "Flat", '#', :class => "btn btn-inverse btn-large panel-link", :id => "flat" %>
                 <%= link_to "More Info", '#', :class => "btn btn-inverse btn-large panel-link", :id => "info" %>
                 <%= link_to "Photos", '#', :class => "btn btn-inverse btn-large panel-link", :id => "photos" %>
+                <%= link_to "Tag Photos", '#', :class => "btn btn-inverse btn-large panel-link", :id => "tag-photos" %>
               </div>
             </div>
           </div>
@@ -93,10 +94,23 @@
           <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-flat" %>
         </div>
         <div class="content hide detail-panel" id="info-panel">
-          <%= render 'info', :b => b %>
+          <%#=TODO: uncomment the below line after adding the required partial  %>
+          <%#= render 'info', :b => b %>
           <br>
           <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large", :id => "submit-info" %>
         </div>
+        <div class="content hide detail-panel" id="photos-panel">
+          <%= render 'photos', :f => f %>
+          <br>
+          <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large", :id => "submit-info" %>
+        </div>
+        <div class="content hide detail-panel" id="tag-photos-panel">
+          <%= render 'tag_photos', :f => f %>
+          <br>
+
+        </div>
+
+
 
 
 

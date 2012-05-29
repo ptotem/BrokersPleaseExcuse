@@ -13,7 +13,9 @@ gem 'chosen-rails'
 gem 'cocoon'
 gem 'formtastic', " ~> 2.1.1"
 gem 'thin'
+gem "resque"
 
+gem "paperclip"
 gem 'formtastic-bootstrap'
 #gem 'formtastic'
 gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
