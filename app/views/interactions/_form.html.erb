@@ -1,95 +1,69 @@
+<style type="text/css">
+    ul.inputs-list li {
+        display: inline;
+    }
+</style>
+
 <%= semantic_form_for(@interaction) do |f| %>
-    <% if @interaction.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@interaction.errors.count, "error") %> prohibited this interaction from being saved:</h2>
 
-          <ul>
-            <% @interaction.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
-
-    <div class="row">
-
-      <div class="span2">
-        <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:16px" %>
-
-        <br/>
-        <br/>
-        <%= f.input :interaction_type_id, :as => :radio, :collection => InteractionType.all %>
-
+    <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:20px" %>
+    <br>
+    <div class="row-fluid blocky" style="color:black;font-size: 16px;width:93%">
+      <div class="span8">
+        <% InteractionType.all.each do |interaction| %>
+            <%= f.radio_button :interaction_type_id, interaction.id %>
+            <%= interaction.name %>
+        <% end %>
       </div>
-      <div class="span4">
-        <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:16px" %>
+    </div>
 
+    <br>
+
+    <div class="row-fluid">
+      <div class="span5" style="border-right: 1px solid gray">
+        <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:20px" %>
         <br/>
-        <br/>
-        <%= f.text_area :name, :cols => 60, :rows => 10 %>
+        <%= f.text_area :name, :rows => 5, :style => "margin-left:0; width:90%" %>
       </div>
-
-
-      <div class="span4">
-        <h4>Task This Interaction</h4>
-        <br>
+      <div class="span6">
+        <h3 style="font-weight:bold;font-size:20px">Next Interaction due</h3>
         <br>
         <%= f.semantic_fields_for :taskings do |builder| %>
-            <div class="field">
-              <%= builder.label :due_date %>
-              <br/>
-              <%= builder.text_field :due_date, :class => "timepicker" %>
-
-            </div>
+            <%= builder.label :due_date, :class => "blabel" %>
+            <%= builder.text_field :due_date, :class => "timepicker" %>
             <br>
-
-            <div class="field">
-              <%= builder.label :assigned_to %>
-              <br/>
-              <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
-
-            </div>
-            <div class="field">
-
-              <%= builder.hidden_field :active, :value => true %>
-
-            </div>
-
-
+            <br>
+            <%= builder.label :assigned_to, :class => "blabel" %>
+            <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
+            <%= builder.hidden_field :active, :value => true %>
         <% end %>
 
       </div>
+    </div>
+    <br>
+    <div class="row-fluid">
+      <h4 style="font-weight:bold;font-size:20px">Tag This Interaction</h4>
+      <br>
 
-      <div class="span6">
-        <h4>Tag This Interaction</h4>
-        <br>
-        <br>
-        <%= f.input :flats, :input_html => {:class => "multi-select-chosen0"} %>
-        <br>
-
-        <%= f.input :contacts, :input_html => {:autocomplete => "on", :size => 10, :class => "multi-select-chosen1"} %>
-        <!--#TODO: convert to chozen, else put in "Add New Entity" link next to multiselect-->
-        <!--#TODO: add number in the multiselect-->
-        <!--#TODO: add the contact(participant)/building(properties) from which interaction is created in the multiselect by default-->
-
-        <!--#TODO: add flat key and building name in the multi select-->
-
-
+      <div class="span12" style="margin-left: 0px;">
+        <% @interaction.interaction_flats.build %>
+        <% @interaction.interaction_contacts.build %>
+        <%= f.fields_for :interaction_flats do |builder| %>
+            <%= builder.select :flat_id, options_from_collection_for_select(Flat.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen0 span5", :'data-placeholder' => "Tag Flats involved", :multiple => true} %>
+        <% end %>
+        <%= f.fields_for :interaction_contacts do |builder| %>
+            <%= builder.select :contact_id, options_from_collection_for_select(Contact.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen1 span5", :'data-placeholder' => "Tag Contacts involved", :multiple => true} %>
+        <% end %>
       </div>
+      <!--#TODO: convert to chozen, else put in "Add New Entity" link next to multiselect-->
+      <!--#TODO: add number in the multiselect-->
+      <!--#TODO: add the contact(participant)/building(properties) from which interaction is created in the multiselect by default-->
 
+      <!--#TODO: add flat key and building name in the multi select-->
 
     </div>
-
-    <div class="row">
-      <div class="span2">..</div>
-      <div class="span4">..</div>
-      <div class="span4">
-        <div class="actions">
-          <%= f.submit "SUBMIT", :class => "btn btn-info", :style => "height:30px;width:120px" %>
-        </div>
-      </div>
-      <div class="span6"></div>
-    </div>
+    <br>
+    <%= f.submit " Submit", :style => "height:40px;width:150px; margin-right:60px;", :class => "btn btn-inverse" %>
 
     <%= f.hidden_field :created_by, :value => current_user.id %>
 

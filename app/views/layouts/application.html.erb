@@ -8,7 +8,7 @@
   <script type="text/javascript">
       $(function () {
 
-      //    $('select').chosen();
+          //    $('select').chosen();
 //          $('select').on('click',function(){
 //             $(this).chosen();
 //          });
@@ -21,9 +21,28 @@
                   });
               });
           });
+
+          $(".navbar .nav>li>a").popover({
+              placement:'bottom',
+              html:true
+          });
+          $(".brand").popover({
+              placement:'bottom',
+              html:true
+          });
+
       });
       //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
   </script>
+  <style type="text/css">
+      .navbar .nav > li > a {
+          padding-top: 5px;
+          padding-bottom: 0px;
+          padding-right: 0px;
+          background: transparent;
+      }
+  </style>
+
   <%= yield(:head) %>
 </head>
 <body>
@@ -31,46 +50,25 @@
   <div class="navbar navbar-fixed-top" style="z-index: 999999999">
     <div class="navbar-inner" style="z-index: 999999999">
       <div class="container-fluid">
-        <a class="brand" href="/"><%= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
+        <a class="brand" href="/" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
           BrokersPleaseExcuse.com</a>
         <% if current_user %>
-
-            <ul class="nav" style="margin-top: 5px;">
-              <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
-                <a class="dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#">
-                  Properties
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to "View All", buildings_path %></li>
-                  <li><%= link_to "Add New", new_property_path %></li>
-                </ul>
-              </li>
-              <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
-                <a class="dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#">
-                  Contacts
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to "View All", contacts_path %></li>
-                  <li><%= link_to "Add New", new_contact_path %></li>
-                </ul>
-              </li>
-              <li style="color:white;font-size:18px;line-height:20px;background: #000000">
+            <ul class="nav">
+              <li><%= link_to image_tag("icons/properties.png"), flats_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
+              <li><%= link_to image_tag("icons/new_property.png"), new_property_path, :title => "New Property", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Property.</td></tr></table>" %></li>
+              <li><%= link_to image_tag("icons/contacts.png"), contacts_path, :title => "Contact List", :'data-content' => "<table><tr><td><img src='/assets/icons/contacts.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Contacts.</td></tr></table>" %></li>
+              <li><%= link_to image_tag("icons/new_contact.png"), new_contact_path, :title => "New Contact", :'data-content' => "<table><tr><td><img src='/assets/icons/new_contact.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Contact.</td></tr></table>" %></li>
+              <li style="color:white;font-size:18px;line-height:20px;">
 
                 <% @interaction=Interaction.new %>
                 <% @interaction.taskings.build %>
 
-                <a data-toggle="modal" href="#new_interaction_form">Add Task</a>
+                <a data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
 
-                <div class="modal fade" id="new_interaction_form">
+                <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%">
                   <div class="modal-header">
                     <button class="close" data-dismiss="modal">×</button>
-                    <h3>Mark Task As Complete</h3>
+                    <h1>Add Interaction</h1>
                   </div>
                   <div class="modal-body">
                     <div class="row-fluid">
@@ -78,7 +76,6 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <a href="#" class="btn">Close</a>
                   </div>
                 </div>
               </li>
@@ -107,7 +104,7 @@
   <div class="container-fluid">
     <%= js extend_gritter :position => :bottom_right %>
     <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
-    <%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
+    <%= js add_gritter(flash[:alert], :image => :error, :title => "Alert!", :sticky => true) %>
     <%= yield %>
   </div>
 </div>

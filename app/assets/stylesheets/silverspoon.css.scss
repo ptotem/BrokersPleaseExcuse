@@ -4,7 +4,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-html, body, .nav li, .onlyhead {
+html, body, .onlyhead {
   background: rgb(254, 191, 4); /* Old browsers */
   background: -moz-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* FF3.6+ */
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgb(254, 191, 4)), color-stop(100%, rgb(255, 214, 94))); /* Chrome,Safari4+ */
@@ -115,6 +115,7 @@ input, textarea, select, chzn-select, .chzn-container-single .chzn-single, .chzn
 
 .chzn-container-multi .chzn-choices .search-field .default {
     color: black;
+    width:100%;
 }
 
 .topped {
@@ -143,8 +144,6 @@ a:hover {
 }
 
 .dropdown.open .dropdown-toggle {
-    background: transparent;
-    color: black;
     font-weight: bold;
 }
 
@@ -173,3 +172,14 @@ label input, label textarea, label select {
   width:500px;
   height: 500px;
 }
+
+.addy{
+  color:white;
+  font-weight: bold;
+  border:white;
+}
+
+ul.nav li img{
+  height: 40px;
+}
+
