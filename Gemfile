@@ -14,7 +14,7 @@ gem 'cocoon'
 gem 'formtastic', " ~> 2.1.1"
 gem 'thin'
 gem "resque"
-
+gem "cocoon"
 gem "paperclip"
 gem 'formtastic-bootstrap'
 #gem 'formtastic'
