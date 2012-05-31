@@ -8,14 +8,6 @@
   <script type="text/javascript">
       $(function () {
 
-<<<<<<< HEAD
-          //    $('select').chosen();
-=======
-//          $('select').chosen();
->>>>>>> b7b8d0e01da902260e3ddcd7e652f5363b562bfd
-//          $('select').on('click',function(){
-//             $(this).chosen();
-//          });
           $("form").live("nested:fieldAdded",function(){
               $("select").chosen();
 
@@ -61,55 +53,18 @@
         <a class="brand" href="/" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
           BrokersPleaseExcuse.com</a>
         <% if current_user %>
-<<<<<<< HEAD
             <ul class="nav">
               <li><%= link_to image_tag("icons/properties.png"), flats_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
               <li><%= link_to image_tag("icons/new_property.png"), new_property_path, :title => "New Property", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Property.</td></tr></table>" %></li>
               <li><%= link_to image_tag("icons/contacts.png"), contacts_path, :title => "Contact List", :'data-content' => "<table><tr><td><img src='/assets/icons/contacts.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Contacts.</td></tr></table>" %></li>
               <li><%= link_to image_tag("icons/new_contact.png"), new_contact_path, :title => "New Contact", :'data-content' => "<table><tr><td><img src='/assets/icons/new_contact.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Contact.</td></tr></table>" %></li>
               <li style="color:white;font-size:18px;line-height:20px;">
-=======
-
-            <ul class="nav" style="margin-top: 5px;">
-              <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
-                <a class="dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#">
-                  Properties
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to "View All", flats_path %></li>
-                  <li><%= link_to "Add New", new_property_path %></li>
-                </ul>
-              </li>
-              <li class="dropdown" style="color:white;font-size:18px;line-height:20px;background: #000000">
-                <a class="dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#">
-                  Contacts
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to "View All", contacts_path %></li>
-                  <li><%= link_to "Add New", new_contact_path %></li>
-                </ul>
-              </li>
-              <li style="color:white;font-size:18px;line-height:20px;background: #000000">
->>>>>>> b7b8d0e01da902260e3ddcd7e652f5363b562bfd
-
                 <% @interaction=Interaction.new %>
                 <% @interaction.taskings.build %>
 
-<<<<<<< HEAD
                 <a data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
 
                 <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%">
-=======
-                <a data-toggle="modal" href="#new_interaction_form">Add Interaction</a>
-
-                <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;">
->>>>>>> b7b8d0e01da902260e3ddcd7e652f5363b562bfd
                   <div class="modal-header">
                     <button class="close" data-dismiss="modal">×</button>
                     <h1>Add Interaction</h1>
