@@ -22,28 +22,32 @@ class ContactsController < ApplicationController
   # GET /contacts/new.json
   def new
     @contact = Contact.new
-    @rltns = Rltn.all
+    @contact_types= ContactType.all
   end
 
   # GET /contacts/1/edit
   def edit
     @contact = Contact.find(params[:id])
-    @rltns = Rltn.all
+    @contact_types= ContactType.all
   end
 
   # POST /contacts
   # POST /contacts.json
   def create
     @contact = Contact.new(params[:contact])
-
-    if @contact.save
-      @contact.connections.each do |connection|
-        @other=Contact.find(connection.other_id)
-        unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank?
-          @other.connection.create!(:other_id => @contact, :relationship => connection.relationship)
+    respond_to do |format|
+      if @contact.save
+        @contact.connections.each do |connection|
+          @other=Contact.find(connection.other_id)
+          unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank?
+            @other.connection.create!(:other_id => @contact, :relationship => connection.relationship)
+          end
         end
+        format.html { redirect_to @contact, :notice => 'Contact was successfully created.' }
+      else
+        format.html { redirect_to new_contact_path, :alert=>@contact.errors.full_messages.join(", ") }
       end
-      respond_with @contact, :notice => 'Contact was successfully created.'
+
     end
   end
 
@@ -59,7 +63,7 @@ class ContactsController < ApplicationController
           Connection.create!(:contact_id => @other.id, :other_id => @contact.id, :relationship => connection.relationship)
         end
       end
-      respond_with @contact, :notice=>'Contact was successfully updated.'
+      respond_with @contact, :notice => 'Contact was successfully updated.'
     end
   end
 
@@ -68,6 +72,6 @@ class ContactsController < ApplicationController
   def destroy
     @contact = Contact.find(params[:id])
     @contact.destroy
-    respond_with @contact, :notice=>'Contact was successfully created.'
+    respond_with @contact, :notice => 'Contact was successfully created.'
   end
 end

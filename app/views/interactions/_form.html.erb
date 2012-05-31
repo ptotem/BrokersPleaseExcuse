@@ -5,6 +5,7 @@
 </style>
 
 <%= semantic_form_for(@interaction) do |f| %>
+<<<<<<< HEAD
 
     <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:20px" %>
     <br>
@@ -36,10 +37,57 @@
             <%= builder.label :assigned_to, :class => "blabel" %>
             <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
             <%= builder.hidden_field :active, :value => true %>
+=======
+    <% if @interaction.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@interaction.errors.count, "error") %> prohibited this interaction from being saved:</h2>
+
+          <ul>
+            <% @interaction.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:20px" %>
+    <br>
+    <div class="row-fluid blocky" style="color:black;font-size: 16px">
+      <% InteractionType.all.each do |interaction| %>
+          <%= f.radio_button :interaction_type_id, interaction.id %>
+          <%= interaction.name %>
+      <% end %>
+    </div>
+
+    <br>
+
+    <div class="row-fluid">
+      <div class="span6">
+        <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:20px" %>
+        <br/>
+        <%= f.text_area :name, :rows => 5, :style => "margin-left:0; width:100%" %>
+      </div>
+      <div class="span4 offset2">
+        <br>
+        <%= f.semantic_fields_for :taskings do |builder| %>
+            <div class="field">
+              <%= builder.label :due_date %>
+              <%= builder.text_field :due_date, :class => "timepicker" %>
+            </div>
+            <br>
+            <div class="field">
+              <%= builder.label :assigned_to %>
+              <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
+            </div>
+            <div class="field">
+              <%= builder.hidden_field :active, :value => true %>
+            </div>
+>>>>>>> b7b8d0e01da902260e3ddcd7e652f5363b562bfd
         <% end %>
 
       </div>
     </div>
+<<<<<<< HEAD
     <br>
     <div class="row-fluid">
       <h4 style="font-weight:bold;font-size:20px">Tag This Interaction</h4>
@@ -54,13 +102,38 @@
         <%= f.fields_for :interaction_contacts do |builder| %>
             <%= builder.select :contact_id, options_from_collection_for_select(Contact.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen1 span5", :'data-placeholder' => "Tag Contacts involved", :multiple => true} %>
         <% end %>
+=======
+
+    <div class="row-fluid">
+
+      <div class="span4">
+        <h4>Tag This Interaction</h4>
+        <br>
+        <%= f.input :flats, :input_html => {:class => "multi-select-chosen0"} %>
+        </div>
+      <div class="span4">
+
+        <br>
+        <br>
+        <%= f.input :contacts, :input_html => {:autocomplete => "on", :size => 10, :class => "multi-select-chosen1"} %>
+        <!--#TODO: convert to chozen, else put in "Add New Entity" link next to multiselect-->
+        <!--#TODO: add number in the multiselect-->
+        <!--#TODO: add the contact(participant)/building(properties) from which interaction is created in the multiselect by default-->
+
+        <!--#TODO: add flat key and building name in the multi select-->
+
+
+>>>>>>> b7b8d0e01da902260e3ddcd7e652f5363b562bfd
       </div>
       <!--#TODO: convert to chozen, else put in "Add New Entity" link next to multiselect-->
       <!--#TODO: add number in the multiselect-->
       <!--#TODO: add the contact(participant)/building(properties) from which interaction is created in the multiselect by default-->
 
+<<<<<<< HEAD
       <!--#TODO: add flat key and building name in the multi select-->
 
+=======
+>>>>>>> b7b8d0e01da902260e3ddcd7e652f5363b562bfd
     </div>
     <br>
     <%= f.submit " Submit", :style => "height:40px;width:150px; margin-right:60px;", :class => "btn btn-inverse" %>

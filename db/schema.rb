@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120521064629) do
+ActiveRecord::Schema.define(:version => 20120529002310) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -189,6 +189,11 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "contact_types_contacts", :id => false, :force => true do |t|
+    t.integer "contact_id"
+    t.integer "contact_type_id"
+  end
+
   create_table "contacts", :force => true do |t|
     t.integer  "rltn_id"
     t.string   "name"
@@ -197,11 +202,6 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.text     "qknote"
-  end
-
-  create_table "contacts_contact_types", :id => false, :force => true do |t|
-    t.integer "contact_id"
-    t.integer "contact_type_id"
   end
 
   create_table "contacts_labellings", :id => false, :force => true do |t|
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   create_table "expected_rents", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "rent_year"
-    t.integer  "expected_rent"
+    t.integer  "name"
     t.integer  "minimum_value"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
@@ -279,9 +279,9 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   create_table "flat_contacts", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "contact_id"
+    t.text     "name"
     t.integer  "rent_year_id"
     t.integer  "contact_type_id"
-    t.text     "comment"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -365,7 +365,7 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   create_table "interiors_qualities", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "quality_id"
-    t.text     "name"
+    t.text     "comment"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -427,6 +427,18 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "photos", :force => true do |t|
+    t.string   "name"
+    t.integer  "sequence_number"
+    t.string   "image_file_name"
+    t.string   "flat_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "xpos"
+    t.integer  "ypos"
+    t.integer  "building_id"
+  end
+
   create_table "poi_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -477,12 +489,6 @@ ActiveRecord::Schema.define(:version => 20120521064629) do
   end
 
   create_table "restrictions", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "rltns", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

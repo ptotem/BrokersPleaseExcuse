@@ -1,0 +1,4 @@
+<%= render 'buildings/partials/select_tag_partial',{:fc=>fc,:flat_contact=>flat_contact} %>
+<%= fc.text_field :name, :value => flat_contact.name %>
+
+<%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>

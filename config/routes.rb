@@ -21,6 +21,7 @@ BPEv075::Application.routes.draw do
   devise_for :users
 
   match "get_contact_list"=>"buildings#get_contact_list"
+  match "save_photo_positions"=>"buildings#save_photo_positions"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

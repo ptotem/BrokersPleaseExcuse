@@ -53,16 +53,16 @@ class InteractionsController < ApplicationController
       tasking.active=false
       tasking.save!
     end
-    @prev_interaction.comment=@prev_interaction.comment+"\n"+params["prev_comment"]
+    @interaction.name=@prev_interaction.name+"<br>"+params[:interaction][:name]
+    @prev_interaction.name=@prev_interaction.name+"<br>"+params["prev_comment"]
     @prev_interaction.save!
+
      end
     respond_to do |format|
       if @interaction.save
-        format.html { redirect_to @interaction, notice: 'Interaction was successfully created.' }
-        format.json { render json: @interaction, status: :created, location: @interaction }
+        format.html { redirect_to :back, notice: 'Interaction was successfully created.' }
       else
-        format.html { render action: "new" }
-        format.json { render json: @interaction.errors, status: :unprocessable_entity }
+        format.html { render :back, notice: 'Interaction could not be created.' }
       end
     end
   end

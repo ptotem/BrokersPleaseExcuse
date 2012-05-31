@@ -1,5 +1,4 @@
 
-
 <div class="blabel">
   Flat Name*:
 </div>
@@ -23,13 +22,13 @@
 
 <div class="blabel">Expected Rent:</div>
 <%= f.fields_for :expected_rents, @expected_rent do |er| %>
-    <%= er.text_field :value %>
+    <%= er.text_field :name %>
 <% end %>
 
 <div class="blabel">Available From:</div>
 <%= f.fields_for :available_froms, @available_from do |er| %>
     <%#= er.datepicker :avdate, :value=>@flat.available_froms.last.avdate, :dateFormat => "dd/mm/yy" %>
-    <%= er.text_field :avdate %>
+    <%= er.text_field :name %>
 <% end %>
 <br>
 
@@ -38,7 +37,7 @@
 <% @flat.flat_contacts.each do |flat_contact| %>
     <%= f.fields_for :flat_contacts, flat_contact do |fc| %>
         <%= render 'buildings/partials/select_tag_partial',{:fc=>fc,:flat_contact=>flat_contact} %>
-        <%= fc.text_field :comment, :value => flat_contact.comment %>
+        <%= fc.text_field :name, :value => flat_contact.name %>
 
         <%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>
     <% end %>
@@ -63,12 +62,12 @@
         <br>
         <%= contact.fields_for :phones, @phone do |phone| %>
             <div class="blabel">Phone</div>
-            <%= phone.phone_field :phone %>
+            <%= phone.phone_field :name %>
         <% end %>
         <br>
         <%= contact.fields_for :emails, @email do |email| %>
             <div class="blabel">Email</div>
-            <%= email.text_field :email %>
+            <%= email.text_field :name %>
         <% end %>
     <% end %>
   </div>

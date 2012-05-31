@@ -58,15 +58,20 @@
             <h1>Contact</h1>
             <br/>
 
-            <div class="row-fluid">
+            <div class="row-fluid blocky">
               <div class="span2">
-                <%= f.label "Relationship with BPE" %>
+                <%= f.label "Contact Type" %>
               </div>
               <div class="span3">
-                <%= f.select :rltn_id, options_from_collection_for_select(@rltns, :id, :name, @contact.rltn), {:multiple => false}, {:class => "chzn-select", :'data-placeholder' => "Select Relationships"} %>
+                <%= hidden_field_tag "contact[contact_type_ids][]", nil %>
+                <% @contact_types.each do |contact_type| %>
+                    <%= check_box_tag "contact[contact_type_ids][]", contact_type.id, @contact.contact_type_ids.include?(contact_type.id), id: dom_id(contact_type) %>
+                    <%= label_tag dom_id(contact_type), contact_type.name %>
+                <% end %>
               </div>
             </div>
 
+            <br>
             <div class="row-fluid">
               <div class="span2">
                 <%= f.label :name %>
@@ -94,6 +99,8 @@
               </div>
             </div>
 
+            <%#= TODO Add contact-contact_type relations   %>
+
             <div class="row-fluid">
               <div class="span2">
                 <%= f.label :phones %>
@@ -101,7 +108,7 @@
               <div class="span3" style="position:relative;">
                 <%= f.link_to_add 'Add Phone', :phones %>
                 <%= f.fields_for :phones do |builder| %>
-                    <%= builder.text_field :phone %>
+                    <%= builder.text_field :name %>
                     <%= builder.link_to_remove "Remove" %>
                 <% end %>
               </div>
@@ -113,7 +120,7 @@
               <div class="span3" style="position:relative;">
                 <%= f.link_to_add 'Add Email', :emails %>
                 <%= f.fields_for :emails do |builder| %>
-                    <%= builder.text_field :email %>
+                    <%= builder.text_field :name %>
                     <%= builder.link_to_remove "Remove" %>
                 <% end %>
               </div>
@@ -125,7 +132,7 @@
               <div class="span3" style="position:relative;">
                 <%= f.link_to_add 'Add Address', :addresses %>
                 <%= f.fields_for :addresses do |builder| %>
-                    <%= builder.text_area :address, :rows => "3" %>
+                    <%= builder.text_area :name, :rows => "3" %>
                     <%= builder.link_to_remove "Remove" %>
                 <% end %>
               </div>
