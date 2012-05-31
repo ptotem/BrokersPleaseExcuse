@@ -183,3 +183,30 @@ ul.nav li img{
   height: 40px;
 }
 
+.info-unit{
+  background: #f5f5f5;
+  padding:10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.sized{
+  margin-bottom: 2px;
+  height:20px;
+}
+
+.page-sized{
+  height:580px;
+}
+
+.summary-task{
+  cursor: pointer;
+}
+.detailed-task{
+  border: solid 1px black;
+  padding:5px;
+  border-radius: 5px;
+}

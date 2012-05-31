@@ -8,6 +8,8 @@
   <script type="text/javascript">
       $(function () {
 
+          $('select').chosen();
+
           $("form").live("nested:fieldAdded",function(){
               $("select").chosen();
 
