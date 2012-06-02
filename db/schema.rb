@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120529002310) do
+ActiveRecord::Schema.define(:version => 20120601103640) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -281,9 +281,9 @@ ActiveRecord::Schema.define(:version => 20120529002310) do
     t.integer  "contact_id"
     t.text     "name"
     t.integer  "rent_year_id"
-    t.integer  "contact_type_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "labelling_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "flat_notes", :force => true do |t|
@@ -360,6 +360,8 @@ ActiveRecord::Schema.define(:version => 20120529002310) do
     t.integer  "interaction_type_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.integer  "primary_contact_id"
+    t.datetime "interaction_date"
   end
 
   create_table "interiors_qualities", :force => true do |t|
@@ -372,8 +374,9 @@ ActiveRecord::Schema.define(:version => 20120529002310) do
 
   create_table "labellings", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.boolean  "is_flat_contact_label"
   end
 
   create_table "landmarks", :force => true do |t|

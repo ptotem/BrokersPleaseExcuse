@@ -5,15 +5,23 @@
 </style>
 
 <%= semantic_form_for(@interaction) do |f| %>
+    <%= f.label "How When Who".titleize, :style => "font-weight:bold;font-size:20px" %>
+    <div class="row-fluid " style="color:black;font-size: 16px;width:93%">
 
-    <%= f.label :interaction_type_id, :style => "font-weight:bold;font-size:20px" %>
-    <br>
-    <div class="row-fluid blocky" style="color:black;font-size: 16px;width:93%">
-      <div class="span8">
+      <div class="span6 blocky">
         <% InteractionType.all.each do |interaction| %>
             <%= f.radio_button :interaction_type_id, interaction.id %>
             <%= interaction.name %>
         <% end %>
+
+
+      </div>
+      <div class="span5">
+        <span style="font-size: 12px">Date of Interaction:
+          <%= f.text_field :interaction_date, :class => "timepicker input-small" %></span>
+        <br>
+        <span style="font-size: 12px">Choose Primary Contact for interaction *
+          <%= f.select :primary_contact_id, options_from_collection_for_select(Contact.all, "id", "name") %></span>
       </div>
     </div>
 
@@ -26,33 +34,41 @@
         <%= f.text_area :name, :rows => 5, :style => "margin-left:0; width:90%" %>
       </div>
       <div class="span6">
-        <h3 style="font-weight:bold;font-size:20px">Next Interaction due</h3>
+        <h4 style="font-weight:bold;font-size:20px">Tag This Interaction</h4>
         <br>
-        <%= f.semantic_fields_for :taskings do |builder| %>
-            <%= builder.label :due_date, :class => "blabel" %>
-            <%= builder.text_field :due_date, :class => "timepicker" %>
-            <br>
-            <br>
-            <%= builder.label :assigned_to, :class => "blabel" %>
-            <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
-            <%= builder.hidden_field :active, :value => true %>
+        <% @interaction.interaction_flats.build %>
+        <% @interaction.interaction_contacts.build %>
+        <%= f.fields_for :interaction_flats do |builder| %>
+            <%= builder.select :flat_id, options_from_collection_for_select(Flat.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen0 span5", :'data-placeholder' => "Tag Flats involved", :multiple => true} %>
+        <% end %>
+        <br>
+        <br>
+        <%= f.fields_for :interaction_contacts do |builder| %>
+            <%= builder.select :contact_id, options_from_collection_for_select(Contact.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen1 span5", :'data-placeholder' => "Tag Contacts involved", :multiple => true} %>
         <% end %>
 
       </div>
     </div>
     <br>
     <div class="row-fluid">
-      <h4 style="font-weight:bold;font-size:20px">Tag This Interaction</h4>
-      <br>
 
       <div class="span12" style="margin-left: 0px;">
-        <% @interaction.interaction_flats.build %>
-        <% @interaction.interaction_contacts.build %>
-        <%= f.fields_for :interaction_flats do |builder| %>
-            <%= builder.select :flat_id, options_from_collection_for_select(Flat.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen0 span5", :'data-placeholder' => "Tag Flats involved", :multiple => true} %>
-        <% end %>
-        <%= f.fields_for :interaction_contacts do |builder| %>
-            <%= builder.select :contact_id, options_from_collection_for_select(Contact.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen1 span5", :'data-placeholder' => "Tag Contacts involved", :multiple => true} %>
+
+        <h3 style="font-weight:bold;font-size:20px">Next Interaction due</h3>
+        <br>
+        <%= f.semantic_fields_for :taskings do |builder| %>
+            <div class="span4">
+
+              <%= builder.label :due_date, :class => "blabel" %>
+              <br>
+              <%= builder.text_field :due_date, :class => "timepicker" %>
+            </div>
+            <div class="span4">
+
+              <%= builder.label :assigned_to, :class => "blabel" %>
+              <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
+            </div>
+            <%= builder.hidden_field :active, :value => true %>
         <% end %>
 
       </div>

@@ -10,9 +10,9 @@
     <% @connections.each do |connection| %>
     <% unless connection.other_id.blank? %>
     <tr>
-        <td style="background: transparent;"><%= link_to Contact.find(connection.other_id).name, Contact.find(connection.other_id) %></td>
-        <td><%= connection.relationship %></td>
-        <td><%= link_to "Delete", connection, :method => :delete %></td>
+        <td style="background: transparent;padding: 2px" ><%= link_to Contact.find(connection.other_id).name+" ", Contact.find(connection.other_id) %></td>
+        <td style=";padding: 2px"><%= connection.relationship %></td>
+        <td style=";padding: 2px"><%= link_to "Delete", connection, :method => :delete %></td>
     </tr>
     <%- end -%>
     <%- end -%>

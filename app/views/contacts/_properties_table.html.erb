@@ -1,0 +1,22 @@
+<% if @contact.flat_contacts.count>0 %>
+<table class="display span9" cellpadding="0" cellspacing="0" border="0" id="all_properties">
+    <thead>
+    <tr>
+
+        <th>Property</th>
+        <th>Label</th>
+        <th>Delete</th>
+
+    </tr>
+    </thead>
+    <tbody style="border-bottom: solid 1px #daa520; margin-bottom: 10px;">
+    <% @contact.flat_contacts.each do |flat_contact| %>
+    <tr>
+        <td><%= flat_contact.flat.flat_key %></td>
+        <td><%= flat_contact.label.name %></td>
+        <td><%= link_to "Delete",flat_contact %></td>
+    </tr>
+    <% end %>
+    </tbody>
+</table>
+<% end %>

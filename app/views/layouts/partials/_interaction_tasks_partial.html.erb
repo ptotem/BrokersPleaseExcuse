@@ -1,0 +1,270 @@
+<%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+<%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+<h2>
+  Tasks
+  <div class="pull-right">
+    <%= select_tag :status, options_for_select([["All", "1"], ["Due", "2"], ["Overdue", "3"]]), {:style => "width:80px"} %>
+    <%= select_tag :role, options_for_select([["All", "1"], ["Assigned", "2"], ["Involved", "3"]]), {:style => "width:80px"} %>
+    <%= select_tag :players, options_from_collection_for_select(Contact.all, 'id', 'name'), {:class => "span3 chosen-select"} %>
+  </div>
+</h2>
+<br>
+<br>
+<!---->
+
+<!-- Tasks Panel -->
+
+<%#= TODO Please include jScrollPane for the scrolling here %>
+<%#= TODO Build the filters using the Select tags above %>
+
+<% @tasks.each_with_index do |task, index| %>
+    <% if task.active %>
+        <div class="row-fluid" style="margin-bottom: 5px;">
+          <div>
+            <div class="summary-task blocky">
+              <% @primary_contact = Contact.find(task.interaction.primary_contact_id) %>
+              <%= @primary_contact.name %> |
+              <%= @primary_contact.phones.first.name %>  |
+              <%= @primary_contact.emails.first.name %>
+              <div class="pull-right"><%= task.due_date.strftime("%e %b") %>
+                <br>
+                <span style="font-size: 8px;font-weight: normal;">Last Interaction:<%= task.interaction.interaction_date.strftime("%e %b")%></span>
+              </div>
+              <br>
+
+
+              <br>
+
+              <div style="font-weight: normal"><%= "#{raw task.interaction.name[0..60]} ...." %></div>
+            </div>
+            <div class="detailed-task" style="display: none;">
+              <div class="row-fluid">
+                <div class="span9">
+                  <%= raw task.interaction.name %>
+                  <br/>
+                  <br/>
+                </div>
+                <div class="span3" style="text-align: right;">
+                  <h2><%= task.due_date.strftime("%e %b") %></h2>
+
+                  <span style="font-size: 8px;font-weight: normal;">Last Interaction:<%= task.interaction.interaction_date.strftime("%e %b")%></span>
+                </div>
+              </div>
+              <div class="row-fluid ">
+                <div class="span12 onlyhead" style="margin-left: -4px;padding-left: 5px;">
+
+                  <span style="font-weight: bold">To:<%= Contact.find(task.assigned_to).name %> | </span>
+                  For:
+                  <a  target="_blank" href="<%= contact_path(@primary_contact) %>" id="cnt_<%= @primary_contact.id %>_<%= task.id %>"><%= @primary_contact.name %>
+                    |</a>
+                  <% task.interaction.contacts.each do |contact| %>
+                      <% case contact.name %>
+                  <% when "Vendor" %>
+                          <% @col="#ff0000" %>
+                      <% when "Client" %>
+                          <% @col="#00ff00" %>
+                      <% when "Employee" %>
+                          <% @col="#0000ff" %>
+                      <% when "Partner" %>
+                          <% @col="#ff00ff" %>
+                      <% else %>
+                          <% @col="#ff00ff" %>
+                      <% end %>
+
+                      <style type="text/css">
+                          #cnt_<%= contact.id %>_ <%= task.id %> {
+                              color: <%= @col %>;
+                          }
+                      </style>
+
+                      <a target="_blank" href="<%= contact_path(contact) %>" id="cnt_<%= contact.id %>_<%= task.id %>"><%= contact.name %> </a>
+                      |
+                  <% end %>
+                  <br>
+
+                  <span style="font-size: 8px;font-weight: normal;">Created By:<%= Contact.find(task.interaction.created_by).name %></span>
+                </div>
+                <a data-toggle="modal" href="#complete_task_modal<%= index %>">Mark as
+                  Complete</a> |
+                <a data-toggle="modal" href="#reschedule_task_modal<%= index %>">Re-Schedule</a>
+                |
+                <a data-toggle="modal" href="#cancel_task_modal<%= index %>">Cancel</a>
+
+                <a class="collapser pull-right" href="#">Collapse</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="cancel_task_modal<%= index %>" style="width:840px;height:500px;">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Cancel Task</h3>
+          </div>
+          <div class="modal-body">
+            <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Canclled"} %>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn">Close</a>
+          </div>
+        </div>
+        <div class="modal fade" id="reschedule_task_modal<%= index %>" style="width:840px;height:500px;">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Reschedule task</h3>
+          </div>
+          <div class="modal-body">
+            <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Rescheduled"} %>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn">Close</a>
+          </div>
+        </div>
+        <div class="modal fade" id="complete_task_modal<%= index %>" style="width:840px;height:500px;">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Mark Task As Complete</h3>
+          </div>
+          <div class="modal-body">
+            <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Marked As Complete"} %>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn">Close</a>
+          </div>
+        </div>
+
+
+    <% end %>
+<% end %>
+
+<!---->
+
+</div>
+</div>
+<div class="span7">
+  <div class="info-unit page-sized">
+
+    <!--Header and Search for Interactions-->
+
+    <div class="pull-right123">
+      <!-- TODO Build an interaction table using DHTMLX (Fields: Date, InteractionType, Interaction summary, (Hidden but searchable: Added by, InteractionContacts, InteractionFlats -> Opens in a modal)  -->
+      <h2>
+        Interactions
+      </h2>
+      <table style="font-size: 12px" id="dhtmlx_interactions_table">
+        <tr>
+          <td>Date</td>
+          <td>Type</td>
+          <td>Summary</td>
+          <td>Primary Contact</td>
+
+        </tr>
+
+        <% @interactions.each do |interaction| %>
+            <tr>
+              <td><%= interaction.interaction_date.strftime("%e %b") %></td>
+              <td><%= InteractionType.find(interaction.interaction_type_id).name %></td>
+              <td><a href="#" id="<%= interaction.id %>" class="interaction_link"><%= interaction.name[0,80] %></a></td>
+              <td><%= link_to Contact.find(interaction.primary_contact_id).name,contact_path(Contact.find(interaction.primary_contact_id)),:target => "_blank" %></td>
+
+            </tr>
+
+            <div class="modal fade " id="modal_<%= interaction.id %>_index">
+              <div class="modal-header">
+                <button class="close" data-dismiss="modal">×</button>
+                <h3><%= Contact.find(interaction.primary_contact_id).name %>
+                  |<%= interaction.interaction_date.strftime("%e %b") %>
+                  |<%= InteractionType.find(interaction.interaction_type_id).name %></h3>
+              </div>
+              <div class="modal-body">
+                <p>
+
+                  <u>Interaction Details:</u><br>
+                  <%= interaction.name %>
+                </p>
+
+                <p>
+                  <u>Contacts Involved:</u><br>
+                  <%= interaction.contacts.map{|contact| contact.name}.join("|") %>
+                </p>
+                <p>
+                  <u>Properties Involved:</u><br>
+                  <%= interaction.flats.map{|flat| flat.name}.join("|") %>
+                </p>
+
+                <p>
+                  <u>Next Interaction Due :</u><br>
+                  <%= interaction.taskings.first.due_date.strftime("%e %b")  %>
+                </p>
+
+                <p>
+                  <u>Assigned To :</u><br>
+                  <%= Contact.find(interaction.taskings.first.assigned_to).name %>
+                </p>
+
+                <p>
+                  <u>Created By :</u><br>
+                  <%= Contact.find(interaction.created_by).name %>
+                </p>
+
+
+
+
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-danger" data-dismiss="modal"">Close</a>
+
+              </div>
+            </div>
+        <% end %>
+      </table>
+
+    </div>
+    <br>
+    <br>
+
+  </div>
+</div>
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+
+
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridFromTable("dhtmlx_interactions_table");
+
+        mygrid.setSkin("light");
+        mygrid.attachHeader("#text_filter,#select_filter,#text_filter,#text_filter");
+        mygrid.enableAutoWidth(true);
+        mygrid.enableAutoHeight(true);
+
+        mygrid.setSizes();
+
+
+        mygrid.setColWidth(0, 40);
+        mygrid.setColWidth(1, 60);
+        mygrid.setColWidth(2, 240);
+        mygrid.setColWidth(3, 100);
+    }
+
+    $(function () {
+        doInitGrid();
+        $(".interaction_link").click(function () {
+
+            //alert("index");
+            $('#modal_' + $(this).attr("id") + "_index").modal('show');
+        });
+
+
+    });
+
+</script>

@@ -12,10 +12,21 @@ class ContactsController < ApplicationController
   # GET /contacts/1.json
   def show
     @contact = Contact.find(params[:id])
+    @new_contact=Contact.new
+    @phones=@new_contact.phones.build
+    @emails=@new_contact.emails.build
     @contacts = Contact.where("id!=?", @contact.id).all
     @connections = @contact.connections
     @connection = @contact.connections.build
-    @labellings=Labelling.all
+    @flat_contact = @contact.flat_contacts.build
+    @flat_contacts = @contact.flat_contacts
+    @labellings=Labelling.where("is_flat_contact_label=?",true)
+
+    @tasks=Tasking.order("due_date ").all
+    @interactions=Interaction.order("interaction_date DESC")
+    @interaction=Interaction.new
+    @interaction.taskings.build
+
   end
 
   # GET /contacts/new

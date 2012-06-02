@@ -17,6 +17,7 @@ class Contact < ActiveRecord::Base
   accepts_nested_attributes_for :addresses, :reject_if => lambda { |a| a[:name].blank? }
   accepts_nested_attributes_for :contact_types, :reject_if => lambda { |a| a[:name].blank? }
   accepts_nested_attributes_for :contact_notes
+  accepts_nested_attributes_for :flat_contacts
 
   accepts_nested_attributes_for :connections, :reject_if => lambda { |a| a[:other_id].blank? } , :allow_destroy => true
 

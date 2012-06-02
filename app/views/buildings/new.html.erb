@@ -89,7 +89,7 @@
             <div class="blabel">Related Party:</div>
             <br>
             <%= f.fields_for :flat_contacts do |fc| %>
-                <%= fc.select :contact_type_id, options_from_collection_for_select(@contact_types, "id", "name"), {:include_blank => ''} %>
+                <%= fc.select :labelling_id, options_from_collection_for_select(@contact_types, "id", "name"), {:include_blank => ''} %>
                 <%= fc.select :contact_id, options_from_collection_for_select(@contacts, "id", "name", @default_contact_id), {:include_blank => ''} %>
                 <%= fc.text_field :name, :placeholder => "Add a comment" %>
                 <%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>
@@ -98,7 +98,7 @@
             <br>
             <br>
             <span style="font-style: italic;">Can't find the person you are looking for?</span>
-            <a data-backdrop="static" data-toggle="modal" href="#add_contact">Add him!</a>
+            <a data-backdrop="static" data-toggle="modal" href="#add_contact">Add contact!</a>
             <br>
 
             <div class="modal hide fade" id="add_contact">

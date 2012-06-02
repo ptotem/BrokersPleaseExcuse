@@ -43,7 +43,7 @@ class BuildingsController < ApplicationController
     @sources=Flatype.all
     @furnstats=Furnstat.all
     @contacts=Contact.all
-    @contact_types=ContactType.all
+    @contact_types=Labelling.where("is_flat_contact_label=?",true).all
     @rent_year= RentYear.where('name=?', Time.now.year).first
 
     @flat = @building.flats.build
