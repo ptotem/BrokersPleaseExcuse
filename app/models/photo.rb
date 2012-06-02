@@ -4,12 +4,10 @@ class Photo < ActiveRecord::Base
                     :styles => {
                         :original => {
                             :geometry => "256x256<",
-                            :processors => [:qresize,:watermark],
+                            :processors => [:qresize, :watermark],
                             :watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
                             :position => "Center"
-
-
-  },
+                        },
                         :thumbnail => {
                             :geometry => "100x100"
                         }

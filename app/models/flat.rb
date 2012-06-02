@@ -30,7 +30,7 @@ class Flat < ActiveRecord::Base
   accepts_nested_attributes_for :flat_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :expected_rents, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :flat_contacts, :reject_if => lambda { |a| a[:contact_id].blank? or a[:contact_type_id].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :flat_contacts, :reject_if => lambda { |a| a[:contact_id].blank? or a[:labelling_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :contacts, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :photos, :reject_if => :all_blank, :allow_destroy => true
 
