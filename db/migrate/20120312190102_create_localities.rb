@@ -3,7 +3,7 @@ class CreateLocalities < ActiveRecord::Migration
     create_table :localities do |t|
       t.integer :area_id
       t.string :name
-      t.integer :quality_id
+      t.integer :quality_id, :default=>2
       t.text :comment
 
       t.timestamps

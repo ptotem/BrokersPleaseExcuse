@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120601103640) do
+ActiveRecord::Schema.define(:version => 20120602063128) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -71,6 +71,20 @@ ActiveRecord::Schema.define(:version => 20120601103640) do
     t.integer  "value"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "building_facilities", :force => true do |t|
+    t.integer  "building_id"
+    t.integer  "facility_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "building_facility_features", :force => true do |t|
+    t.integer  "building_id"
+    t.integer  "facility_feature_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "building_localities", :force => true do |t|
@@ -135,16 +149,6 @@ ActiveRecord::Schema.define(:version => 20120601103640) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.text     "qknote"
-  end
-
-  create_table "buildings_facilities", :id => false, :force => true do |t|
-    t.integer "building_id"
-    t.integer "facility_id"
-  end
-
-  create_table "buildings_facility_features", :id => false, :force => true do |t|
-    t.integer "building_id"
-    t.integer "facility_feature_id"
   end
 
   create_table "buildings_localities", :id => false, :force => true do |t|
@@ -251,21 +255,11 @@ ActiveRecord::Schema.define(:version => 20120601103640) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "facilities_flats", :id => false, :force => true do |t|
-    t.integer "flat_id"
-    t.integer "facility_id"
-  end
-
   create_table "facility_features", :force => true do |t|
     t.integer  "facility_id"
     t.string   "name"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-  end
-
-  create_table "facility_features_flats", :id => false, :force => true do |t|
-    t.integer "flat_id"
-    t.integer "facility_feature_id"
   end
 
   create_table "flat_ciphers", :force => true do |t|
@@ -284,6 +278,20 @@ ActiveRecord::Schema.define(:version => 20120601103640) do
     t.integer  "labelling_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "flat_facilities", :force => true do |t|
+    t.integer  "flat_id"
+    t.integer  "facility_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "flat_facility_features", :force => true do |t|
+    t.integer  "flat_id"
+    t.integer  "facility_feature_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "flat_notes", :force => true do |t|

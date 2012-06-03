@@ -43,7 +43,7 @@ class BuildingsController < ApplicationController
     @sources=Flatype.all
     @furnstats=Furnstat.all
     @contacts=Contact.all
-    @contact_types=Labelling.where("is_flat_contact_label=?",true).all
+    @contact_types=Labelling.where("is_flat_contact_label=?", true).all
     @rent_year= RentYear.where('name=?', Time.now.year).first
 
     @flat = @building.flats.build
@@ -103,7 +103,7 @@ class BuildingsController < ApplicationController
 
 
     @flat_contacts=@flat.flat_contacts.build
-  #  @flat_photos=@flat.photos.build
+    #  @flat_photos=@flat.photos.build
 
     @building_service = @building.building_services.build
     @building_localities = @building.building_localities.build
@@ -115,12 +115,20 @@ class BuildingsController < ApplicationController
 
     @flat.flat_notes.build
     @building.building_notes.build
+
     unless @building_quality= BuildingQuality.find_by_building_id(@building.id)
       @building_quality=@building.building_qualities.build
     end
     unless @approach_quality= ApproachQuality.find_by_building_id(@building.id)
       @approach_quality=@building.approach_qualities.build
     end
+    unless @interiors_quality= InteriorsQuality.find_by_flat_id(@flat.id)
+      @interiors_quality=@flat.interiors_qualities.build
+    end
+    unless @view_quality= ViewQuality.find_by_flat_id(@flat.id)
+      @view_quality=@flat.view_qualities.build
+    end
+
 
     unless @flat_restrictions= @flat.flat_restrictions
       @flat_restrictions=@flat.flat_restrictions.build
@@ -144,13 +152,13 @@ class BuildingsController < ApplicationController
     respond_to do |format|
 
       if !@contact.name.blank? && @contact.save!
-        format.html { redirect_to new_property_path(:contact=>params[:contact_id]), notice: 'Contact was successfully created.' }
+        format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice: 'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
-        format.html { redirect_to new_property_path(@selected_building,:contact=>params[:contact_id]), notice: "You selected #{@selected_building.name}. Now add the flat." }
+        format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), notice: "You selected #{@selected_building.name}. Now add the flat." }
       else
         if @building.save
-          format.html { redirect_to new_property_path(@building,:contact=>params[:contact_id]), notice: 'Building was successfully created.' }
+          format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice: 'Building was successfully created.' }
           format.json { render json: @building, status: :created, location: @building }
         else
           format.html { render action: "new" }
@@ -165,7 +173,10 @@ class BuildingsController < ApplicationController
   # PUT /buildings/1.json
   def update
     @building = Building.find(params[:id])
-    @contact=Contact.new(params[:contact])
+    @contact = Contact.new(params[:contact])
+
+    @building.attributes = {'facility_ids' => []}.merge(params[:building] || {})
+    @building.attributes = {'facility_feature_ids' => []}.merge(params[:building] || {})
 
     respond_to do |format|
       if @building.update_attributes(params[:building])
@@ -175,11 +186,42 @@ class BuildingsController < ApplicationController
 
         if !params[:came_from_edit].nil?
           @flat=Flat.find(params[:came_from_edit])
+
+          if params[:flat]
+            @facility_ids= params[:flat][:facility_ids]
+            @facility_feature_ids= params[:flat][:facility_feature_ids]
+
+            FlatFacility.find_all_by_flat_id(@flat).each do |facility|
+              facility.destroy
+            end
+            FlatFacilityFeature.find_all_by_flat_id(@flat).each do |feature|
+              feature.destroy
+            end
+
+            @facility_ids.each do |facility_id|
+              FlatFacility.create!(:flat_id => @flat.id, :facility_id => facility_id)
+            end
+            @facility_feature_ids.each do |feature_id|
+              FlatFacilityFeature.create!(:flat_id => @flat.id, :facility_feature_id => feature_id)
+            end
+
+            @restriction_ids=params[:flat][:restriction_ids]
+            FlatRestriction.find_all_by_flat_id(@flat).each do |restriction|
+              restriction.destroy
+            end
+            @restriction_ids.each do |restriction_id|
+              FlatRestriction.create!(:flat_id => @flat.id, :restriction_id => restriction_id)
+            end
+          end
+
+
           format.html { redirect_to edit_property_path(@building, @flat), notice: 'Building was successfully updated.' }
+        else
+          @flat=Flat.last
+          format.html { redirect_to edit_property_path(@building, @flat), notice: 'Building was successfully updated.' }
+          format.json { head :no_content }
         end
 
-        format.html { redirect_to flats_path, notice: 'Building was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: "edit" }
         format.json { render json: @building.errors, status: :unprocessable_entity }
@@ -207,9 +249,9 @@ class BuildingsController < ApplicationController
 
 
     end
-    render :text=>contact_option
+    render :text => contact_option
 
-   #TODO: send only the contacts not included previously so the data processing becomes lighter
+    #TODO: send only the contacts not included previously so the data processing becomes lighter
 
   end
 
@@ -226,10 +268,10 @@ class BuildingsController < ApplicationController
       @photo.save!
     end
 
-     render :text=>"DOne"
+    render :text => "DOne"
 
 
-    end
+  end
 end
 
 

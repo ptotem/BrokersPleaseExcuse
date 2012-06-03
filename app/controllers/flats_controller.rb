@@ -19,7 +19,13 @@ class FlatsController < ApplicationController
   # GET /flats/1.json
   def show
     @flat = Flat.find(params[:id])
-
+    @building_quality=@flat.building.building_qualities.first.quality
+    @approach_quality=@flat.building.approach_qualities.first.quality
+    @interiors_quality=@flat.interiors_qualities.first.quality
+    @view_quality=@flat.view_qualities.first.quality
+    @locality_quality=@flat.building.main_locality.quality
+    @overall_quality_value = ((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
+    @overall_quality_name = Quality.find_by_value(@overall_quality_value).name
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @flat }

@@ -6,7 +6,7 @@
   </div>
   <div class="span4">
     <%= b.fields_for :building_qualities, @building_quality do |builder| %>
-        <%= builder.select :quality_id, options_from_collection_for_select(@qualities, :id, :name, @building_quality.quality_id), {:include_blank => ''}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+        <%= builder.select :quality_id, options_from_collection_for_select(@qualities, :id, :name, @building_quality.quality_id),{}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
     <% end %>
   </div>
 </div>
@@ -16,7 +16,7 @@
   </div>
   <div class="span4">
     <%= b.fields_for :approach_qualities, @approach_quality do |builder| %>
-        <%= builder.select :quality_id, options_from_collection_for_select(@qualities, :id, :name, @approach_quality.quality_id), {:include_blank => ''}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+        <%= builder.select :quality_id, options_from_collection_for_select(@qualities, :id, :name, @approach_quality.quality_id),{}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
     <% end %>
   </div>
 </div>
@@ -27,30 +27,32 @@
 
 <div class="row">
   <div class="span9">
-    <%= hidden_field_tag "building[facility_ids][]", nil %>
-    <% @facilities.each do |facility| %>
-        <%= check_box_tag "building[facility_ids][]", facility.id, @building.facility_ids.include?(facility.id), id: dom_id(facility), :onchange => "$(this).next().next().toggle();" %>
-        <%= label_tag dom_id(facility), facility.name %>
-        <% if @building.facility_ids.include?(facility.id) %>
-            <div class="blocky">
-              <%= hidden_field_tag "building[facility_feature_ids][]", nil %>
-              <% facility.facility_features.each do |facility_feature| %>
-                  <%= check_box_tag "building[facility_feature_ids][]", facility_feature.id, @building.facility_feature_ids.include?(facility_feature.id), id: dom_id(facility_feature) %>
-                  <%= label_tag dom_id(facility_feature), facility_feature.name %>
-              <% end %>
-            </div>
-            <br/>
-        <% else %>
-            <div style="display:none;" class="blocky">
-              <%= hidden_field_tag "building[facility_feature_ids][]", nil %>
-              <% facility.facility_features.each do |facility_feature| %>
-                  <%= check_box_tag "building[facility_feature_ids][]", facility_feature.id, @building.facility_feature_ids.include?(facility_feature.id), id: dom_id(facility_feature) %>
-                  <%= label_tag dom_id(facility_feature), facility_feature.name %>
-              <% end %>
-            </div>
-            <br/>
-        <% end %>
-    <% end %>
+    <% @facilities.each do |facility| -%>
+        <div>
+          <%= check_box_tag :facility_ids, facility.id, @building.facilities.include?(facility), :name => 'building[facility_ids][]', :onchange => "$(this).next().next().toggle();" %>
+          <%= label_tag :facility_ids, facility.name -%>
+
+          <% if @building.facility_ids.include?(facility.id) %>
+              <div class="blocky">
+                <% facility.facility_features.each do |facility_feature| %>
+                    <%= check_box_tag :facility_feature_ids, facility_feature.id, @building.facility_features.include?(facility_feature), :name => 'building[facility_feature_ids][]' %>
+                    <%= label_tag :facility_feature_ids, facility_feature.name -%>
+                <% end %>
+              </div>
+              <br/>
+          <% else %>
+              <div style="display:none;" class="blocky">
+                <% facility.facility_features.each do |facility_feature| %>
+                    <%= check_box_tag :facility_feature_ids, facility_feature.id, @building.facility_features.include?(facility_feature), :name => 'building[facility_feature_ids][]' %>
+                    <%= label_tag :facility_feature_ids, facility_feature.name -%>
+                <% end %>
+              </div>
+              <br/>
+          <% end %>
+
+
+        </div>
+    <% end -%>
   </div>
 </div>
 <br>

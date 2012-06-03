@@ -104,17 +104,14 @@
     }
 </script>
 
-
-<%= b.fields_for :address do |loc| %>
-
     <h2>Location</h2>
 
     <div class="row-fluid">
       <div class="span3">
-        <%= loc.label :road %>
+        <%= b.label :road %>
       </div>
       <div class="span4">
-        <%= loc.text_field :road, :class => "span3" %>
+        <%= b.text_field :road, :value=>@building.road, :class => "span3" %>
       </div>
     </div>
 
@@ -132,21 +129,21 @@
 
     <div class="row-fluid">
       <div class="span3">
-        <%= loc.label :pincode %>
+        <%= b.label :pincode %>
       </div>
       <div class="span4">
-        <%= loc.number_field :pincode, :class => "span3" %>
+        <%= b.number_field :pincode, :value=>@building.pincode, :class => "span3" %>
       </div>
     </div>
     <hr>
     <div class="row-fluid">
       <div class="span2">
-        <%= loc.label :latitude %>
-        <%= loc.number_field :latitude, :class => "span3" %>
+        <%= b.label :latitude %>
+        <%= b.number_field :latitude, :value=>@building.latitude, :class => "span3" %>
       </div>
       <div class="span2">
-        <%= loc.label :longitude %>
-        <%= loc.number_field :longitude, :class => "span3" %>
+        <%= b.label :longitude %>
+        <%= b.number_field :longitude, :value=>@building.longitude,:class => "span3" %>
       </div>
       <div class="span2">
         <%= link_to "Search", "#", :id => "update-map" %>
@@ -165,4 +162,3 @@
     <% end %>
     <%= b.link_to_add 'Add Route', :building_routes %> <br/>
 
-<% end %>

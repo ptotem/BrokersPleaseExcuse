@@ -4,8 +4,12 @@ class Flat < ActiveRecord::Base
   belongs_to :building
   belongs_to :bhk_config
   belongs_to :direction
-  has_and_belongs_to_many :facilities
-  has_and_belongs_to_many :facility_features
+
+  has_many :flat_facilities, :dependent => :destroy
+  has_many :facilities, :through => :flat_facilities
+  has_many :flat_facility_features, :dependent => :destroy
+  has_many :facility_features, :through => :flat_facility_features
+
   has_many :available_froms, :dependent => :destroy
   has_many :flat_notes, :dependent => :destroy
   has_many :balconies, :dependent => :destroy
@@ -25,14 +29,17 @@ class Flat < ActiveRecord::Base
   has_many :showings, :dependent => :destroy
   has_many :photos, :dependent => :destroy
 
-  accepts_nested_attributes_for :interiors_qualities, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :view_qualities, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :interiors_qualities, :reject_if => proc { |attrs| reject = %w(quality_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
+  accepts_nested_attributes_for :view_qualities, :reject_if => proc { |attrs| reject = %w(quality_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :flat_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :expected_rents, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :flat_contacts, :reject_if => lambda { |a| a[:contact_id].blank? or a[:labelling_id].blank? }, :allow_destroy => true
-  accepts_nested_attributes_for :contacts, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :photos, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :flat_contacts, :reject_if => proc { |attrs| reject = %w(flat_id contact_id labelling_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
+  accepts_nested_attributes_for :contacts, :reject_if => proc { |attrs| reject = %w(name).all? { |a| attrs[a].blank? } }, :allow_destroy => true
+  accepts_nested_attributes_for :photos, :reject_if => proc { |attrs| reject = %w(image).all? { |a| attrs[a].blank? } }, :allow_destroy => true
+
+  accepts_nested_attributes_for :flat_facilities, :reject_if => lambda { |a| a[:facility_id].blank?}, :allow_destroy => true
+  accepts_nested_attributes_for :flat_facility_features, :reject_if => lambda { |a| a[:facility_feature_id].blank?}, :allow_destroy => true
 
   validates_presence_of :name
   validates_presence_of :bhk_config_id
