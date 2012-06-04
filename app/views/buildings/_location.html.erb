@@ -1,108 +1,110 @@
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAgrj58PbXr2YriiRDqbnL1RSqrCjdkglBijPNIIYrqkVvD1R4QxRl47Yh2D_0C1l5KXQJGrbkSDvXFA" type="text/javascript"></script>
-<script type="text/javascript">
+<!--<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAgrj58PbXr2YriiRDqbnL1RSqrCjdkglBijPNIIYrqkVvD1R4QxRl47Yh2D_0C1l5KXQJGrbkSDvXFA" type="text/javascript"></script>-->
+<!--<script type="text/javascript">-->
 
-    $(function () {
+//    $(function () {
+//
+//        if (GBrowserIsCompatible()) {
+//            var map = new GMap2(document.getElementById("map"));
+//            map.addControl(new GSmallMapControl());
+//            map.addControl(new GMapTypeControl());
+//            var center = new GLatLng(19.06726, 72.82644);
+//            map.setCenter(center, 15);
+//            geocoder = new GClientGeocoder();
+//            var marker = new GMarker(center, {draggable:true});
+//            map.addOverlay(marker);
+//            document.getElementById("building_address_latitude").innerHTML = center.lat().toFixed(5);
+//            document.getElementById("building_address_longitude").innerHTML = center.lng().toFixed(5);
+//
+//            GEvent.addListener(marker, "dragend", function () {
+//                var point = marker.getPoint();
+//                map.panTo(point);
+//                document.getElementById("building_address_latitude").innerHTML = point.lat().toFixed(5);
+//                document.getElementById("building_address_longitude").innerHTML = point.lng().toFixed(5);
+//
+//            });
+//
+//
+//            GEvent.addListener(map, "moveend", function () {
+//                map.clearOverlays();
+//                var center = map.getCenter();
+//                var marker = new GMarker(center, {draggable:true});
+//                map.addOverlay(marker);
+//                document.getElementById("building_address_latitude").innerHTML = center.lat().toFixed(5);
+//                document.getElementById("building_address_longitude").innerHTML = center.lng().toFixed(5);
+//
+//
+//                GEvent.addListener(marker, "dragend", function () {
+//                    var point = marker.getPoint();
+//                    map.panTo(point);
+//                    document.getElementById("building_address_latitude").innerHTML = point.lat().toFixed(5);
+//                    document.getElementById("building_address_longitude").innerHTML = point.lng().toFixed(5);
+//
+//                });
+//
+//            });
+//
+//        }
+//
+//
+//        $('#update-map').click(function () {
+//            showAddress($('#search').value);
+//            return false;
+//        })
+//
+//
+//    });
+//
+//    function showAddress(address) {
+//        var map = new GMap2(document.getElementById("map"));
+//        map.addControl(new GSmallMapControl());
+//        map.addControl(new GMapTypeControl());
+//        if (geocoder) {
+//            geocoder.getLatLng(
+//                    address,
+//                    function (point) {
+//                        if (!point) {
+//                            alert(address + " not found");
+//                        } else {
+//                            document.getElementById("building_address_latitude").innerHTML = point.lat().toFixed(5);
+//                            document.getElementById("building_address_longitude").innerHTML = point.lng().toFixed(5);
+//                            map.clearOverlays()
+//                            map.setCenter(point, 14);
+//                            var marker = new GMarker(point, {draggable:true});
+//                            map.addOverlay(marker);
+//
+//                            GEvent.addListener(marker, "dragend", function () {
+//                                var pt = marker.getPoint();
+//                                map.panTo(pt);
+//                                document.getElementById("building_address_latitude").innerHTML = pt.lat().toFixed(5);
+//                                document.getElementById("building_address_longitude").innerHTML = pt.lng().toFixed(5);
+//                            });
+//
+//
+//                            GEvent.addListener(map, "moveend", function () {
+//                                map.clearOverlays();
+//                                var center = map.getCenter();
+//                                var marker = new GMarker(center, {draggable:true});
+//                                map.addOverlay(marker);
+//                                document.getElementById("building_address_latitude").innerHTML = center.lat().toFixed(5);
+//                                document.getElementById("building_address_longitude").innerHTML = center.lng().toFixed(5);
+//
+//                                GEvent.addListener(marker, "dragend", function () {
+//                                    var pt = marker.getPoint();
+//                                    map.panTo(pt);
+//                                    document.getElementById("building_address_latitude").innerHTML = pt.lat().toFixed(5);
+//                                    document.getElementById("building_address_longitude").innerHTML = pt.lng().toFixed(5);
+//                                });
+//
+//                            });
+//
+//                        }
+//                    }
+//            );
+//        }
+//    }
+<!--</script>-->
 
-        if (GBrowserIsCompatible()) {
-            var map = new GMap2(document.getElementById("map"));
-            map.addControl(new GSmallMapControl());
-            map.addControl(new GMapTypeControl());
-            var center = new GLatLng(19.06726, 72.82644);
-            map.setCenter(center, 15);
-            geocoder = new GClientGeocoder();
-            var marker = new GMarker(center, {draggable:true});
-            map.addOverlay(marker);
-            document.getElementById("building_address_latitude").innerHTML = center.lat().toFixed(5);
-            document.getElementById("building_address_longitude").innerHTML = center.lng().toFixed(5);
 
-            GEvent.addListener(marker, "dragend", function () {
-                var point = marker.getPoint();
-                map.panTo(point);
-                document.getElementById("building_address_latitude").innerHTML = point.lat().toFixed(5);
-                document.getElementById("building_address_longitude").innerHTML = point.lng().toFixed(5);
-
-            });
-
-
-            GEvent.addListener(map, "moveend", function () {
-                map.clearOverlays();
-                var center = map.getCenter();
-                var marker = new GMarker(center, {draggable:true});
-                map.addOverlay(marker);
-                document.getElementById("building_address_latitude").innerHTML = center.lat().toFixed(5);
-                document.getElementById("building_address_longitude").innerHTML = center.lng().toFixed(5);
-
-
-                GEvent.addListener(marker, "dragend", function () {
-                    var point = marker.getPoint();
-                    map.panTo(point);
-                    document.getElementById("building_address_latitude").innerHTML = point.lat().toFixed(5);
-                    document.getElementById("building_address_longitude").innerHTML = point.lng().toFixed(5);
-
-                });
-
-            });
-
-        }
-
-
-        $('#update-map').click(function () {
-            showAddress($('#search').value);
-            return false;
-        })
-
-
-    });
-
-    function showAddress(address) {
-        var map = new GMap2(document.getElementById("map"));
-        map.addControl(new GSmallMapControl());
-        map.addControl(new GMapTypeControl());
-        if (geocoder) {
-            geocoder.getLatLng(
-                    address,
-                    function (point) {
-                        if (!point) {
-                            alert(address + " not found");
-                        } else {
-                            document.getElementById("building_address_latitude").innerHTML = point.lat().toFixed(5);
-                            document.getElementById("building_address_longitude").innerHTML = point.lng().toFixed(5);
-                            map.clearOverlays()
-                            map.setCenter(point, 14);
-                            var marker = new GMarker(point, {draggable:true});
-                            map.addOverlay(marker);
-
-                            GEvent.addListener(marker, "dragend", function () {
-                                var pt = marker.getPoint();
-                                map.panTo(pt);
-                                document.getElementById("building_address_latitude").innerHTML = pt.lat().toFixed(5);
-                                document.getElementById("building_address_longitude").innerHTML = pt.lng().toFixed(5);
-                            });
-
-
-                            GEvent.addListener(map, "moveend", function () {
-                                map.clearOverlays();
-                                var center = map.getCenter();
-                                var marker = new GMarker(center, {draggable:true});
-                                map.addOverlay(marker);
-                                document.getElementById("building_address_latitude").innerHTML = center.lat().toFixed(5);
-                                document.getElementById("building_address_longitude").innerHTML = center.lng().toFixed(5);
-
-                                GEvent.addListener(marker, "dragend", function () {
-                                    var pt = marker.getPoint();
-                                    map.panTo(pt);
-                                    document.getElementById("building_address_latitude").innerHTML = pt.lat().toFixed(5);
-                                    document.getElementById("building_address_longitude").innerHTML = pt.lng().toFixed(5);
-                                });
-
-                            });
-
-                        }
-                    }
-            );
-        }
-    }
-</script>
 
     <h2>Location</h2>
 
@@ -139,11 +141,11 @@
     <div class="row-fluid">
       <div class="span2">
         <%= b.label :latitude %>
-        <%= b.number_field :latitude, :value=>@building.latitude, :class => "span3" %>
+        <%= b.number_field :latitude, :value=>@building.latitude||=10 , :class => "span3",:id=>"building_address_latitude" %>
       </div>
       <div class="span2">
         <%= b.label :longitude %>
-        <%= b.number_field :longitude, :value=>@building.longitude,:class => "span3" %>
+        <%= b.number_field :longitude, :value=>@building.longitude||=10,:class => "span3",:id=>"building_address_longitude" %>
       </div>
       <div class="span2">
         <%= link_to "Search", "#", :id => "update-map" %>
@@ -152,7 +154,9 @@
       </div>
     </div>
     <br>
-    <div id="map" style="width: 600px; height: 400px"><br/></div>
+    <div>
+      <%= gmaps4rails(@json) %>
+    </div>
 
 
     <h2>Directions</h2>

@@ -21,6 +21,7 @@ gem 'formtastic-bootstrap'
 gem 'nested_form', :git => 'https://github.com/ryanb/nested_form.git'
 gem 'jquery_datepicker'
 gem 'rails3-jquery-autocomplete'
+gem 'gmaps4rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

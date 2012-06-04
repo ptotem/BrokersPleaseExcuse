@@ -22,6 +22,7 @@ BPEv075::Application.routes.draw do
 
   match "get_contact_list"=>"buildings#get_contact_list"
   match "save_photo_positions"=>"buildings#save_photo_positions"
+  match "update_photo_sequence"=>"buildings#update_photo_sequence"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

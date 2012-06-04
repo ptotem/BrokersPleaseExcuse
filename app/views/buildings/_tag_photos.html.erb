@@ -1,7 +1,9 @@
+<% @flat_photos=@flat.photos.build %>
+
 <style type="text/css">
-  image{
-      position: absolute;
-  }
+    image {
+        position: absolute;
+    }
 </style>
 
 <script type="text/javascript">
@@ -9,15 +11,15 @@
     $(function () {
         $(".existing-photos").draggable({ containment:"parent" });
 
-        $("#existing-photo-position").click(function(){
+        $("#existing-photo-position").click(function () {
             var data = {fields:[]};
-            $(".existing-photos").each(function(){
+            $(".existing-photos").each(function () {
                 data["fields"].push({
                     photo_id:$(this).attr('id'),
                     xpos:$(this).position().left,
-                    ypos:$(this).position().top} )
+                    ypos:$(this).position().top})
 
-            })  ;
+            });
 
 
             $.ajax({
@@ -28,22 +30,50 @@
                 success:function (data) {
                     alert("Position Saved...");
                 }
-                });
+            });
 
-        })  ;
+        });
 
     });
 
 </script>
 
-<div class="" style="background: grey;width:700px;height: 500px">
-  <% @flat.photos.each do |existing_photo| %>
-      <%= image_tag(existing_photo.image.url(:thumbnail), :class => "existing-photos",:id=>existing_photo.id,:style=>"position:absolute;left:#{existing_photo.xpos}px;top:#{existing_photo.ypos}px") %>
-      <br>
-      <br>
+<div class="row">
+  <div class="span9">
+    <div style="width:700px;height: 500px ;background-image:url(<%= @flat.photos.where("is_floor_plan=?", true).first.image.url if !@flat.photos.where("is_floor_plan=?", true).first.nil? %>)">
 
-  <% end %>
+      <% @flat.photos.where("tagging_allowed=?", true).each do |existing_photo| %>
+          <%= image_tag(existing_photo.image.url(:thumbnail), :class => "existing-photos", :id => existing_photo.id, :style => "position:absolute;left:#{existing_photo.xpos}px;top:#{existing_photo.ypos}px") %>
+          <br>
+          <br>
+
+      <% end %>
+    </div>
+
+    <%= link_to "Save and Continue", "#", :class => "btn btn-primary btn-large", :id => "existing-photo-position" %>
+  </div>
+  <div class="span6">
+    <h2>Add A Floor PLan</h2>
+    <%= f.fields_for :photos do |photo| %>
+        <% if photo.object.new_record? %>
+            <div class="row-fluid">
+              <div class="span3">
+                <%= photo.label "File" %>
+              </div>
+              <div class="span3">
+                <%= photo.file_field :image, :class => "span3" %>
+              </div>
+            </div>
+
+            <%= photo.hidden_field :flat_id, :value => @flat.id %>
+            <%= photo.hidden_field :is_floor_plan, :value => true %>
+
+        <%= f.submit "Upload Photo", :class => "btn btn-info span3" %>
+        <% end %>
+    <% end %>
+  </div>
+
+</div>
 
 
 </div>
-<%= link_to "Save and Continue", "#",:class => "btn btn-primary btn-large", :id => "existing-photo-position" %>

@@ -29,12 +29,14 @@
   <div class="span9">
     <% @facilities.each do |facility| -%>
         <div>
+          <%= hidden_field_tag 'building[facility_ids][]', nil %>
           <%= check_box_tag :facility_ids, facility.id, @building.facilities.include?(facility), :name => 'building[facility_ids][]', :onchange => "$(this).next().next().toggle();" %>
           <%= label_tag :facility_ids, facility.name -%>
 
           <% if @building.facility_ids.include?(facility.id) %>
               <div class="blocky">
                 <% facility.facility_features.each do |facility_feature| %>
+                    <%= hidden_field_tag 'building[facility_feature_ids][]', nil %>
                     <%= check_box_tag :facility_feature_ids, facility_feature.id, @building.facility_features.include?(facility_feature), :name => 'building[facility_feature_ids][]' %>
                     <%= label_tag :facility_feature_ids, facility_feature.name -%>
                 <% end %>
@@ -43,6 +45,7 @@
           <% else %>
               <div style="display:none;" class="blocky">
                 <% facility.facility_features.each do |facility_feature| %>
+                    <%= hidden_field_tag 'building[facility_feature_ids][]', nil %>
                     <%= check_box_tag :facility_feature_ids, facility_feature.id, @building.facility_features.include?(facility_feature), :name => 'building[facility_feature_ids][]' %>
                     <%= label_tag :facility_feature_ids, facility_feature.name -%>
                 <% end %>

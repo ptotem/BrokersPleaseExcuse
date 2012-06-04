@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120602063128) do
+ActiveRecord::Schema.define(:version => 20120604173642) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -22,9 +22,9 @@ ActiveRecord::Schema.define(:version => 20120602063128) do
 
   create_table "approach_qualities", :force => true do |t|
     t.integer  "building_id"
-    t.integer  "quality_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "quality_id",  :default => 2
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "areas", :force => true do |t|
@@ -104,9 +104,9 @@ ActiveRecord::Schema.define(:version => 20120602063128) do
 
   create_table "building_qualities", :force => true do |t|
     t.integer  "building_id"
-    t.integer  "quality_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "quality_id",  :default => 2
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "building_routes", :force => true do |t|
@@ -374,10 +374,10 @@ ActiveRecord::Schema.define(:version => 20120602063128) do
 
   create_table "interiors_qualities", :force => true do |t|
     t.integer  "flat_id"
-    t.integer  "quality_id"
+    t.integer  "quality_id", :default => 2
     t.text     "comment"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "labellings", :force => true do |t|
@@ -397,10 +397,10 @@ ActiveRecord::Schema.define(:version => 20120602063128) do
   create_table "localities", :force => true do |t|
     t.integer  "area_id"
     t.string   "name"
-    t.integer  "quality_id"
+    t.integer  "quality_id", :default => 2
     t.text     "comment"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "locality_notes", :force => true do |t|
@@ -443,11 +443,13 @@ ActiveRecord::Schema.define(:version => 20120602063128) do
     t.integer  "sequence_number"
     t.string   "image_file_name"
     t.string   "flat_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "xpos"
     t.integer  "ypos"
     t.integer  "building_id"
+    t.boolean  "tagging_allowed"
+    t.boolean  "is_floor_plan",   :default => false
   end
 
   create_table "poi_types", :force => true do |t|
@@ -549,10 +551,10 @@ ActiveRecord::Schema.define(:version => 20120602063128) do
 
   create_table "view_qualities", :force => true do |t|
     t.integer  "flat_id"
-    t.integer  "quality_id"
+    t.integer  "quality_id", :default => 2
     t.text     "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
 end

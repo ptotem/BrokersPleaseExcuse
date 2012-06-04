@@ -72,9 +72,11 @@ class BuildingsController < ApplicationController
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
     @expected_rent = @flat.expected_rents.last
-    @available_from = @flat.available_froms.last
-
+    @available_from = @flat.available_froms.build if @flat.available_froms.last.nil?
+    @json = Building.all.to_gmaps4rails
+    #@markers = Building.all.to_gmaps4rails    #@markers contain valid json to pass to the view
     @building_selected = true
+
 
     @buildings = Building.all
     @localities = Locality.all
@@ -103,7 +105,7 @@ class BuildingsController < ApplicationController
 
 
     @flat_contacts=@flat.flat_contacts.build
-    #  @flat_photos=@flat.photos.build
+
 
     @building_service = @building.building_services.build
     @building_localities = @building.building_localities.build
@@ -145,6 +147,7 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
 
+
     @building = Building.new(params[:building])
 
     @contact=Contact.new(params[:contact])
@@ -172,11 +175,9 @@ class BuildingsController < ApplicationController
   # PUT /buildings/1
   # PUT /buildings/1.json
   def update
+
     @building = Building.find(params[:id])
     @contact = Contact.new(params[:contact])
-
-    @building.attributes = {'facility_ids' => []}.merge(params[:building] || {})
-    @building.attributes = {'facility_feature_ids' => []}.merge(params[:building] || {})
 
     respond_to do |format|
       if @building.update_attributes(params[:building])
@@ -270,6 +271,21 @@ class BuildingsController < ApplicationController
 
     render :text => "DOne"
 
+
+  end
+
+  def update_photo_sequence
+
+
+
+
+    @flat=Flat.find(params["flat_id"])
+    @flat.photos.each_with_index do |photo,index|
+
+      photo.sequence_number=params[photo.id.to_s]
+      photo.save!
+    end
+    render :text=>"OK"
 
   end
 end
