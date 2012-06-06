@@ -28,6 +28,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/new.json
   def quick_form
 
+
     if params[:building_id].blank?
       @building = Building.new
       @building_selected = false
@@ -162,6 +163,7 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
 
+
     @building = Building.new(params[:building])
 
     @contact=Contact.new(params[:contact])
@@ -169,12 +171,13 @@ class BuildingsController < ApplicationController
     respond_to do |format|
 
       if !@contact.name.blank? && @contact.save!
+
         format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice:'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
         format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), notice:"You selected #{@selected_building.name}. Now add the flat." }
       else
-        if @building.save
+        if @building.save!
 
           format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice:'Building was successfully created.' }
           format.json { render json :@building, :status => :created, :location => @building }
@@ -289,9 +292,10 @@ class BuildingsController < ApplicationController
 
 
 
-  def location
-   @building = Building.find(params[:building_id])
-   #  @flat=Flat.find(params[:id])
+  def building_location
+
+  @building = Building.find(params[:building_id])
+     @flat=Flat.find(params[:id])
 
   end
 

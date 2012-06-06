@@ -20,11 +20,12 @@
                 var pos = new google.maps.LatLng(position.coords.latitude,
                         position.coords.longitude);
 
-                var infowindow = new google.maps.InfoWindow({
-                    map:map,
-                    position:pos,
-                    content:'Showing your Current Location '
-                });
+                //the image is not coming properly hence commented out
+//                var infowindow = new google.maps.InfoWindow({
+//                    map:map,
+//                    position:pos,
+//                    content:'Showing your Current Location '
+//                });
 
                 map.setCenter(pos);
             }, function () {
@@ -194,7 +195,7 @@
       </div>
     </div>
     <%= hidden_field_tag :came_from, "location" %>
-    <%#= hidden_field_tag :flat_id, @flat.id %>
+    <%= hidden_field_tag :flat_id, @flat.id %>
 
     <div class="row-fluid">
       <div class="span3">

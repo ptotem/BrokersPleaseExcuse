@@ -2,7 +2,7 @@ BPEv075::Application.routes.draw do
 
   match 'property/(:building_id)/quick_form', :to => "buildings#quick_form", :as => "new_property"
   match 'building/:building_id/flat/:id/detailed_form/basic', :to => "buildings#detailed_form", :as => "edit_property_basic"
-  match 'building/:building_id/flat/:id/detailed_form/location', :to => "buildings#location", :as => "edit_property_location"
+  match 'building/:building_id/flat/:id/detailed_form/location', :to => "buildings#building_location", :as => "edit_property_location"
   match 'building/:building_id/flat/:id/detailed_form/building_features', :to => "buildings#building_features", :as => "edit_property_building_features"
   match 'building/:building_id/flat/:id/detailed_form/flat_features', :to => "buildings#flat_features", :as => "edit_property_flat_features"
   match 'building/:building_id/flat/:id/detailed_form/photos', :to => "buildings#photos", :as => "edit_property_flat_photos"
