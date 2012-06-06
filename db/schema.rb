@@ -20,13 +20,6 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "approach_qualities", :force => true do |t|
-    t.integer  "building_id"
-    t.integer  "quality_id",  :default => 2
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
   create_table "areas", :force => true do |t|
     t.integer  "city_id"
     t.string   "name"
@@ -102,13 +95,6 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "building_qualities", :force => true do |t|
-    t.integer  "building_id"
-    t.integer  "quality_id",  :default => 2
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
   create_table "building_routes", :force => true do |t|
     t.integer  "building_id"
     t.text     "name"
@@ -144,6 +130,8 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.string   "road"
     t.integer  "pincode"
     t.integer  "primary_locality_id"
+    t.integer  "approach_quality_id"
+    t.integer  "building_quality_id"
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "created_at",          :null => false
@@ -313,12 +301,14 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.integer  "building_id"
     t.integer  "bhk_config_id"
     t.integer  "direction_id"
+    t.integer  "interiors_quality_id"
+    t.integer  "view_quality_id"
     t.string   "name"
     t.string   "flat_key"
     t.integer  "area"
     t.integer  "floor"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "furnstat_id"
     t.integer  "flatype_id"
   end
@@ -370,14 +360,6 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.datetime "updated_at",          :null => false
     t.integer  "primary_contact_id"
     t.datetime "interaction_date"
-  end
-
-  create_table "interiors_qualities", :force => true do |t|
-    t.integer  "flat_id"
-    t.integer  "quality_id", :default => 2
-    t.text     "comment"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
   end
 
   create_table "labellings", :force => true do |t|
@@ -548,13 +530,5 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-
-  create_table "view_qualities", :force => true do |t|
-    t.integer  "flat_id"
-    t.integer  "quality_id", :default => 2
-    t.text     "name"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-  end
 
 end

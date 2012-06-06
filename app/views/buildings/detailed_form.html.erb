@@ -1,0 +1,142 @@
+
+<script type="text/javascript">
+    $(function () {
+
+
+        $('form').bind('ajax:success', function (evt, data) {
+            $.get("<%= get_contact_list_path %>", function (data1) {
+
+                var contact_option = data1.split("|");
+
+                $(".contact-select").html("<option></option>");
+                for (var i = 0; i < contact_option.length - 1; i++) {
+                    $(".contact-select").append(new Option(contact_option[i].split("--")[1], contact_option[i].split("--")[0]));
+                }
+                $('.modal').modal("hide");
+
+            });
+        });
+
+    })
+</script>
+
+
+<%= nested_form_for(@building) do |b| %>
+    <%= b.fields_for :flats, @flat do |f| %>
+
+
+        <%= hidden_field_tag :came_from, "basic" %>
+        <%= hidden_field_tag :flat_id, @flat.id %>
+        <%= render :partial => 'form_menu' %>
+
+        <br>
+
+        <div class="content detail-panel" id="basic-panel">
+          <div class="row-fluid ">
+
+            <div class="span4">
+
+              <div class="row-fluid">
+                <h3>
+                  <div class="blabel" style="height: 36px;">Building Name:</div>
+                  <%= @building.name %>,
+                  <br>
+                  <%= @building.main_locality.name %>
+                </h3>
+                <br>
+              </div>
+
+              <div class="blabel">
+                Flat Name*:
+              </div>
+
+              <%= f.text_field :name, :value => @flat.name %>
+              <br>
+              <br>
+
+              <div class="blabel">Source:</div>
+              <%= f.select :flatype_id, options_from_collection_for_select(@sources, 'id', 'name', @flat.flatype_id), {:include_blank => ''} %>
+              <br>
+
+              <div class="blabel">Configuration*:</div>
+              <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''}, {} %>
+              <br>
+
+              <div class="blabel">Furnishing Status:</div>
+              <%= f.select :furnstat_id, options_from_collection_for_select(@furnstats, 'id', 'name', @flat.furnstat_id), {:include_blank => ''} %>
+              <br>
+              <br>
+
+              <div class="blabel">Expected Rent:</div>
+              <%= f.fields_for :expected_rents, @expected_rent do |er| %>
+                  <%= er.text_field :name %>
+              <% end %>
+
+              <div class="blabel">Available From:</div>
+              <%= f.fields_for :available_froms, @available_from do |er| %>
+                  <!--TODO Datepicker Edit to be Put in-->
+                  <%= er.text_field :name, :value => @flat.available_froms.last.name %>
+                  <%#= er.datepicker :name, :value => @flat.available_froms.last.name, :dateFormat => "dd/mm/yy" %>
+              <% end %>
+              <br>
+            </div>
+
+            <div class="span7">
+              <h1>Related Parties:</h1>
+              <span style="font-style: italic;">Can't find the person you are looking for?</span>
+              <a data-backdrop="static" data-toggle="modal" href="#add_contact">Add contact!</a>
+              <br>
+              <br>
+              <br>
+
+              <% @flat.flat_contacts.each do |flat_contact| %>
+                  <%= f.fields_for :flat_contacts, flat_contact do |fc| %>
+                      <%= render 'buildings/partials/select_tag_partial', {:fc => fc, :flat_contact => flat_contact} %>
+                      <%= fc.text_field :name, :value => flat_contact.name, :style => "margin-top:-9px" %>
+                      <%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>
+                  <% end %>
+              <% end %>
+              <%= f.link_to_add 'Add another', :flat_contacts %>
+
+              <br>
+
+              <div class="modal hide fade" id="add_contact">
+                <div class="modal-header">
+                  <a class="close" data-dismiss="modal">×</a>
+
+                  <h3>Add a Contact</h3>
+                </div>
+                <div class="modal-body">
+                  <%= fields_for @contact do |contact| %>
+                      <div class="blabel">Name</div>
+                      <%= contact.text_field :name %>
+                      <br>
+                      <%= contact.fields_for :phones, @phone do |phone| %>
+                          <div class="blabel">Phone</div>
+                          <%= phone.phone_field :name %>
+                      <% end %>
+                      <br>
+                      <%= contact.fields_for :emails, @email do |email| %>
+                          <div class="blabel">Email</div>
+                          <%= email.text_field :name %>
+                      <% end %>
+                  <% end %>
+                </div>
+                <div class="modal-footer">
+                  <%= b.submit "Save Changes", :class => "btn btn-primary" %>
+                  <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
+        </div>
+
+
+    <% end %>
+<% end %>
+
+

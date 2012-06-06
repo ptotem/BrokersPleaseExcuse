@@ -12,7 +12,7 @@ class TasksControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :quick_form
     assert_response :success
   end
 
@@ -30,7 +30,7 @@ class TasksControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, id: @task
+    get :detailed_form, id: @task
     assert_response :success
   end
 

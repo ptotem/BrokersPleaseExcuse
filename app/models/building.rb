@@ -8,8 +8,6 @@ class Building < ActiveRecord::Base
   has_and_belongs_to_many :facilities
   has_and_belongs_to_many :facility_features
   has_and_belongs_to_many :restrictions
-  has_many :approach_qualities, :dependent => :destroy
-  has_many :building_qualities, :dependent => :destroy
   has_many :building_notes, :dependent => :destroy
   has_many :building_routes, :dependent => :destroy
   has_many :landmarks, :dependent => :destroy
@@ -24,8 +22,6 @@ class Building < ActiveRecord::Base
 
 
   accepts_nested_attributes_for :flats, :reject_if => proc { |attrs| reject = %w(name bhk_config_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
-  accepts_nested_attributes_for :building_qualities, :reject_if => proc { |attrs| reject = %w(quality_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
-  accepts_nested_attributes_for :approach_qualities, :reject_if => proc { |attrs| reject = %w(quality_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :moving_charges, :reject_if => :all_blank, :allow_destroy => true
 
 
@@ -47,7 +43,7 @@ class Building < ActiveRecord::Base
   end
 
 
-  acts_as_gmappable
+  #acts_as_gmappable
 
   def gmaps4rails_address
 #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki

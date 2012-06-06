@@ -6,6 +6,8 @@ class CreateBuildings < ActiveRecord::Migration
       t.string :road
       t.integer :pincode
       t.integer :primary_locality_id
+      t.integer :approach_quality_id
+      t.integer :building_quality_id
       t.float :latitude
       t.float :longitude
 

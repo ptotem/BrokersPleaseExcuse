@@ -26,7 +26,7 @@ class BuildingsController < ApplicationController
 
   # GET /buildings/new
   # GET /buildings/new.json
-  def new
+  def quick_form
 
     if params[:building_id].blank?
       @building = Building.new
@@ -68,28 +68,47 @@ class BuildingsController < ApplicationController
   end
 
   # GET /buildings/1/edit
-  def edit
+  def detailed_form
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
-    @expected_rent = @flat.expected_rents.last
-    @available_from = @flat.available_froms.build if @flat.available_froms.last.nil?
-    @json = Building.all.to_gmaps4rails
-    #@markers = Building.all.to_gmaps4rails    #@markers contain valid json to pass to the view
-    @building_selected = true
-
 
     @buildings = Building.all
     @localities = Locality.all
     @bhks=BhkConfig.all
     @sources=Flatype.all
     @furnstats=Furnstat.all
-    @moving_requirements=MovingRequirement.all
-    @services=Service.all
     @contacts=Contact.all
-    @contact_types=ContactType.all
-    @qualities= Quality.all
-    @restrictions= Restriction.all
+    @contact_types=Labelling.where("is_flat_contact_label=?", true).all
     @rent_year= RentYear.where('name=?', Time.now.year).first
+
+    @expected_rent = @flat.expected_rents.first
+    @available_from = @flat.available_froms.first
+
+    if params[:contact]
+      @default_contact_id=params[:contact]
+    else
+      @default_contact_id=0
+    end
+
+    @flat_contacts=@flat.flat_contacts.build
+    @contact=@flat.contacts.build
+    @phone=@contact.phones.build
+    @email=@contact.emails.build
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @building }
+    end
+  end
+
+  def building_features
+    @building = Building.find(params[:building_id])
+    @flat = Flat.find(params[:id])
+    #@json = Building.all.to_gmaps4rails
+    #@markers = Building.all.to_gmaps4rails    #@markers contain valid json to pass to the view
+
+    @moving_requirements=MovingRequirement.all
+    @qualities= Quality.all
 
     @facilities=Facility.where("is_building=?", true)
     @features=Hash.new
@@ -97,42 +116,31 @@ class BuildingsController < ApplicationController
       @features[facility.name]=facility.facility_features
     end
 
-    @flat_facilities=Facility.where("is_building=?", false)
-    @flat_features=Hash.new
-    @flat_facilities.each do |facility|
-      @flat_features[facility.name]=facility.facility_features
-    end
-
-
-    @flat_contacts=@flat.flat_contacts.build
-
-
-    @building_service = @building.building_services.build
-    @building_localities = @building.building_localities.build
-
-    @contact=Contact.new
-    @phone=@contact.phones.build
-    @email=@contact.emails.build
-
-
-    @flat.flat_notes.build
     @building.building_notes.build
 
-    unless @building_quality= BuildingQuality.find_by_building_id(@building.id)
-      @building_quality=@building.building_qualities.build
-    end
-    unless @approach_quality= ApproachQuality.find_by_building_id(@building.id)
-      @approach_quality=@building.approach_qualities.build
-    end
-    unless @interiors_quality= InteriorsQuality.find_by_flat_id(@flat.id)
-      @interiors_quality=@flat.interiors_qualities.build
-    end
-    unless @view_quality= ViewQuality.find_by_flat_id(@flat.id)
-      @view_quality=@flat.view_qualities.build
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @building }
     end
 
+  end
 
-    unless @flat_restrictions= @flat.flat_restrictions
+  def flat_features
+    @flat = Flat.find(params[:id])
+    @building = @flat.building
+
+    @qualities = Quality.all
+    @restrictions = Restriction.all
+
+    @flat_facilities = Facility.where("is_building=?", false)
+    @flat_features = Hash.new
+    @flat_facilities.each do |facility|
+      @flat_features[facility.name] = facility.facility_features
+    end
+
+    @flat.flat_notes.build
+
+    unless @flat_restrictions = @flat.flat_restrictions
       @flat_restrictions=@flat.flat_restrictions.build
     end
 
@@ -143,10 +151,10 @@ class BuildingsController < ApplicationController
 
   end
 
+
   # POST /buildings
   # POST /buildings.json
   def create
-
 
     @building = Building.new(params[:building])
 
@@ -164,7 +172,7 @@ class BuildingsController < ApplicationController
           format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice: 'Building was successfully created.' }
           format.json { render json: @building, status: :created, location: @building }
         else
-          format.html { render action: "new" }
+          format.html { render action: "quick_form" }
           format.json { render json: @building.errors, status: :unprocessable_entity }
         end
       end
@@ -177,61 +185,69 @@ class BuildingsController < ApplicationController
   def update
 
     @building = Building.find(params[:id])
+
     @contact = Contact.new(params[:contact])
+    if !@contact.name.blank?
+      @contact.save!
+    end
 
     respond_to do |format|
       if @building.update_attributes(params[:building])
-        if !@contact.name.blank?
-          @contact.save!
+
+        case params[:came_from]
+          when nil
+            @flat=Flat.last
+            format.html { redirect_to edit_property_basic_path(@building, @flat), notice: 'Property was successfully created.' }
+          when 'basic'
+            @flat=Flat.find(params[:flat_id])
+            format.html { redirect_to edit_property_location_path(@building, @flat), notice: 'Basic Property data was successfully updated.' }
+          when 'location'
+            @flat=Flat.find(params[:flat_id])
+            format.html { redirect_to edit_property_building_features_path(@building, @flat), notice: 'Property Location details were successfully updated.' }
+          when 'building_features'
+            @flat=Flat.find(params[:flat_id])
+            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice: 'Building Features were successfully updated.' }
+          when 'flat_features'
+            @flat=Flat.find(params[:flat_id])
+            unless params[:flat].blank?
+              @facility_ids= params[:flat][:facility_ids]
+              @facility_feature_ids= params[:flat][:facility_feature_ids]
+              unless params[:flat][:facility_ids].blank?
+                FlatFacility.find_all_by_flat_id(@flat).each do |facility|
+                  facility.destroy
+                end
+                FlatFacilityFeature.find_all_by_flat_id(@flat).each do |feature|
+                  feature.destroy
+                end
+              end
+              unless params[:flat][:facility_feature_ids].blank?
+                @facility_ids.each do |facility_id|
+                  FlatFacility.create!(:flat_id => @flat.id, :facility_id => facility_id)
+                end
+                @facility_feature_ids.each do |feature_id|
+                  FlatFacilityFeature.create!(:flat_id => @flat.id, :facility_feature_id => feature_id)
+                end
+              end
+
+              @restriction_ids=params[:flat][:restriction_ids]
+              unless params[:flat][:restriction_ids].blank?
+                FlatRestriction.find_all_by_flat_id(@flat).each do |restriction|
+                  restriction.destroy
+                end
+                @restriction_ids.each do |restriction_id|
+                  FlatRestriction.create!(:flat_id => @flat.id, :restriction_id => restriction_id)
+                end
+              end
+
+            end
+            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice: 'Flat Utilities and Features were successfully updated.' }
         end
-
-        if !params[:came_from_edit].nil?
-          @flat=Flat.find(params[:came_from_edit])
-
-          if params[:flat]
-            @facility_ids= params[:flat][:facility_ids]
-            @facility_feature_ids= params[:flat][:facility_feature_ids]
-
-            FlatFacility.find_all_by_flat_id(@flat).each do |facility|
-              facility.destroy
-            end
-            FlatFacilityFeature.find_all_by_flat_id(@flat).each do |feature|
-              feature.destroy
-            end
-
-            @facility_ids.each do |facility_id|
-              FlatFacility.create!(:flat_id => @flat.id, :facility_id => facility_id)
-            end
-            @facility_feature_ids.each do |feature_id|
-              FlatFacilityFeature.create!(:flat_id => @flat.id, :facility_feature_id => feature_id)
-            end
-
-            @restriction_ids=params[:flat][:restriction_ids]
-            FlatRestriction.find_all_by_flat_id(@flat).each do |restriction|
-              restriction.destroy
-            end
-            @restriction_ids.each do |restriction_id|
-              FlatRestriction.create!(:flat_id => @flat.id, :restriction_id => restriction_id)
-            end
-          end
-
-
-          format.html { redirect_to edit_property_path(@building, @flat), notice: 'Building was successfully updated.' }
-        else
-          @flat=Flat.last
-          format.html { redirect_to edit_property_path(@building, @flat), notice: 'Building was successfully updated.' }
-          format.json { head :no_content }
-        end
-
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @building.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /buildings/1
-  # DELETE /buildings/1.json
+# DELETE /buildings/1
+# DELETE /buildings/1.json
   def destroy
     @building = Building.find(params[:id])
     @building.destroy
@@ -277,17 +293,16 @@ class BuildingsController < ApplicationController
   def update_photo_sequence
 
 
-
-
     @flat=Flat.find(params["flat_id"])
-    @flat.photos.each_with_index do |photo,index|
+    @flat.photos.each_with_index do |photo, index|
 
       photo.sequence_number=params[photo.id.to_s]
       photo.save!
     end
-    render :text=>"OK"
+    render :text => "OK"
 
   end
+
 end
 
 

@@ -22,15 +22,11 @@ class Flat < ActiveRecord::Base
   has_many :contacts, :through => :flat_contacts
   has_many :flat_restrictions, :dependent => :destroy
   has_many :restrictions, :through => :flat_restrictions
-  has_many :interiors_qualities, :dependent => :destroy
-  has_many :view_qualities, :dependent => :destroy
   has_many :parkings, :dependent => :destroy
   has_many :rental_terms, :dependent => :destroy
   has_many :showings, :dependent => :destroy
   has_many :photos, :dependent => :destroy
 
-  accepts_nested_attributes_for :interiors_qualities, :reject_if => proc { |attrs| reject = %w(quality_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
-  accepts_nested_attributes_for :view_qualities, :reject_if => proc { |attrs| reject = %w(quality_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :flat_notes, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :expected_rents, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true

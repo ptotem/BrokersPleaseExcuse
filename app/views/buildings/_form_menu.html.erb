@@ -1,0 +1,31 @@
+<div class="content" style="margin-top: 25px;">
+  <div class="row-fluid">
+    <div class="span5">
+      <h1 style="margin-left: 20px">
+        <div class="blabel">Property</div>
+        <small>Detailed Input Form</small>
+      </h1>
+      <h3 style="margin-left: 20px">
+        <div class="blabel">Building:</div>
+        <small><%= @building.name %>, <%= @building.main_locality.name %></small>
+        <br>
+
+        <div class="blabel">
+          Flat Key:
+        </div>
+        <small><%= @flat.flat_key.upcase %></small>
+      </h3>
+    </div>
+    <div class="span7">
+      <div class="row-fluid" style="margin-top: 20px;">
+        <%= link_to "Basic Data", edit_property_basic_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "basic" %>
+        <%= link_to "Location", edit_property_location_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "location" %>
+        <%= link_to "Building", edit_property_building_features_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "building" %>
+        <%= link_to "Flat", edit_property_flat_features_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "flat" %>
+        <%= link_to "More Info", '#', :class => "btn btn-inverse btn-large panel-link", :id => "info" %>
+        <%= link_to "Photos", '#', :class => "btn btn-inverse btn-large panel-link", :id => "photos" %>
+        <%= link_to "Tag Photos", '#', :class => "btn btn-inverse btn-large panel-link", :id => "tag-photos" %>
+      </div>
+    </div>
+  </div>
+</div>

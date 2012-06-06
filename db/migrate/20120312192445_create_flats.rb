@@ -4,6 +4,8 @@ class CreateFlats < ActiveRecord::Migration
       t.integer :building_id
       t.integer :bhk_config_id
       t.integer :direction_id
+      t.integer :interiors_quality_id
+      t.integer :view_quality_id
       t.string :name
       t.string :flat_key
       t.integer :area

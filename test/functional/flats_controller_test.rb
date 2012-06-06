@@ -12,7 +12,7 @@ class FlatsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :quick_form
     assert_response :success
   end
 
@@ -30,7 +30,7 @@ class FlatsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, id: @flat
+    get :detailed_form, id: @flat
     assert_response :success
   end
 

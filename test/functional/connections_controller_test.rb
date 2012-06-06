@@ -12,7 +12,7 @@ class ConnectionsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :quick_form
     assert_response :success
   end
 
@@ -30,7 +30,7 @@ class ConnectionsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, id: @connection
+    get :detailed_form, id: @connection
     assert_response :success
   end
 
