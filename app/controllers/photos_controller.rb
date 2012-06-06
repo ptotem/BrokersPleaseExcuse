@@ -72,7 +72,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to photos_path(:flat_id => @photo.flat_id), notice: 'Photo was successfully updated.' }
+        format.html { redirect_to edit_property_flat_photos_path(@photo.flat.building,@photo.flat), notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
