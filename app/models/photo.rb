@@ -16,4 +16,16 @@ class Photo < ActiveRecord::Base
 
   #relatioships
   belongs_to :flat
+
+  before_create :name_photo_from_file
+  after_create :assign_sequence_number
+  def name_photo_from_file
+    self.name=self.image_file_name.split(".")[0]
+  end
+
+  def assign_sequence_number
+    self.sequence_number=self.flat.photos.count
+    self.save!
+
+  end
 end

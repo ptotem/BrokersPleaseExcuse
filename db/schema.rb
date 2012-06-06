@@ -447,6 +447,7 @@ ActiveRecord::Schema.define(:version => 20120606112055) do
     t.integer  "building_id"
     t.boolean  "tagging_allowed"
     t.boolean  "is_floor_plan",   :default => false
+    t.boolean  "showcase_image",  :default => false
   end
 
   create_table "poi_types", :force => true do |t|

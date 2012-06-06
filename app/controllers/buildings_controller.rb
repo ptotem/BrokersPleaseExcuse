@@ -9,7 +9,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @buildings }
+      format.json { render json :@buildings }
     end
   end
 
@@ -20,7 +20,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @building }
+      format.json { render json :@building }
     end
   end
 
@@ -63,7 +63,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @building }
+      format.json { render json :@building }
     end
   end
 
@@ -97,7 +97,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @building }
+      format.json { render json :@building }
     end
   end
 
@@ -120,7 +120,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @building }
+      format.json { render json :@building }
     end
 
   end
@@ -152,7 +152,7 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @building }
+      format.json { render json :@building }
     end
 
   end
@@ -169,17 +169,18 @@ class BuildingsController < ApplicationController
     respond_to do |format|
 
       if !@contact.name.blank? && @contact.save!
-        format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice: 'Contact was successfully created.' }
+        format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice:'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
-        format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), notice: "You selected #{@selected_building.name}. Now add the flat." }
+        format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), notice:"You selected #{@selected_building.name}. Now add the flat." }
       else
         if @building.save
-          format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice: 'Building was successfully created.' }
-          format.json { render json: @building, status: :created, location: @building }
+
+          format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice:'Building was successfully created.' }
+          format.json { render json :@building, :status => :created, :location => @building }
         else
-          format.html { render action: "quick_form" }
-          format.json { render json: @building.errors, status: :unprocessable_entity }
+          format.html { render action :"quick_form" }
+          format.json { render json :@building.errors, :status => :unprocessable_entity }
         end
       end
 
@@ -197,22 +198,26 @@ class BuildingsController < ApplicationController
       @contact.save!
     end
 
+
     respond_to do |format|
       if @building.update_attributes(params[:building])
 
         case params[:came_from]
           when nil
             @flat=Flat.last
-            format.html { redirect_to edit_property_basic_path(@building, @flat), notice: 'Property was successfully created.' }
+
+            format.html { redirect_to edit_property_basic_path(@building, @flat), notice:'Property was successfully created.' }
+
           when 'basic'
             @flat=Flat.find(params[:flat_id])
-            format.html { redirect_to edit_property_location_path(@building, @flat), notice: 'Basic Property data was successfully updated.' }
+
+            format.html { redirect_to edit_property_location_path(@building, @flat), notice:'Basic Property data was successfully updated.' }
           when 'location'
             @flat=Flat.find(params[:flat_id])
-            format.html { redirect_to edit_property_building_features_path(@building, @flat), notice: 'Property Location details were successfully updated.' }
+            format.html { redirect_to edit_property_building_features_path(@building, @flat), notice:'Property Location details were successfully updated.' }
           when 'building_features'
             @flat=Flat.find(params[:flat_id])
-            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice: 'Building Features were successfully updated.' }
+            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice:'Building Features were successfully updated.' }
           when 'flat_features'
             @flat=Flat.find(params[:flat_id])
 
@@ -249,7 +254,7 @@ class BuildingsController < ApplicationController
               end
 
             end
-            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice: 'Flat Utilities and Features were successfully updated.' }
+            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
         end
       end
     end
@@ -281,34 +286,19 @@ class BuildingsController < ApplicationController
 
   end
 
-  def save_photo_positions
 
 
-    @no_of_records=params[:fields].count
 
-
-    @no_of_records.times do |i|
-      @photo=Photo.find(params[:fields][i][:photo_id])
-      @photo.xpos=params[:fields][i][:xpos]
-      @photo.ypos=params[:fields][i][:ypos]
-      @photo.save!
-    end
-
-    render :text => "DOne"
-
+  def location
+   @building = Building.find(params[:building_id])
+   #  @flat=Flat.find(params[:id])
 
   end
 
-  def update_photo_sequence
-
-
-    @flat=Flat.find(params["flat_id"])
-    @flat.photos.each_with_index do |photo, index|
-
-      photo.sequence_number=params[photo.id.to_s]
-      photo.save!
-    end
-    render :text => "OK"
+  def photos
+    @flat=Flat.find(params[:id])
+    @photos = Photo.all
+    @photo=Photo.new
 
   end
 
