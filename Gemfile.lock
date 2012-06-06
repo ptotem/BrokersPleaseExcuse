@@ -92,7 +92,6 @@ GEM
       formtastic
       rails (~> 3.1)
     geocoder (1.1.1)
-    gmaps4rails (1.5.2)
     gritter (1.0.1)
     haml (3.1.5)
     hike (1.2.1)
@@ -222,7 +221,6 @@ DEPENDENCIES
   formtastic (~> 2.1.1)
   formtastic-bootstrap
   geocoder
-  gmaps4rails
   jquery-rails
   jquery_datepicker
   nested_form!
