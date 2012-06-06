@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120604173642) do
+ActiveRecord::Schema.define(:version => 20120606112055) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -40,6 +40,19 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.integer  "flat_id"
     t.string   "name"
     t.integer  "value"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "balcony_type_id"
+  end
+
+  create_table "balcony_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "bathroom_types", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -48,8 +61,9 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.integer  "flat_id"
     t.string   "name"
     t.integer  "value"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "bathroom_type_id"
   end
 
   create_table "bhk_configs", :force => true do |t|
@@ -132,6 +146,7 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.integer  "primary_locality_id"
     t.integer  "approach_quality_id"
     t.integer  "building_quality_id"
+    t.integer  "moving_charge"
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "created_at",          :null => false
@@ -392,14 +407,13 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "moving_charges", :force => true do |t|
-    t.integer  "building_id"
-    t.integer  "value"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "moving_requirements", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "moving_requirements", :force => true do |t|
+  create_table "parking_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -409,8 +423,9 @@ ActiveRecord::Schema.define(:version => 20120604173642) do
     t.integer  "flat_id"
     t.string   "name"
     t.integer  "value"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "parking_type_id"
   end
 
   create_table "phones", :force => true do |t|

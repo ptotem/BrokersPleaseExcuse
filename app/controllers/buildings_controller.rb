@@ -127,12 +127,12 @@ class BuildingsController < ApplicationController
 
   def flat_features
 
-    @building = Building.find(params[:building_id])
-   # @building.flats.build
     @flat = Flat.find(params[:id])
+    @building = @flat.building
 
     @qualities = Quality.all
     @restrictions = Restriction.all
+    @directions = Direction.all
 
     @flat_facilities = Facility.where("is_building=?", false)
     @flat_features = Hash.new
@@ -145,6 +145,10 @@ class BuildingsController < ApplicationController
     unless @flat_restrictions = @flat.flat_restrictions
       @flat_restrictions=@flat.flat_restrictions.build
     end
+
+    @bathrooms=@flat.bathrooms
+    @parkings=@flat.parkings
+    @balconies=@flat.balconies
 
     respond_to do |format|
       format.html # new.html.erb
@@ -194,8 +198,7 @@ class BuildingsController < ApplicationController
     end
 
     respond_to do |format|
-
-      if @building.update_attributes!(params[:building])
+      if @building.update_attributes(params[:building])
 
         case params[:came_from]
           when nil
@@ -212,9 +215,6 @@ class BuildingsController < ApplicationController
             format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice: 'Building Features were successfully updated.' }
           when 'flat_features'
             @flat=Flat.find(params[:flat_id])
-
-            logger.debug params[:building]
-
             unless params[:flat].blank?
               @facility_ids= params[:flat][:facility_ids]
               @facility_feature_ids= params[:flat][:facility_feature_ids]

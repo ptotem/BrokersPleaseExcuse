@@ -13,7 +13,7 @@
   <div class="row-fluid">
     <div class="span4" style="padding-top: 5px;padding-bottom: 5px;">
       Property Id: <strong><%= @flat.flat_key %></strong> |
-      <small><%= link_to "Edit", edit_property_path(@flat.building, @flat) %></small>
+      <small><%= link_to "Edit", edit_property_basic_path(@flat.building, @flat) %></small>
       <br>
       <%= @flat.building.main_locality.name %>, <%= @flat.building.main_locality.area.name %>
       , <%= @flat.building.main_locality.area.city.name %>
@@ -159,16 +159,19 @@
   <div class="row-fluid span12" >
     <div class="span2 blocky" style="margin-left: -20px">
       <div class="slabel">Area</div>
-      1800 sft
+      <%= @flat.area %>
       <br>
       <div class="slabel">Floor</div>
-      3rd
+      <%= @flat.floor %>
       <br>
       <div class="slabel">Bathrooms</div>
-      2
+      <%= @flat.bathrooms.sum{|b| b.value} %>
+      <br>
+      <div class="slabel">Balconies</div>
+      <%= @flat.balconies.sum{|b| b.value} %>
       <br>
       <div class="slabel">Parking</div>
-      1
+      <%= @flat.parkings.sum{|b| b.value} %>
       <br>
       <br>
       <div class="slabel">Landlord</div>
@@ -181,6 +184,7 @@
       <br>
     </div>
     <div class="span6">
+      <h2>The Building</h2>
     </div>
     <div class="span4">
     </div>
