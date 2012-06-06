@@ -8,6 +8,7 @@ class CreateBuildings < ActiveRecord::Migration
       t.integer :primary_locality_id
       t.integer :approach_quality_id
       t.integer :building_quality_id
+      t.integer :moving_charge
       t.float :latitude
       t.float :longitude
 

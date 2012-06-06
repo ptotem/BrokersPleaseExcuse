@@ -10,8 +10,8 @@
 
       <div class="span6 blocky">
         <% InteractionType.all.each do |interaction| %>
-            <%= f.radio_button :interaction_type_id, interaction.id %>
-            <%= interaction.name %>
+            <%= f.radio_button :interaction_type_id, interaction.id, :id=>"interaction_#{interaction.id}" %>
+            <%= f.label interaction.name, :for=>"interaction_#{interaction.id}", :class=>"pointered" %>
         <% end %>
 
 
