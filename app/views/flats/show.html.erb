@@ -156,37 +156,108 @@
   </div>
 </div>
 <div class="content" style="margin-top: 10px;height:350px;">
-  <div class="row-fluid span12" >
+  <div class="row-fluid span12">
+
     <div class="span2 blocky" style="margin-left: -20px">
+      <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
+      <div class="show-block">
+        4A/12, Kalpataru Estate,
+        <br>
+        Jogeshwari Vikhroli Link Road,
+        <br>
+        Andheri East, Mumbai
+        <br>
+        <br>
+      </div>
+
       <div class="slabel">Area</div>
       <%= @flat.area %>
       <br>
+
       <div class="slabel">Floor</div>
       <%= @flat.floor %>
       <br>
+
+      <div class="slabel">Facing</div>
+      <%= @flat.direction.name %>
+      <br>
+
       <div class="slabel">Bathrooms</div>
-      <%= @flat.bathrooms.sum{|b| b.value} %>
+      <%= @flat.bathrooms.sum { |b| b.value } %>
       <br>
+
       <div class="slabel">Balconies</div>
-      <%= @flat.balconies.sum{|b| b.value} %>
+      <%= @flat.balconies.sum { |b| b.value } %>
       <br>
+
       <div class="slabel">Parking</div>
-      <%= @flat.parkings.sum{|b| b.value} %>
+      <%= @flat.parkings.sum { |b| b.value } %>
       <br>
       <br>
-      <div class="slabel">Landlord</div>
+
+      <% @flat.flat_contacts.each do |flat_contact| %>
+          <div class="slabel"><%= flat_contact.labelling.name %></div>
+          <br>
+          <%= link_to flat_contact.contact.name, flat_contact.contact %>
+          <br>
+          <span style="font-size:10px;font-style: italic; "><%= flat_contact.name %></span>
+      <% end %>
+
+    </div>
+
+    <div class="span3">
+      <%= image_tag "sample.png" %>
       <br>
-      Arijit Lahiri
+      <%= raw @flat.building.qknote %>
       <br>
-      <div class="slabel">Broker</div>
-      <br>
-      Kenneth Serrao
+      <%= raw @flat.qknote %>
       <br>
     </div>
-    <div class="span6">
-      <h2>The Building</h2>
-    </div>
-    <div class="span4">
+
+    <div class="span7">
+
+      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Building Facilities</div>
+      <div class="show-block">
+        <% @flat.building.facilities.each do |facility| %>
+            <strong><%= facility.name %>:</strong>
+            <%= @flat.building.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
+            <br>
+        <% end %>
+        <br>
+      </div>
+      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Facilities</div>
+      <strong>
+        <% @flat.bathrooms.where("value>?", 0).each do |b| %>
+            <%= "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" %> |
+        <% end %>
+      </strong>
+      <strong>
+        <% @flat.balconies.where("value>?", 0).each do |b| %>
+            <%= "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" %>  |
+        <% end %>
+      </strong>
+      <strong>
+        <% @flat.parkings.where("value>?", 0).each do |b| %>
+            <%= "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" %>  |
+        <% end %>
+      </strong>
+      <br>
+
+      <div class="show-block">
+        <% @flat.facilities.each do |facility| %>
+            <strong><%= facility.name %>:</strong>
+            <%= @flat.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
+            <br>
+        <% end %>
+
+        <br>
+      </div>
+      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Restrictions</div>
+      <div class="show-block">
+        <strong><%= @flat.restrictions.map { |r| r.name }.join(", ") %></strong>
+        <br>
+        <br>
+      </div>
     </div>
   </div>
 </div>

@@ -297,6 +297,7 @@ class BuildingsController < ApplicationController
   end
 
   def photos
+    @building=Building.find(params[:building_id])
     @flat=Flat.find(params[:id])
     @photos = Photo.all
     @photo=Photo.new

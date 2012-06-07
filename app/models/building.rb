@@ -11,7 +11,6 @@ class Building < ActiveRecord::Base
   has_many :building_notes, :dependent => :destroy
   has_many :building_routes, :dependent => :destroy
   has_many :landmarks, :dependent => :destroy
-  has_many :moving_charges, :dependent => :destroy
   has_many :building_services, :dependent => :destroy
   has_many :services, :through => :building_services
 
@@ -22,14 +21,10 @@ class Building < ActiveRecord::Base
 
 
   accepts_nested_attributes_for :flats, :reject_if => proc { |attrs| reject = %w(name bhk_config_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
-  accepts_nested_attributes_for :moving_charges, :reject_if => :all_blank, :allow_destroy => true
-
-
   accepts_nested_attributes_for :building_notes, :reject_if => proc { |attrs| reject = %w(name).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :building_routes, :reject_if => proc { |attrs| reject = %w(name).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :building_services, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_localities, :reject_if => lambda { |a| a[:locality_id].blank? }, :allow_destroy => true
-
   accepts_nested_attributes_for :building_facilities, :reject_if => lambda { |a| a[:facility_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :building_facility_features, :reject_if => lambda { |a| a[:facility_feature_id].blank? }, :allow_destroy => true
 

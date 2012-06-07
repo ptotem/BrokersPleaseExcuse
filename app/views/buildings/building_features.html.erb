@@ -11,7 +11,13 @@
           <div class="row-fluid">
             <div class="span5">
 
-              <h2>Building Details</h2>
+              <h2>Description</h2>
+
+              <%= b.text_area :qknote, :rows => 2, :class => "span5" %>
+
+              <br/>
+
+              <h2>Details</h2>
 
               <div class="row-fluid">
                 <div class="span3">
@@ -31,6 +37,7 @@
               </div>
 
               <br>
+
               <h2>Moving Requirements</h2>
 
               <div class="row-fluid">
@@ -53,30 +60,20 @@
                 </div>
               </div>
 
-
-              <h2>Building Notes</h2>
-
-              <%= b.fields_for :building_notes do |builder| %>
-                  <%= builder.text_area :name, :rows => 2, :class => "span5" %>
-                  <%= builder.link_to_remove "Remove" %>
-              <% end %>
-
-              <%= b.link_to_add 'Add Note', :building_notes %>
-              <br/>
               <br/>
 
               <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
 
             </div>
             <div class="span6">
-              <h2>Building Facilities</h2>
+              <h2>Facilities</h2>
 
               <div class="row-fluid">
                 <div class="span12">
                   <% @facilities.each do |facility| -%>
                       <div>
                         <%= hidden_field_tag 'building[facility_ids][]', nil %>
-                        <%= check_box_tag :facility_ids, facility.id, @building.facilities.include?(facility), :name => 'building[facility_ids][]', :onchange => "$(this).next().next().toggle();" %>
+                        <%= check_box_tag :facility_ids, facility.id, @building.facilities.include?(facility), :name => 'building[facility_ids][]', :onchange => "$(this).next().next().toggle().find('input').attr('checked',false);" %>
                         <%= label_tag :facility_ids, facility.name -%>
 
                         <% if @building.facility_ids.include?(facility.id) %>

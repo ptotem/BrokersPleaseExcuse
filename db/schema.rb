@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120606112055) do
+ActiveRecord::Schema.define(:version => 20120607040824) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -326,6 +326,7 @@ ActiveRecord::Schema.define(:version => 20120606112055) do
     t.datetime "updated_at",           :null => false
     t.integer  "furnstat_id"
     t.integer  "flatype_id"
+    t.text     "qknote"
   end
 
   create_table "flatypes", :force => true do |t|
