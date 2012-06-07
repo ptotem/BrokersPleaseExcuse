@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607040824) do
+ActiveRecord::Schema.define(:version => 20120607071736) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20120607040824) do
     t.integer  "moving_charge"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "landmark"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.text     "qknote"
@@ -383,13 +384,6 @@ ActiveRecord::Schema.define(:version => 20120607040824) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.boolean  "is_flat_contact_label"
-  end
-
-  create_table "landmarks", :force => true do |t|
-    t.integer  "building_id"
-    t.string   "name"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
   end
 
   create_table "localities", :force => true do |t|

@@ -155,10 +155,11 @@
     </div>
   </div>
 </div>
-<div class="content" style="margin-top: 10px;height:350px;">
-  <div class="row-fluid span12">
+<div class="content" style="margin-top: 10px;">
+  <div class="row-fluid">
 
-    <div class="span2 blocky" style="margin-left: -20px">
+    <div class="span2 blocky">
+
       <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
       <div class="show-block">
         4A/12, Kalpataru Estate,
@@ -171,7 +172,7 @@
       </div>
 
       <div class="slabel">Area</div>
-      <%= @flat.area %>
+      <%= @flat.area %> sq.ft.
       <br>
 
       <div class="slabel">Floor</div>
@@ -195,6 +196,7 @@
       <br>
       <br>
 
+
       <% @flat.flat_contacts.each do |flat_contact| %>
           <div class="slabel"><%= flat_contact.labelling.name %></div>
           <br>
@@ -203,20 +205,25 @@
           <span style="font-size:10px;font-style: italic; "><%= flat_contact.name %></span>
       <% end %>
 
+      <br>
     </div>
 
     <div class="span3">
       <%= image_tag "sample.png" %>
       <br>
+
+      <h2>Description</h2>
       <%= raw @flat.building.qknote %>
       <br>
       <%= raw @flat.qknote %>
       <br>
+      <br>
+      <br>
     </div>
 
-    <div class="span7">
+    <div class="span6">
 
-      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Building Facilities</div>
+      <div class="small-head"><%= image_tag "icons/building_features.png" %>Building Facilities</div>
       <div class="show-block">
         <% @flat.building.facilities.each do |facility| %>
             <strong><%= facility.name %>:</strong>
@@ -252,9 +259,18 @@
 
         <br>
       </div>
-      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Restrictions</div>
+      <div class="small-head"><%= image_tag "icons/restriction.png" %>Flat Restrictions</div>
       <div class="show-block">
         <strong><%= @flat.restrictions.map { |r| r.name }.join(", ") %></strong>
+        <br>
+        <br>
+      </div>
+      <div class="small-head"><%= image_tag "icons/moving.png" %>Moving Prerequisites</div>
+      <div class="show-block">
+        <strong><%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %></strong>
+        <br>
+        <strong>Moving Charges:</strong>
+        <%= @flat.building.moving_charge %>
         <br>
         <br>
       </div>

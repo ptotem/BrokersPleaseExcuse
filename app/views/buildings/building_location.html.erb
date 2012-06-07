@@ -1,48 +1,37 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAgrj58PbXr2YriiRDqbnL1RSqrCjdkglBijPNIIYrqkVvD1R4QxRl47Yh2D_0C1l5KXQJGrbkSDvXFA" type="text/javascript"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 <script type="text/javascript">
+
+    function stopRKey(evt) {
+        var evt = (evt) ? evt : ((event) ? event : null);
+        var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+        if ((evt.keyCode == 13) && (node.type == "text")) {
+            return false;
+        }
+    }
+
+    document.onkeypress = stopRKey;
 
     var map;
     var myLatlng = new google.maps.LatLng(18.9647, 72.8258);
     function initialize() {
 
         var myOptions = {
-            zoom:4,
+            zoom:17,
             center:myLatlng,
             mapTypeId:google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById('map'),
                 myOptions);
 
-        // Try HTML5 geolocation
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = new google.maps.LatLng(position.coords.latitude,
-                        position.coords.longitude);
-
-                //the image is not coming properly hence commented out
-//                var infowindow = new google.maps.InfoWindow({
-//                    map:map,
-//                    position:pos,
-//                    content:'Showing your Current Location '
-//                });
-
-                map.setCenter(pos);
-            }, function () {
-
-                handleNoGeolocation(true);
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleNoGeolocation(false);
-        }
         //this is the code for marker
         var marker = new google.maps.Marker({
+            draggable:true,
             position:myLatlng,
             map:map,
             title:"This is where you are"
         });
-
+        marker.setIcon("/assets/marker.png");
 
         //this is the code for search in the map
         geocoder = new google.maps.Geocoder();
@@ -65,13 +54,6 @@
                 map.setZoom(17);  // Why 17? Because it looks good.
             }
 
-            var image = new google.maps.MarkerImage(
-                    place.icon,
-                    new google.maps.Size(71, 71),
-                    new google.maps.Point(0, 0),
-                    new google.maps.Point(17, 34),
-                    new google.maps.Size(35, 35));
-            marker.setIcon(image);
             marker.setPosition(place.geometry.location);
 
             var address = '';
@@ -86,14 +68,14 @@
             }
 
             infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-            infowindow.open(map, marker);
+//            infowindow.open(map, marker);
         });
 
 
         //this code enables user to click on the market and zoom the map
 
         google.maps.event.addDomListener(marker, 'click', function () {
-            map.setZoom(map.getZoom()*2);
+            map.setZoom(map.getZoom() * 2);
             map.setCenter(marker.getPosition());
         });
 
@@ -101,6 +83,10 @@
 
         //we first add the event listener
         google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+        });
+
+        google.maps.event.addListener(marker, 'drag', function (event) {
             placeMarker(event.latLng);
         });
 
@@ -133,7 +119,13 @@
                             }
                         }
                         else {
-                            document.getElementById("address").value = status;
+
+                            if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+
+                            }
+                            else {
+                                document.getElementById("address").value = status;
+                            }
                         }
                     });
         }
@@ -181,72 +173,87 @@
 
 </script>
 
-
-
 <h2>Location</h2>
 
-<%= nested_form_for(@building, :html => {:class => "submit_on_change"}) do |b| %>
-    <div class="row-fluid">
-      <div class="span3">
-        <%= b.label :road %>
-      </div>
-      <div class="span4">
-        <%= b.text_field :road, :value => @building.road, :class => "span3" %>
-      </div>
-    </div>
+<%= nested_form_for @building do |b| %>
+
     <%= hidden_field_tag :came_from, "location" %>
     <%= hidden_field_tag :flat_id, @flat.id %>
 
-    <div class="row-fluid">
-      <div class="span3">
-        <%= b.label "Also considered to be in" %>
-      </div>
-      <div class="span4">
-        <%#= fields_for 'building_localities[]' do |location| %>
-        <%#= location.select :locality_id, options_from_collection_for_select(@localities, 'id', 'name', @building.building_localities.map { |l| l.id }), {}, {:multiple => true, :class => 'chzn-container-multi span3'} %>
-        <%# end %>
-      </div>
-    </div>
+    <%= render :partial => 'form_menu' %>
+    <br>
+
+    <div class="content detail-panel" id="basic-panel">
+
+      <div class="row-fluid">
+        <div class="span4">
+
+          <h2>Location</h2>
+
+          <div class="row-fluid">
+            <%= b.label :road, :class => "blabel" %>
+            <%= b.text_field :road, :value => @building.road %>
+          </div>
+
+          <div class="row-fluid">
+            <%= b.label "Also considered in", :class => "blabel" %>
+            <%= hidden_field_tag 'building[locality_ids][]', nil %>
+            <%= select_tag 'building[locality_ids][]', options_from_collection_for_select(@localities, 'id', 'name', @building.locality_ids), :multiple => true, :class => 'chzn-container-multi' %>
+          </div>
+
+          <div class="row-fluid">
+            <%= b.label :pincode, :class => "blabel" %>
+            <%= b.text_field :pincode, :value => @building.pincode %>
+          </div>
+
+          <div class="row-fluid">
+            <%= b.label :latitude, :class => "blabel" %>
+            <%= b.number_field :latitude, :value => @building.latitude||=10, :id => "building_address_latitude", :disabled => true %>
+            <%= b.hidden_field :latitude, :value => @building.latitude||=10, :id => "lat_hidden_field" %>
+            <br>
+            <%= b.label :longitude, :class => "blabel" %>
+            <%= b.number_field :longitude, :value => @building.longitude||=10, :id => "building_address_longitude", :disabled => true %>
+            <%= b.hidden_field :longitude, :value => @building.longitude||=10, :id => "lon_hidden_field" %>
+            <br>
+            <br>
+          </div>
 
 
-    <div class="row-fluid">
-      <div class="span3">
-        <%= b.label :pincode %>
+          <div class="row-fluid">
+            <h2>Directions</h2>
+            <%= b.fields_for :building_routes do |builder| %>
+                <%= builder.text_area :name, :rows => 1, :class=>'span4' %>
+                <br>
+                <%= builder.link_to_remove "Remove" %> <br/>
+            <% end %>
+            <%= b.link_to_add 'Add Route', :building_routes %> <br/>
+          </div>
+
+
+
+          <br>
+          <br>
+
+          <div>
+            <%= b.hidden_field :id, :value => @building.id %>
+            <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
+          </div>
+
+        </div>
+
+        <div class="span8">
+          <%= text_field_tag :search, "", :id => "address", :style => "margin-left:20px;" %>
+          <%= link_to "Search", "#", :id => "update-map", :onclick => "codeAddress();", :class => "btn btn-inverse", :style => "margin-top:-10px;" %>
+          <br>
+
+          <div id="map" style="height: 360px;width:600px;" class="span8"></div>
+          <br>
+          <br>
+        </div>
       </div>
-      <div class="span4">
-        <%= b.number_field :pincode, :value => @building.pincode, :class => "span3" %>
-      </div>
-    </div>
-    <hr>
-    <div class="row-fluid">
-      <div class="span2">
-        <%= b.label :latitude %>
-        <%= b.number_field :latitude, :value => @building.latitude||=10, :class => "span3", :id => "building_address_latitude", :disabled => true %>
-        <%= b.hidden_field :latitude, :value => @building.latitude||=10, :id => "lat_hidden_field" %>
-      </div>
-      <div class="span2">
-        <%= b.label :longitude %>
-        <%= b.number_field :longitude, :value => @building.longitude||=10, :class => "span3", :id => "building_address_longitude", :disabled => true %>
-        <%= b.hidden_field :longitude, :value => @building.longitude||=10, :id => "lon_hidden_field" %>
-      </div>
-      <div class="span2">
-        <%= link_to "Search", "#", :id => "update-map", :onclick => "codeAddress();" %>
-        <br>
-        <%= text_field_tag :search, "", :id => "address" %>
-      </div>
+
     </div>
     <br>
-    <div id="map" style="height: 300px;width: 700px">
-
-    </div>
-    <%= b.hidden_field :id, :value => @building.id %>
-    <%= b.submit %>
-    <h2>Directions</h2>
-    <%#= b.fields_for :building_routes do |builder| %>
-    <%#= builder.text_area :name, :rows => 3, :class => "span3" %>
-    <%#= builder.link_to_remove "Remove" %> <br/>
-    <% #end  %>
-    <%#= b.link_to_add 'Add Route', :building_routes %> <br/>
 
 
 <% end %>

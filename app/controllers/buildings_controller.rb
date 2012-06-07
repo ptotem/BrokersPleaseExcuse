@@ -102,6 +102,16 @@ class BuildingsController < ApplicationController
     end
   end
 
+  def building_location
+
+    @building = Building.find(params[:building_id])
+    @flat=Flat.find(params[:id])
+    @localities=Locality.all
+    @building.building_localities.build
+    @building.building_routes.build  unless !@building.building_routes.blank?
+
+  end
+
   def building_features
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
@@ -197,13 +207,15 @@ class BuildingsController < ApplicationController
     @building = Building.find(params[:id])
 
     @contact = Contact.new(params[:contact])
-    if !@contact.name.blank?
-      @contact.save!
-    end
 
 
     respond_to do |format|
       if @building.update_attributes(params[:building])
+
+        if !@contact.name.blank?
+          @contact.save!
+          format.html { redirect_to edit_property_basic_path(@building, @flat)}
+        end
 
         case params[:came_from]
           when nil
@@ -283,16 +295,6 @@ class BuildingsController < ApplicationController
     render :text => contact_option
 
     #TODO: send only the contacts not included previously so the data processing becomes lighter
-
-  end
-
-
-
-
-  def building_location
-
-  @building = Building.find(params[:building_id])
-     @flat=Flat.find(params[:id])
 
   end
 

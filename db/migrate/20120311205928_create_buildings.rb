@@ -11,6 +11,7 @@ class CreateBuildings < ActiveRecord::Migration
       t.integer :moving_charge
       t.float :latitude
       t.float :longitude
+      t.string :landmark
 
       t.timestamps
     end

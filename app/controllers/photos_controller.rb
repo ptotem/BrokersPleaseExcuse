@@ -56,7 +56,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.save
-        format.html { redirect_to edit_property_flat_photos_path(@building,@flat), notice: 'Photo was successfully created.' }
+        format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice: 'Photo was successfully created.' }
         format.json { render json: @photo, status: :created, location: @photo }
       else
         format.html { render action: "new" }
@@ -72,7 +72,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to edit_property_flat_photos_path(@photo.flat.building,@photo.flat), notice: 'Photo was successfully updated.' }
+        format.html { redirect_to edit_property_flat_photos_path(@photo.flat.building, @photo.flat), notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -89,7 +89,7 @@ class PhotosController < ApplicationController
     @photo.destroy
 
     respond_to do |format|
-      format.html { redirect_to photos_url(:flat_id => flat_id) }
+      format.html { redirect_to edit_property_flat_photos_path(@photo.flat.building, @photo.flat), notice: 'Photo was successfully updated.' }
       format.json { head :no_content }
     end
   end
@@ -110,7 +110,7 @@ class PhotosController < ApplicationController
   def delete_all_photos
     @flat=Flat.find(params[:flat_id])
     @flat.photos.destroy_all
-    redirect_to photos_path(:flat_id => @flat.id)
+    redirect_to edit_property_flat_photos_path(@flat.building, @flat), notice: 'Photo was successfully updated.'
   end
 
   def make_showcase_image
@@ -124,6 +124,6 @@ class PhotosController < ApplicationController
 
     @photo.showcase_image=true
     @photo.save!
-    redirect_to photos_path(:flat_id=>@photo.flat_id)
+    redirect_to edit_property_flat_photos_path(@photo.flat.building, @photo.flat), notice: 'Photo was successfully updated.'
   end
 end
