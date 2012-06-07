@@ -20,15 +20,17 @@
   </tr>
   <% @contacts.each do |contact| %>
       <tr>
-        <td><%= link_to contact.name , contact_path(contact),:target => "_blank" %></td>
-        <td><%= contact.phones.map{|phone| phone.name}.join(",") %></td>
-        <td><%= contact.emails.map{|email| email.name}.join(",") %></td>
+        <td><%= link_to contact.name, contact_path(contact), :target => "_blank" %></td>
+        <td><%= contact.phones.map { |phone| phone.name }.join(",") %></td>
+        <td><%= contact.emails.map { |email| email.name }.join(",") %></td>
         <td>All labels</td>
         <td>All Properties</td>
         <%#=TODO:the interaction should be show only if it is not a task  %>
-        <td><%= Interaction.where("primary_contact_id=? ",contact.id).order("interaction_date").last.name %></td>
-        <td><%= Interaction.where("primary_contact_id=? ",contact.id).all.map{|interaction| interaction.taskings.first}.sort{|elea,eleb|elea.due_date<eleb.due_date }.first.interaction.name %></td>
-      </tr>
+        <% unless Interaction.where("primary_contact_id=? ", contact.id).blank? %>
+            <td><%= Interaction.where("primary_contact_id=? ", contact.id).order("interaction_date").last.name %></td>
+            <td><%= Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction| interaction.taskings.first }.sort { |elea, eleb| elea.due_date<eleb.due_date }.first.interaction.name %></td>
+            </tr>
+        <% end %>
   <% end %>
 </table>
 

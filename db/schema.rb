@@ -317,14 +317,14 @@ ActiveRecord::Schema.define(:version => 20120607071736) do
     t.integer  "building_id"
     t.integer  "bhk_config_id"
     t.integer  "direction_id"
-    t.integer  "interiors_quality_id"
-    t.integer  "view_quality_id"
+    t.integer  "interiors_quality_id", :default => 2
+    t.integer  "view_quality_id",      :default => 2
     t.string   "name"
     t.string   "flat_key"
     t.integer  "area"
     t.integer  "floor"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.integer  "furnstat_id"
     t.integer  "flatype_id"
     t.text     "qknote"

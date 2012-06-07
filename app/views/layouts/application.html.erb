@@ -11,9 +11,8 @@
           $('select').chosen();
 
           $("form").live("nested:fieldAdded",function(){
-              $("select").chosen();
-
-          })  ;
+              $(this).find("select").chosen();
+          });
 
           $("form.submit_on_change").each(function (idx, form) {
               $(form).find("select.autosubmit").each(function (idx, element) {

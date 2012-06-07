@@ -5,7 +5,7 @@ class Photo < ActiveRecord::Base
                         :original => {
                             :geometry => "256x256<",
                             :processors => [:qresize, :watermark],
-                            :watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
+                            #:watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
                             :position => "Center"
                         },
                         :thumbnail => {
@@ -19,6 +19,7 @@ class Photo < ActiveRecord::Base
 
   before_create :name_photo_from_file
   after_create :assign_sequence_number
+
   def name_photo_from_file
     self.name=self.image_file_name.split(".")[0]
   end

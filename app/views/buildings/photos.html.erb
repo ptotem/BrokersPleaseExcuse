@@ -8,8 +8,7 @@
 
     #sortable-photos li {
         padding: 1px;
-        float: left;
-        width: 100px;
+        width: 300px;
         font-size: 4em;
         text-align: center;
         margin-left: 40px;
@@ -17,7 +16,7 @@
     }
 
     .image-wrapper {
-        width: 100px;
+        width: 300px;
         padding: 10px 10px 10px 10px;
     }
 </style>
@@ -73,55 +72,66 @@
 </script>
 
 
-<%= nested_form_for @building do |b| %>
+<%= nested_form_for @building, :html => { :multipart => true } do |b| %>
+    <%= b.fields_for :flats, @flat, :html => { :multipart => true } do |f| %>
 
-    <%= hidden_field_tag :came_from, "location" %>
-    <%= hidden_field_tag :flat_id, @flat.id %>
+        <%= hidden_field_tag :came_from, "photos" %>
+        <%= hidden_field_tag :flat_id, @flat.id %>
 
-    <%= render :partial => 'form_menu' %>
-    <br>
+        <%= render :partial => 'form_menu' %>
+        <br>
 
-    <div class="content detail-panel" id="basic-panel">
+        <div class="content detail-panel" id="basic-panel">
 
-      <%= render "photos/form" %>
-
-      <hr>
-
-      <h2>Photo Gallery <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
-      </h2>
-
-      <i>
-        Drag and drop Photos in order to re-order sequence <br>
-        Refresh (F5) to generate fresh sequence numbers<br>
-      </i>
-
-      <div class="span6">
-        <ul id="sortable-photos">
-          <% @flat.photos.order("sequence_number").each_with_index do |photo, index| %>
-
-              <li id="<%= photo.id %>_<%= index %>">
-                <% @backcolor="black" %>
-                <% if photo.showcase_image? %>
-                    <% @backcolor="green" %>
-                <% end %>
-                <div class="image-wrapper" style="background-color: <%= @backcolor %>">
-                  <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
-                  <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
-                  <%= form_for(photo) do |f| %>
-                      <%= f.submit "UPDATE", :class => "btn btn-info" %>
-                      <br>
-                      <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(photo.id) %>
-                      <%= f.text_field :name, :class => "input-small" %>
-                  <% end %>
-                </div>
+          <h2>Add Photos
+            <br>
+            <small> You can choose multiple photos to upload
+            </small>
+          </h2>
 
 
-              </li>
+          <%= file_field_tag 'flat[photos_attributes][][image]', :multiple => true %>
+          <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
 
-          <% end %>
-        </ul>
-      </div>
-    </div>
+          <hr>
+
+          <h2>Photo
+            Gallery <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
+          </h2>
+
+          <i>
+            Drag and drop Photos in order to re-order sequence <br>
+            Refresh (F5) to generate fresh sequence numbers<br>
+          </i>
+
+          <div>
+            <ul id="sortable-photos">
+              <% @flat.photos.order("sequence_number").each_with_index do |photo, index| %>
+
+                  <li id="<%= photo.id %>_<%= index %>">
+                    <% @backcolor="black" %>
+                    <% if photo.showcase_image? %>
+                        <% @backcolor="green" %>
+                    <% end %>
+                    <div class="image-wrapper" style="background-color: <%= @backcolor %>">
+                      <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
+                      <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
+                      <%= form_for(photo) do |f| %>
+                          <%= f.submit "UPDATE", :class => "btn btn-info" %>
+                          <br>
+                          <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(photo.id) %>
+                          <%= f.text_field :name, :class => "input-small" %>
+                      <% end %>
+                    </div>
+
+
+                  </li>
+
+              <% end %>
+            </ul>
+          </div>
+        </div>
+    <% end %>
 <% end %>
 
 

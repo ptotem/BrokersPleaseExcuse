@@ -141,8 +141,9 @@
             </div>
             <div class="span3">
               <h2>Amenities</h2>
-
+                 <!-- TODO Must put after_create on adding a new type-->
               <div>
+
                 <h3>Bathrooms</h3>
                 <% @bathrooms.each do |bathroom| %>
                     <%= f.fields_for :bathrooms, bathroom do |builder| %>

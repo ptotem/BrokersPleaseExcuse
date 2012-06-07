@@ -27,12 +27,12 @@ BPEv075::Application.routes.draw do
 
   devise_for :users
 
-  match "get_contact_list"=>"buildings#get_contact_list"
+  match "get_contact_list" => "buildings#get_contact_list"
 
 
- match "delete_all_photos/:flat_id"=>"photos#delete_all_photos",:as=>"delete_all_photos"
- match "make_showcase_image/:flat_id"=>"photos#make_showcase_image",:as=>"make_showcase_image"
- match "update_photo_sequence"=>"photos#update_photo_sequence",:as=>"update_photo_sequence"
+  match "delete_all_photos/:flat_id" => "photos#delete_all_photos", :as => "delete_all_photos"
+  match "make_showcase_image/:flat_id" => "photos#make_showcase_image", :as => "make_showcase_image"
+  match "update_photo_sequence" => "photos#update_photo_sequence", :as => "update_photo_sequence"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

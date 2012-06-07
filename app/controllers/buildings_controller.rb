@@ -28,7 +28,6 @@ class BuildingsController < ApplicationController
   # GET /buildings/new.json
   def quick_form
 
-
     if params[:building_id].blank?
       @building = Building.new
       @building_selected = false
@@ -61,6 +60,7 @@ class BuildingsController < ApplicationController
     @contact=@flat.contacts.build
     @phone=@contact.phones.build
     @email=@contact.emails.build
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -96,6 +96,9 @@ class BuildingsController < ApplicationController
     @phone=@contact.phones.build
     @email=@contact.emails.build
 
+     @labellings=Labelling.where("is_flat_contact_label=?",true).all
+     @contacts=Contact.all
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json :@building }
@@ -108,7 +111,7 @@ class BuildingsController < ApplicationController
     @flat=Flat.find(params[:id])
     @localities=Locality.all
     @building.building_localities.build
-    @building.building_routes.build  unless !@building.building_routes.blank?
+    @building.building_routes.build unless !@building.building_routes.blank?
 
   end
 
@@ -168,6 +171,12 @@ class BuildingsController < ApplicationController
 
   end
 
+  def photos
+    @building = Building.find(params[:building_id])
+    @flat = Flat.find(params[:id])
+    @photos = Photo.all
+    @photo = Photo.new
+  end
 
   # POST /buildings
   # POST /buildings.json
@@ -181,7 +190,6 @@ class BuildingsController < ApplicationController
     respond_to do |format|
 
       if !@contact.name.blank? && @contact.save!
-
         format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice:'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
@@ -214,7 +222,7 @@ class BuildingsController < ApplicationController
 
         if !@contact.name.blank?
           @contact.save!
-          format.html { redirect_to edit_property_basic_path(@building, @flat)}
+          format.html { redirect_to edit_property_basic_path(@building, @flat) }
         end
 
         case params[:came_from]
@@ -266,7 +274,16 @@ class BuildingsController < ApplicationController
               end
 
             end
-            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
+            format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
+          when 'photos'
+            @flat=Flat.find(params[:flat_id])
+            @building=@flat.building
+
+            params[:flat][:photos_attributes].count.times do |i|
+            Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
+            end
+            format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
+
         end
       end
     end
@@ -289,8 +306,6 @@ class BuildingsController < ApplicationController
     contact_option=""
     @contacts.each do |contact|
       contact_option=contact_option+ "#{contact.id}--#{contact.name}|"
-
-
     end
     render :text => contact_option
 
@@ -298,13 +313,7 @@ class BuildingsController < ApplicationController
 
   end
 
-  def photos
-    @building=Building.find(params[:building_id])
-    @flat=Flat.find(params[:id])
-    @photos = Photo.all
-    @photo=Photo.new
 
-  end
 
 end
 

@@ -1,24 +1,30 @@
-<div class="span8" style="margin-top: 10%;margin-left:15%;background: white;padding:20px;border-radius: 20px;">
-  <h1 style="color: black;">
-    <%= image_tag "logo.png", :style => "height:80px;" %>
-    Brokers Please Excuse</h1>
-  <br/>
-  <br/>
+<div class="row-fluid">
+  <div class="span4 offset4" style="margin-top: 10%;background: white;padding:20px;border-radius: 20px;">
+    <h1 style="color: black;">
+      <%= image_tag "logo.png", :style => "height:80px;" %>
+      Brokers Please Excuse</h1>
+    <br/>
+    <br/>
 
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-      <div><%= f.label :email %>
-        <%= f.email_field :email %></div>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+        <div>
+          <strong><%= f.label :email, :class=>"blabel" %></strong>
+          <%= f.email_field :email %></div>
 
-      <div><%= f.label :password %>
-        <%= f.password_field :password %></div>
+        <div>
+          <strong><%= f.label :password, :class=>"blabel" %></strong>
+          <%= f.password_field :password %></div>
 
-      <% if devise_mapping.rememberable? -%>
-          <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-      <% end -%>
+        <% if devise_mapping.rememberable? -%>
+            <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+        <% end -%>
 
-      <div><%= f.submit "Sign in" %></div>
-  <% end %>
+        <br>
+        <br>
+        <div><%= f.submit "Sign in", :class=>"btn btn-inverse btn-large" %></div>
+    <% end %>
 
-  <%= render "links" %>
+    <%= render "links" %>
 
+  </div>
 </div>
