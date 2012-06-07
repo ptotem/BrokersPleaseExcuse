@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  building_id: 1
+  bhk_config_id: 1
+  direction_id: 1
+  name: MyString
+  area: 1
+  floor: 1
+
+two:
+  building_id: 1
+  bhk_config_id: 1
+  direction_id: 1
+  name: MyString
+  area: 1
+  floor: 1

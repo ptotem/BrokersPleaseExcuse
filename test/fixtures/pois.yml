@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  locality_id: 1
+  poi_type_id: 1
+  name: MyString
+
+two:
+  locality_id: 1
+  poi_type_id: 1
+  name: MyString

@@ -1,0 +1,242 @@
+@import "bootstrap";
+
+// Place all the styles related to the application here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+html, body, .onlyhead {
+  background: rgb(254, 191, 4); /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgb(254, 191, 4)), color-stop(100%, rgb(255, 214, 94))); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* IE10+ */
+  background: radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#febf04', endColorstr = '#ffd65e', GradientType = 1); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.nav li a:hover {
+  background: black;
+}
+
+body {
+  padding-top: 22px; /* 40px to make the container go all the way to the bottom of the topbar */
+}
+
+.container > footer p {
+  text-align: center; /* center align it with the container */
+}
+
+.container {
+/*width: 960px; *//* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+}
+
+/* The white background content wrapper */
+.content {
+  background: white;
+  padding: 20px;
+  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+}
+
+/* Page header tweaks */
+.page-header {
+  background-color: #000000;
+  opacity: 0.6;
+  filter: alpha(opacity = 60); /* For IE8 and earlier */
+
+  padding: 20px 20px 10px;
+/*padding: 20px;*/
+
+  margin: -20px -20px 20px;
+
+}
+
+.page-header h1 {
+  color: white;
+}
+
+.topbar .btn {
+  border: 0;
+}
+
+th {
+  border: none;
+}
+
+a:hover {
+  text-shadow: none;
+  background: none;
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+}
+
+.nav a:hover {
+  background: black;
+  text-decoration: none;
+  color: white;
+}
+
+.nav_link a:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+input, textarea {
+  -moz-transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+  box-shadow: 0 1px 1px inset;
+}
+
+label {
+  display: inline;
+}
+
+.ui-widget-header {
+background: transparent;
+border:none;
+}
+
+input, textarea, select, chzn-select, .chzn-container-single .chzn-single, .chzn-container-multi .chzn-choices, .blocky, input[type='checkbox'] {
+    background: rgb(252, 234, 187); /* Old browsers */
+    background: -moz-linear-gradient(top, rgb(252, 234, 187) 0%, rgb(252, 205, 77) 50%, rgb(251, 223, 147) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(252, 234, 187)), color-stop(50%, rgb(252, 205, 77)), color-stop(100%, rgb(251, 223, 147))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgb(252, 234, 187) 0%, rgb(252, 205, 77) 50%, rgb(251, 223, 147) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgb(252, 234, 187) 0%, rgb(252, 205, 77) 50%, rgb(251, 223, 147) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgb(252, 234, 187) 0%, rgb(252, 205, 77) 50%, rgb(251, 223, 147) 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fceabb', endColorstr = '#fbdf93', GradientType = 0); /* IE6-9 */
+}
+
+.chzn-container-multi .chzn-choices .search-field .default {
+    color: black;
+    width:100%;
+}
+
+.topped {
+    border-top: 1px solid #d3d3d3;
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+.blocky {
+    border: solid 1px black;
+    padding: 5px;
+    margin-top: 3px;
+    border-radius: 5px;
+}
+
+#mapa {
+    width: 500px;
+    height: 340px;
+    border: 5px solid darkgray;
+    margin-top: -30px;
+}
+
+a:hover {
+    text-decoration: none;
+    background: transparent;
+}
+
+.dropdown.open .dropdown-toggle {
+    font-weight: bold;
+}
+
+label input, label textarea, label select {
+    display: inline;
+}
+.table th, .table td {
+    border: none;
+    line-height: 14px;
+    padding-left: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+.ui-widget-header {
+  color:black;
+}
+
+.blabel{
+  width:150px;
+  display: block;
+  float:left;
+  vertical-align: middle;
+}
+.slabel{
+  font-weight: bold;
+  width:100px;
+  display: block;
+  float:left;
+  vertical-align: middle;
+}
+
+.modal {
+  width:500px;
+  height: 500px;
+}
+
+.addy{
+  color:white;
+  font-weight: bold;
+  border:white;
+}
+
+ul.nav li img{
+  height: 40px;
+}
+
+.info-unit{
+  background: #f5f5f5;
+  padding:10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.sized{
+  margin-bottom: 2px;
+  height:20px;
+}
+
+.page-sized{
+  height:580px;
+}
+
+.summary-task{
+  cursor: pointer;
+}
+.detailed-task{
+  border: solid 1px black;
+  padding:5px;
+  border-radius: 5px;
+}
+
+.pointered{
+  cursor:pointer;
+}
+
+.lower{
+  height:12px;
+}
+
+.small-head{
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.small-head img{
+  height:32px;
+  vertical-align: middle;
+}
+
+.show-block{
+  width:600px;
+}

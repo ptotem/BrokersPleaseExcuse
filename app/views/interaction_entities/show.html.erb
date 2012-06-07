@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Interaction:</b>
+  <%= @interaction_entity.interaction_id %>
+</p>
+
+<p>
+  <b>Entity:</b>
+  <%= @interaction_entity.entity_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_interaction_entity_path(@interaction_entity) %> |
+<%= link_to 'Back', interaction_entities_path %>

@@ -1,0 +1,29 @@
+<h1>Listing taskings</h1>
+
+<table>
+  <tr>
+    <th>Interaction</th>
+    <th>Due date</th>
+    <th>Assigned to</th>
+    <th>Active</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @taskings.each do |tasking| %>
+  <tr>
+    <td><%= tasking.interaction_id %></td>
+    <td><%= tasking.due_date %></td>
+    <td><%= tasking.assigned_to %></td>
+    <td><%= tasking.active %></td>
+    <td><%= link_to 'Show', tasking %></td>
+    <td><%= link_to 'Edit', edit_tasking_path(tasking) %></td>
+    <td><%= link_to 'Destroy', tasking, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tasking', new_tasking_path %>

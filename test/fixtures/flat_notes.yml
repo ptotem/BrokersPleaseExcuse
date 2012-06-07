@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  flat_id: 1
+  note: MyText
+
+two:
+  flat_id: 1
+  note: MyText

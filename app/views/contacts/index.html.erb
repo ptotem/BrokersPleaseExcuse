@@ -1,0 +1,71 @@
+<%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+<%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+
+
+<h1>Listing contacts</h1>
+
+<table id="dhtmlx_contacts_table">
+  <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Email</th>
+    <th>Labels</th>
+    <th>Properties Linked</th>
+    <th>Last Interaction</th>
+    <th>Next Task</th>
+  </tr>
+  <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= link_to contact.name , contact_path(contact),:target => "_blank" %></td>
+        <td><%= contact.phones.map{|phone| phone.name}.join(",") %></td>
+        <td><%= contact.emails.map{|email| email.name}.join(",") %></td>
+        <td>All labels</td>
+        <td>All Properties</td>
+        <%#=TODO:the interaction should be show only if it is not a task  %>
+        <td><%= Interaction.where("primary_contact_id=? ",contact.id).order("interaction_date").last.name %></td>
+        <td><%= Interaction.where("primary_contact_id=? ",contact.id).all.map{|interaction| interaction.taskings.first}.sort{|elea,eleb|elea.due_date<eleb.due_date }.first.interaction.name %></td>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<%= link_to 'New Contact', new_contact_path %>
+
+<script type="text/javascript">
+
+
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridFromTable("dhtmlx_contacts_table");
+
+        mygrid.setSkin("light");
+        mygrid.attachHeader("#text_filter,#select_filter,#text_filter,#text_filter,#text_filter,#select_filter,#text_filter,#text_filter,#text_filter");
+        mygrid.enableAutoWidth(true);
+        mygrid.enableAutoHeight(true);
+
+        mygrid.setSizes();
+
+
+        mygrid.setColWidth(0, 40);
+        mygrid.setColWidth(1, 60);
+        mygrid.setColWidth(2, 240);
+        mygrid.setColWidth(3, 100);
+    }
+
+    $(function () {
+        doInitGrid();
+        $(".interaction_link").click(function () {
+
+            //alert("index");
+            $('#modal_' + $(this).attr("id") + "_index").modal('show');
+        });
+
+
+    });
+
+</script>

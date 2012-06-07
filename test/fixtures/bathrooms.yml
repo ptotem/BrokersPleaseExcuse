@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  flat_id: 1
+  type: 
+  value: 1
+
+two:
+  flat_id: 1
+  type: 
+  value: 1

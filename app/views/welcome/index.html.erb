@@ -1,0 +1,57 @@
+
+
+
+<%= content_for :head do %>
+    <script type="text/javascript">
+        $(function () {
+            $('.summary-task').click(function () {
+                $(this).parent().find('.detailed-task').slideDown();
+                $(this).hide();
+            });
+            $('.detailed-task a.collapser').click(function () {
+                $(this).parent().parent().parent().find('.detailed-task').hide();
+                $(this).parent().parent().parent().find('.summary-task').show();
+            });
+
+
+        });
+    </script>
+<% end %>
+<div class="row-fluid">
+<div class="span2">
+  <div class="info-unit">
+    <h2>Cheers</h2>
+    <span style="font-weight: normal;font-size: 12px;">When the house is rocking, don't bother knocking...</span>
+    <br>
+
+    <div class="blocky"><%= Flat.all.count %> Properties in database</div>
+    <div class="blocky"><%= Flat.all.count %> Properties available</div>
+    <div class="blocky"><%= Flat.all.count %> Properties available</div>
+    <div class="blocky"><%= Flat.all.count %> Properties available</div>
+
+  </div>
+  <div>
+    <%= link_to "Property Search", "#", :class => "btn btn-inverse span2 sized" %>
+    <%= link_to "Contact Search", "#", :class => "btn span2 sized" %>
+    <%= link_to "Broker Search", "#", :class => "btn span2 sized" %>
+    <%= link_to "Recently Viewed", "#", :class => "btn span2 sized" %>
+    <%= link_to "Frequently Viewed", "#", :class => "btn span2 sized" %>
+    <%= link_to "Deals", "#", :class => "btn span2 sized" %>
+    <%= link_to "Data and Graphs", "#", :class => "btn span2 sized" %>
+    <%= link_to "Projects", "#", :class => "btn span2 sized" %>
+    <%= link_to "Settings", "#", :class => "btn span2 sized" %>
+    <%= link_to "Got Game?", "#", :class => "btn span2 sized" %>
+    <%= link_to "Intranet", "#", :class => "btn btn-inverse span2 sized" %>
+  </div>
+</div>
+
+<div class="span10">
+  <div class="span6">
+    <div class="info-unit page-sized">
+
+      <!--Header and Search for Tasks-->
+<%= render 'layouts/partials/interaction_tasks_partial' %>
+     </div>
+     </div>
+     </div>
+     </div>

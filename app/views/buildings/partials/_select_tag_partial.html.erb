@@ -1,0 +1,5 @@
+
+<% @labellings=Labelling.where("is_flat_contact_label=?",true).all%>
+<% @contacts=Contact.all %>
+<%= fc.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name", flat_contact.labelling_id), {:include_blank => ''} %>
+<%= fc.select :contact_id, options_from_collection_for_select(@contacts, "id", "name", flat_contact.contact_id), {:include_blank => ''}, {:class=>"contact-select"} %>

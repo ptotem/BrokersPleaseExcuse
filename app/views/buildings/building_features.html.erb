@@ -1,0 +1,119 @@
+<%= nested_form_for(@building) do |b| %>
+    <%= b.fields_for :flats, @flat do |f| %>
+
+        <%= hidden_field_tag :came_from, "building_features" %>
+        <%= hidden_field_tag :flat_id, @flat.id %>
+
+        <%= render :partial => 'form_menu' %>
+        <br>
+        <div class="content detail-panel" id="basic-panel">
+
+          <div class="row-fluid">
+            <div class="span5">
+
+              <h2>Description</h2>
+
+              <%= b.text_area :qknote, :rows => 2, :class => "span5" %>
+
+              <br/>
+
+              <h2>Details</h2>
+
+              <div class="row-fluid">
+                <div class="span3">
+                  Building Quality:
+                </div>
+                <div class="span4">
+                  <%= b.select :building_quality_id, options_from_collection_for_select(@qualities, :id, :name, @building.building_quality_id), {}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span3">
+                  Approach Quality:
+                </div>
+                <div class="span4">
+                  <%= b.select :approach_quality_id, options_from_collection_for_select(@qualities, :id, :name, @building.approach_quality_id), {}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+                </div>
+              </div>
+
+              <br>
+
+              <h2>Moving Requirements</h2>
+
+              <div class="row-fluid">
+                <div class="span6 blocky">
+                  <% @moving_requirements.each do |requirement| %>
+                      <%= check_box_tag "building[moving_requirement_ids][]", requirement.id, @building.moving_requirement_ids.include?(requirement.id), id: dom_id(requirement) %>
+                      <%= label_tag dom_id(requirement), requirement.name %>
+                      <br>
+                  <% end %>
+                </div>
+              </div>
+              <br>
+
+              <div class="row-fluid">
+                <div class="span3">
+                  Moving Charges:
+                </div>
+                <div class="span2">
+                  <%= b.text_field :moving_charge, :value => @building.moving_charge %>
+                </div>
+              </div>
+
+              <br/>
+
+              <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
+
+            </div>
+            <div class="span6">
+              <h2>Facilities</h2>
+
+              <div class="row-fluid">
+                <div class="span12">
+                  <% @facilities.each do |facility| -%>
+                      <div>
+                        <%= hidden_field_tag 'building[facility_ids][]', nil %>
+                        <%= check_box_tag :facility_ids, facility.id, @building.facilities.include?(facility), :name => 'building[facility_ids][]', :onchange => "$(this).next().next().toggle().find('input').attr('checked',false);" %>
+                        <%= label_tag :facility_ids, facility.name -%>
+
+                        <% if @building.facility_ids.include?(facility.id) %>
+                            <div class="blocky">
+                              <% facility.facility_features.each do |facility_feature| %>
+                                  <%= hidden_field_tag 'building[facility_feature_ids][]', nil %>
+                                  <%= check_box_tag :facility_feature_ids, facility_feature.id, @building.facility_features.include?(facility_feature), :name => 'building[facility_feature_ids][]' %>
+                                  <%= label_tag :facility_feature_ids, facility_feature.name -%>
+                              <% end %>
+                            </div>
+                            <br/>
+                        <% else %>
+                            <div style="display:none;" class="blocky">
+                              <% facility.facility_features.each do |facility_feature| %>
+                                  <%= hidden_field_tag 'building[facility_feature_ids][]', nil %>
+                                  <%= check_box_tag :facility_feature_ids, facility_feature.id, @building.facility_features.include?(facility_feature), :name => 'building[facility_feature_ids][]' %>
+                                  <%= label_tag :facility_feature_ids, facility_feature.name -%>
+                              <% end %>
+                            </div>
+                            <br/>
+                        <% end %>
+
+
+                      </div>
+                  <% end -%>
+                </div>
+              </div>
+              <br>
+
+              <br>
+              <br>
+              <br>
+
+
+            </div>
+          </div>
+        </div>
+
+
+    <% end %>
+<% end %>
+
+

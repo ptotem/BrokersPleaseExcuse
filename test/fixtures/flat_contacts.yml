@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  flat_id: 1
+  contact_id: 1
+  rent_year: 1
+  contact_type: MyString
+  comment: MyText
+
+two:
+  flat_id: 1
+  contact_id: 1
+  rent_year: 1
+  contact_type: MyString
+  comment: MyText

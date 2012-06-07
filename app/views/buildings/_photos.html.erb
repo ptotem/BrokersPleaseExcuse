@@ -1,0 +1,118 @@
+
+
+
+<style>
+    #sortable-photos { list-style-type: none; margin: 0; padding: 0; }
+    #sortable-photos li { margin: 3px 3px 3px 0; padding: 1px; float: left; width: 100px; height: 90px; font-size: 4em; text-align: center; }
+</style>
+
+
+<script type="text/javascript">
+  $(function(){
+
+
+
+       $("#sortable-photos").sortable({stop: function(event, ui) {  delay: 300;
+
+                   var data=$("#sortable-photos").sortable("serialize");
+                   var final_data="";
+                   var intermediate_data=new Array();
+                   intermediate_data=data.split("&");
+                   for(var i=0;i<intermediate_data.length;i++)
+                   {
+                       final_data=final_data+intermediate_data[i].split("=")[0].replace("[]","="+i)+"&"
+                   }
+
+
+
+                   //data.push({flat_id:<%#= @flat.id %>});
+                   final_data=final_data+"&flat_id=<%= @flat.id %>";
+                   //data=data+"&count=<%= @flat.id %>";
+
+
+
+                   $.ajax({
+
+                       type: 'POST',
+                       url: "<%= update_photo_sequence_path %>",
+                       data: final_data
+                       //success: success,
+                       //dataType: dataType
+                   });
+
+
+
+               }}
+      );
+  })  ;
+
+</script>
+
+<div class="row">
+  <div class="span6">
+    <%= f.fields_for :photos do |photo| %>
+
+        <div class="row-fluid">
+          <div class="span3">
+            <%= photo.label "Caption" %>
+          </div>
+          <div class="span4">
+            <%= photo.text_field :name, :class => "span3" %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3">
+            <%= photo.label "File" %>
+          </div>
+          <div class="span3">
+            <%= photo.file_field :image, :class => "span3" %>
+          </div>
+
+        </div>
+
+
+        <div class="row-fluid">
+          <div class="span3">
+            <%= photo.label "Is Tsggable" %>
+          </div>
+          <div class="span3">
+            <%= photo.check_box :tagging_allowed, :class => "span3" %>
+          </div>
+
+        </div>
+
+
+
+
+        <%= photo.hidden_field :flat_id, :value => @flat.id %>
+
+
+        <%= photo.link_to_remove "Remove Photo" %>
+
+
+    <% end %>
+    <p><%= f.link_to_add "Add Photo", :photos %></p>
+  </div>
+  <div class="span6">
+    <ul id="sortable-photos">
+    <% @flat.photos.each_with_index do |photo,index| %>
+
+             <li id="<%= photo.id %>_<%= index %>">
+               <%= image_tag photo.image.url(:thumbnail) %>
+             </li>
+
+    <% end %>
+        </ul>
+
+  </div>
+
+
+
+
+</div>
+
+
+
+
+

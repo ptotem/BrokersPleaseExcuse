@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  comment: MyText
+  actype_id: 1
+  acstatus_id: 1
+  due_at: 2012-03-15 10:18:16
+
+two:
+  name: MyString
+  comment: MyText
+  actype_id: 1
+  acstatus_id: 1
+  due_at: 2012-03-15 10:18:16

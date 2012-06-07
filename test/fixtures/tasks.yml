@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  actype_id: 1
+  acstatus_id: 1
+  due_date: 2012-03-13
+
+two:
+  actype_id: 1
+  acstatus_id: 1
+  due_date: 2012-03-13

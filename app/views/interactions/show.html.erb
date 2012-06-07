@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Comment:</b>
+  <%= @interaction.name %>
+</p>
+
+<p>
+  <b>Created by:</b>
+  <%= @interaction.created_by %>
+</p>
+
+<p>
+  <b>Interaction type:</b>
+  <%= @interaction.interaction_type_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_interaction_path(@interaction) %> |
+<%= link_to 'Back', interactions_path %>

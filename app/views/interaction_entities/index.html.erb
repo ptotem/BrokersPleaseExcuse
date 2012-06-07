@@ -1,0 +1,25 @@
+<h1>Listing interaction_entities</h1>
+
+<table>
+  <tr>
+    <th>Interaction</th>
+    <th>Entity</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @interaction_entities.each do |interaction_entity| %>
+  <tr>
+    <td><%= interaction_entity.interaction_id %></td>
+    <td><%= interaction_entity.entity_id %></td>
+    <td><%= link_to 'Show', interaction_entity %></td>
+    <td><%= link_to 'Edit', edit_interaction_entity_path(interaction_entity) %></td>
+    <td><%= link_to 'Destroy', interaction_entity, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Interaction entity', new_interaction_entity_path %>

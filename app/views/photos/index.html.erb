@@ -1,0 +1,104 @@
+
+<%#=TODO: when the list is sorted the changes in sequence number should be reflected without making a page refresh  %>
+<style>
+    #sortable-photos { list-style-type: none; margin: 0; padding: 0; }
+    #sortable-photos li {  padding: 1px; float: left; width: 100px; font-size: 4em; text-align: center;margin-left: 40px;margin-top: 20px }
+    .image-wrapper{ width: 100px;padding: 10px 10px 10px 10px;}
+</style>
+
+
+
+<script type="text/javascript">
+    function get_list_data(data)
+    {
+
+        var final_data="";
+        var intermediate_data=new Array();
+        intermediate_data=data.split("&");
+        for(var i=0;i<intermediate_data.length;i++)
+        {
+            final_data=final_data+intermediate_data[i].split("=")[0].replace("[]","="+i)+"&"
+        }
+        //data.push({flat_id:<%#= @flat.id %>});
+        final_data=final_data+"&flat_id=<%= @flat.id %>";
+        return final_data;
+        //data=data+"&count=<%= @flat.id %>";
+
+
+    }
+
+    $(function(){
+        $("#sortable-photos").sortable({
+                    create:function(event, ui){
+                        var final_data=get_list_data( $("#sortable-photos").sortable("serialize"));
+                        $.ajax({
+
+                            type: 'POST',
+                            url: "<%= update_photo_sequence_path %>",
+                            data: final_data
+                            //success: success,
+                            //dataType: dataType
+                        });
+
+                    }
+
+        },{
+            stop: function(event, ui) {  delay: 300;
+
+                    var final_data=get_list_data( $("#sortable-photos").sortable("serialize"));
+                    $.ajax({
+
+                        type: 'POST',
+                        url: "<%= update_photo_sequence_path %>",
+                        data: final_data
+                        //success: success,
+                        //dataType: dataType
+                    });
+
+
+
+        }});
+    });
+
+</script>
+
+ <h1>Upload Photos for <%= @flat.flat_key %></h1>
+
+<%= render "photos/form" %>
+
+<hr>
+
+<h1>List Of Photos</h1>
+Choose Multiple Photos and upload <br>
+Drag and drop Photos in order to re-order sequence <br>
+Refresh (F5) to generate fresh sequence numbers<br>
+<%= link_to "Delete All",delete_all_photos_path(@flat.id),:class=>"btn btn-danger",:confirm=>"Are you sure ??" %>
+<div class="span6">
+<ul id="sortable-photos">
+  <% @flat.photos.order("sequence_number").each_with_index do |photo,index| %>
+
+      <li id="<%= photo.id %>_<%= index %>">
+        <%@backcolor="black" %>
+        <% if photo.showcase_image? %>
+            <% @backcolor="green" %>
+            <% end %>
+        <div class="image-wrapper" style="background-color: <%= @backcolor %>">
+          <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number%></span>
+          <span style="color: white;font-size: 18px;position:relative;top: -10px"><%=link_to "x",photo,:method=>:delete,:confirm=>"Are you sure ??" %></span>
+       <%= form_for(photo) do |f|  %>
+              <%= f.submit "UPDATE",:class=>"btn btn-info" %>
+              <br>
+        <%=link_to (image_tag photo.image.url(:thumbnail)),make_showcase_image_path(photo.id) %>
+         <%= f.text_field :name,:class=>"input-small" %>
+              <% end %>
+        </div>
+
+
+      </li>
+
+  <% end %>
+</ul>
+</div>
+
+
+
