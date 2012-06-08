@@ -3,10 +3,12 @@ class Photo < ActiveRecord::Base
   has_attached_file :image,
                     :styles => {
                         :original => {
-                            #:geometry => "256x256<",
-                            :processors => [:qresize],
+                            :geometry => "640x600<",
                             #:watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
                             :position => "Center"
+                        },
+                        :lightbox =>{
+                            :geometry => "640x600>"
                         },
                         :thumbnail => {
                             :geometry => "300x300"
