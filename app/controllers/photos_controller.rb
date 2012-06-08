@@ -95,8 +95,6 @@ class PhotosController < ApplicationController
   end
 
   def update_photo_sequence
-
-
     @flat=Flat.find(params["flat_id"])
     @flat.photos.each_with_index do |photo, index|
 
@@ -121,9 +119,17 @@ class PhotosController < ApplicationController
       photo.save!
     end
 
-
     @photo.showcase_image=true
     @photo.save!
-    redirect_to edit_property_flat_photos_path(@photo.flat.building, @photo.flat), notice: 'Photo was successfully updated.'
+    redirect_to edit_property_flat_photos_path(@photo.flat.building, @photo.flat), notice: "Photo #{@photo.name} was successfully marked as the showcase image."
   end
+
+  def rename_photo
+    @photo=Photo.find(params[:photo_id])
+    @photo.name = params[:name]
+    @photo.save!
+    render :text=>"ok", notice: "Photo renamed"
+
+  end
+
 end

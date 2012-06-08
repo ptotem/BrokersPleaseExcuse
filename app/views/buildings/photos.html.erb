@@ -1,29 +1,38 @@
 <%#=TODO: when the list is sorted the changes in sequence number should be reflected without making a page refresh  %>
-<style>
-    #sortable-photos {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    #sortable-photos li {
-        padding: 1px;
-        width: 300px;
-        font-size: 4em;
-        text-align: center;
-        margin-left: 40px;
-        margin-top: 20px
-    }
-
-    .image-wrapper {
-        width: 300px;
-        padding: 10px 10px 10px 10px;
-    }
-</style>
-
-
 
 <script type="text/javascript">
+
+    function rename_picture(this_photo) {
+        var photo_id = this_photo;
+        var photo_name = $('#photo_' + photo_id).val();
+        var obj = {name:photo_name};
+
+        $.ajax({
+
+            type:'POST',
+            url:"/rename_photo/" + photo_id,
+            data:obj,
+            success:function (data) {
+                $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title:'Name Change Successful',
+                    // (string | mandatory) the text inside the notification
+                    text:'The Photo was renamed to ' + photo_name,
+                    // (string | optional) the image to display on the left
+                    image:'/assets/success.png',
+                    // (bool | optional) if you want it to fade out on its own or just sit there
+                    sticky:false,
+                    // (int | optional) the time you want it to be alive for before fading out
+                    time:'3000'
+                    // (string | optional) the class name you want to apply to that specific message
+                    // class_name:'my-sticky-class'
+                });
+            }
+            //dataType: dataType
+        });
+    }
+
+
     function get_list_data(data) {
 
         var final_data = "";
@@ -37,6 +46,7 @@
     }
 
     $(function () {
+
         $("#sortable-photos").sortable({
             create:function (event, ui) {
                 var final_data = get_list_data($("#sortable-photos").sortable("serialize"));
@@ -61,19 +71,22 @@
                     type:'POST',
                     url:"<%= update_photo_sequence_path %>",
                     data:final_data
-                    //success: success,
+                    //                    success: function(){
+                    //                    }
                     //dataType: dataType
                 });
 
 
-            }});
+            }
+        });
+
     });
 
 </script>
 
 
-<%= nested_form_for @building, :html => { :multipart => true } do |b| %>
-    <%= b.fields_for :flats, @flat, :html => { :multipart => true } do |f| %>
+<%= nested_form_for @building, :html => {:multipart => true} do |b| %>
+    <%= b.fields_for :flats, @flat, :html => {:multipart => true} do |f| %>
 
         <%= hidden_field_tag :came_from, "photos" %>
         <%= hidden_field_tag :flat_id, @flat.id %>
@@ -96,12 +109,14 @@
           <hr>
 
           <h2>Photo
-            Gallery <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
+            Gallery
+            <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
+            <%= link_to "Sequencify", edit_property_flat_photos_path(@building, @flat), :class => "btn btn-primary" %>
           </h2>
 
           <i>
             Drag and drop Photos in order to re-order sequence <br>
-            Refresh (F5) to generate fresh sequence numbers<br>
+            Refresh (F5) to generate fresh sequence numbers or press Sequencify<br>
           </i>
 
           <div>
@@ -113,18 +128,18 @@
                     <% if photo.showcase_image? %>
                         <% @backcolor="green" %>
                     <% end %>
+
                     <div class="image-wrapper" style="background-color: <%= @backcolor %>">
                       <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
                       <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
-                      <%= form_for(photo) do |f| %>
-                          <%= f.submit "UPDATE", :class => "btn btn-info" %>
-                          <br>
-                          <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(photo.id) %>
-                          <%= f.text_field :name, :class => "input-small" %>
-                      <% end %>
+                      <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(photo.id) %>
+                      <br>
+
+                      <div>
+                        <%= text_field_tag :caption, photo.name, :class => "input-large", :id => "photo_#{photo.id}" %>
+                        <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
+                      </div>
                     </div>
-
-
                   </li>
 
               <% end %>

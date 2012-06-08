@@ -1,11 +1,26 @@
+<!--<script type="text/javascript" src="/assets/exclusions/jquery.yoxthumbs.js"></script>-->
+<%= javascript_include_tag "exclusions/yoxview-init" %>
+<%= javascript_include_tag "exclusions/jquery.yoxview-2.21.min" %>
+<%= javascript_include_tag "exclusions/jquery.yoxthumbs" %>
+<%= javascript_include_tag "exclusions/yox" %>
+<%= stylesheet_link_tag "exclusions/yoxview" %>
+<!--<script type="text/javascript" src="/assets/exclusions/yox.js"></script>-->
+<!--<script type="text/javascript" src="/assets/exclusions/yoxview-nojquery.js"></script>-->
+<!--<script type="text/javascript" src="/assets/exclusions/lang/en.js"></script>-->
+
 <script type="text/javascript">
     $(function () {
         $('div.amenu a').popover({
             placement:'bottom',
             html:true
         });
+        $(".yoxview").yoxview({
+            lang: 'en'
+        });
     })
 </script>
+
+
 
 <!-- Header Panel -->
 
@@ -162,14 +177,15 @@
 
       <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
       <div class="show-block">
-        4A/12, Kalpataru Estate,
+        <%= @flat.name %>, <%= @building.name %>,
         <br>
-        Jogeshwari Vikhroli Link Road,
+        <%= @building.road %>,
         <br>
-        Andheri East, Mumbai
+        <%= @building.main_locality.name %>, <%= @building.main_locality.area.name %>
         <br>
-        <br>
+        <%= @building.main_locality.area.city.name %> - <%= @building.pincode %>
       </div>
+      <br>
 
       <div class="slabel">Area</div>
       <%= @flat.area %> sq.ft.
@@ -274,6 +290,19 @@
         <br>
         <br>
       </div>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <br>
+
+  <div class="row-fluid">
+    <h2>Viewing Gallery</h2>
+
+    <div class="yoxview" id="thumbnails">
+      <% @flat.photos.each do |photo| %>
+          <a href="<%= photo.image.url(:original) %>"><img src="<%= photo.image.url(:thumbnail) %>" alt="<%= photo.name %>" title="<%= photo.name %>"/></a>
+      <% end %>
     </div>
   </div>
 </div>
