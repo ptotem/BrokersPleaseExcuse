@@ -12,9 +12,10 @@
     <tbody style="border-bottom: solid 1px #daa520; margin-bottom: 10px;">
     <% @contact.flat_contacts.each do |flat_contact| %>
     <tr>
-        <td><%= flat_contact.flat.flat_key %></td>
-        <td><%= flat_contact.label.name %></td>
-        <td><%= link_to "Delete",flat_contact %></td>
+        <td><%#= flat_contact.flat.flat_key %></td>
+        <td><%#= flat_contact.labelling.name %></td>
+        <td><%#= link_to "Delete",flat_contact, :method=>:delete %></td>
+      <!-- TODO Delete flat_contact functionality-->
     </tr>
     <% end %>
     </tbody>

@@ -240,3 +240,32 @@ ul.nav li img{
 .show-block{
   width:600px;
 }
+
+#sortable-photos {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-left: -20px;
+}
+
+#sortable-photos li {
+  padding: 1px;
+  width: 300px;
+  font-size: 4em;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 20px;
+
+  display: inline-block;
+}
+
+.image-wrapper {
+  width: 300px;
+  height: 300px;
+  padding: 10px 10px 10px 10px;
+}
+
+.image-wrapper a img {
+  margin-bottom: 5px;
+
+}

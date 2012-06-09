@@ -1,11 +1,21 @@
-<script type="text/javascript">
-    $(function () {
-        $('div.amenu a').popover({
-            placement:'bottom',
-            html:true
-        });
-    })
-</script>
+<%= content_for :head do %>
+
+    <%= javascript_include_tag "exclusions/jquery.lightbox-0.5.min" %>
+    <%= stylesheet_link_tag "exclusions/jquery.lightbox-0.5" %>
+    <script type="text/javascript">
+        $(function() {
+            $('div.amenu a').popover({
+                placement:'bottom',
+                html:true
+            });
+
+            $('a.lightbox').lightBox(); // Select all links with lightbox class
+        })
+    </script>
+
+<% end %>
+
+
 
 <!-- Header Panel -->
 
@@ -155,23 +165,25 @@
     </div>
   </div>
 </div>
-<div class="content" style="margin-top: 10px;height:350px;">
-  <div class="row-fluid span12">
+<div class="content" style="margin-top: 10px;">
+  <div class="row-fluid">
 
-    <div class="span2 blocky" style="margin-left: -20px">
+    <div class="span2 blocky">
+
       <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
       <div class="show-block">
-        4A/12, Kalpataru Estate,
+        <%= @flat.name %>, <%= @building.name %>,
         <br>
-        Jogeshwari Vikhroli Link Road,
+        <%= @building.road %>,
         <br>
-        Andheri East, Mumbai
+        <%= @building.main_locality.name %>, <%= @building.main_locality.area.name %>
         <br>
-        <br>
+        <%= @building.main_locality.area.city.name %> - <%= @building.pincode %>
       </div>
+      <br>
 
       <div class="slabel">Area</div>
-      <%= @flat.area %>
+      <%= @flat.area %> sq.ft.
       <br>
 
       <div class="slabel">Floor</div>
@@ -195,6 +207,7 @@
       <br>
       <br>
 
+
       <% @flat.flat_contacts.each do |flat_contact| %>
           <div class="slabel"><%= flat_contact.labelling.name %></div>
           <br>
@@ -203,20 +216,25 @@
           <span style="font-size:10px;font-style: italic; "><%= flat_contact.name %></span>
       <% end %>
 
+      <br>
     </div>
 
     <div class="span3">
-      <%= image_tag "sample.png" %>
+      <%= image_tag @flat.photos.where('showcase_image=?',true).first.image.url(:lightbox) %>
       <br>
+
+      <h2>Description</h2>
       <%= raw @flat.building.qknote %>
       <br>
       <%= raw @flat.qknote %>
       <br>
+      <br>
+      <br>
     </div>
 
-    <div class="span7">
+    <div class="span6">
 
-      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Building Facilities</div>
+      <div class="small-head"><%= image_tag "icons/building_features.png" %>Building Facilities</div>
       <div class="show-block">
         <% @flat.building.facilities.each do |facility| %>
             <strong><%= facility.name %>:</strong>
@@ -252,12 +270,32 @@
 
         <br>
       </div>
-      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Restrictions</div>
+      <div class="small-head"><%= image_tag "icons/restriction.png" %>Flat Restrictions</div>
       <div class="show-block">
         <strong><%= @flat.restrictions.map { |r| r.name }.join(", ") %></strong>
         <br>
         <br>
       </div>
+      <div class="small-head"><%= image_tag "icons/moving.png" %>Moving Prerequisites</div>
+      <div class="show-block">
+        <strong><%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %></strong>
+        <br>
+        <strong>Moving Charges:</strong>
+        <%= @flat.building.moving_charge %>
+        <br>
+        <br>
+      </div>
     </div>
+  </div>
+  <br>
+  <hr>
+  <br>
+
+  <div class="row-fluid">
+    <h2>Viewing Gallery</h2>
+    <br>
+      <% @flat.photos.each do |photo| %>
+          <a href="<%= photo.image.url(:lightbox) %>" class="lightbox"><img src="<%= photo.image.url(:thumbnail) %>" alt="<%= photo.name %>" title="<%= photo.name %>" style="width:200px;"/></a>
+      <% end %>
   </div>
 </div>

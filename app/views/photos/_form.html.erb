@@ -1,0 +1,14 @@
+<h2>Add Photos
+  <br>
+  <small> You can choose multiple photos to upload
+  </small>
+</h2>
+
+<%= f.fields_for :photos, @photo do |builder| %>
+    <%= builder.hidden_field :flat_id, :value => @flat.id %>
+    <%= builder.file_field :image, :multiple => true %>
+    <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
+
+<% end %>
+
+

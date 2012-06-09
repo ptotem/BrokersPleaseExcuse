@@ -30,7 +30,7 @@ MovingRequirement.create!(:name=>"Clubhouse Formalities")
 
 Quality.create!(:name=>"Great",:value=>"3")
 Quality.create!(:name=>"Regular",:value=>"2")
-Quality.create!(:name=>"Might be an issue",:value=>"1")
+Quality.create!(:name=>"Budget",:value=>"1")
 
 City.create!(:name=>"Mumbai")
 
@@ -209,17 +209,21 @@ FacilityFeature.create!(:name=>'Internet available', :facility_id=>14)
 FacilityFeature.create!(:name=>'DTH', :facility_id=>14)
 FacilityFeature.create!(:name=>'Cable', :facility_id=>14)
 
+# TODO Add Labelling Type
+
 Labelling.create!(:name=>'ASS',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'ASS +',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'ASS >',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'ASS ?',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'ASS >>',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'ASSF',:is_flat_contact_label=>false)
+
 Labelling.create!(:name=>'LLP',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'LLC',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'LLF',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'LL ?',:is_flat_contact_label=>false)
 Labelling.create!(:name=>'LL >>',:is_flat_contact_label=>false)
+
 Labelling.create!(:name=>'Reference',:is_flat_contact_label=>true)
 Labelling.create!(:name=>'Tenant',:is_flat_contact_label=>true)
 Labelling.create!(:name=>'Landlord',:is_flat_contact_label=>true)
@@ -249,8 +253,6 @@ InteractionType.create(name:"Email")
 InteractionType.create(name:"Call")
 InteractionType.create(name:"Showing")
 
-#TODO: check if rental year is required or not
-#
 RentYear.create!(:name=>"2012")
 RentYear.create!(:name=>"2013")
 RentYear.create!(:name=>"2014")

@@ -3,13 +3,15 @@ class Photo < ActiveRecord::Base
   has_attached_file :image,
                     :styles => {
                         :original => {
-                            :geometry => "256x256<",
-                            :processors => [:qresize, :watermark],
-                            :watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
+                            :geometry => "640x600<",
+                            #:watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
                             :position => "Center"
                         },
+                        :lightbox =>{
+                            :geometry => "640x600>"
+                        },
                         :thumbnail => {
-                            :geometry => "100x100"
+                            :geometry => "300x300"
                         }
                     }
 
@@ -19,6 +21,7 @@ class Photo < ActiveRecord::Base
 
   before_create :name_photo_from_file
   after_create :assign_sequence_number
+
   def name_photo_from_file
     self.name=self.image_file_name.split(".")[0]
   end

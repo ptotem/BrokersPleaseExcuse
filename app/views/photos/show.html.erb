@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @photo.name %>
+</p>
+
+<p>
+  <b>Sequence number:</b>
+  <%= @photo.sequence_number %>
+</p>
+
+<p>
+  <b>Xpos:</b>
+  <%= @photo.xpos %>
+</p>
+
+<p>
+  <b>Ypos:</b>
+  <%= @photo.ypos %>
+</p>
+
+<p>
+  <b>Flat:</b>
+  <%= @photo.flat_id %>
+</p>
+
+<p>
+  <b>Building:</b>
+  <%= @photo.building_id %>
+</p>
+
+<p>
+  <b>Tagging allowed:</b>
+  <%= @photo.tagging_allowed %>
+</p>
+
+<p>
+  <b>Is floor plan:</b>
+  <%= @photo.is_floor_plan %>
+</p>
+
+
+<%= link_to 'Edit', edit_photo_path(@photo) %> |
+<%= link_to 'Back', photos_path %>

@@ -81,7 +81,7 @@
               <% unless @contact.emails.blank? %>
                   <%= @contact.emails.first.name %> |
               <% end %>
-              <%= @contact.contact_types.first.name %>
+              <%= @contact.contact_types.first.name unless @contact.contact_types.blank?%>
             </small>
           </h1>
           <%= select_tag "contact[labelling_ids][]", options_from_collection_for_select(Labelling.all, :id, :name, @contact.labelling_ids), :multiple => true, :class => "chzn-container-multi span7", :'data-placeholder' => "Add labels to the contact..." %>
