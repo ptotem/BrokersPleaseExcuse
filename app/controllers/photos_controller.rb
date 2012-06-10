@@ -132,4 +132,14 @@ class PhotosController < ApplicationController
 
   end
 
+  def save_photo_positions
+    params[:fields].count.times do |i|
+      @photo=Photo.find(params[:fields][i][:photo_id])
+      @photo.xpos=params[:fields][i][:xpos]
+      @photo.ypos=params[:fields][i][:ypos]
+      @photo.save!
+    end
+    render :nothing => true
+  end
+
 end

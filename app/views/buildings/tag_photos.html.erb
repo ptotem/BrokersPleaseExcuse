@@ -1,0 +1,63 @@
+<% @flat_photos=@flat.photos.build %>
+
+<style type="text/css">
+    image {
+        position: absolute;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(function () {
+        $(".existing-photos").draggable({ containment:"parent",
+        stop:function(event,ui){
+
+            var data = {fields:[]};
+            $(".existing-photos").each(function () {
+                data["fields"].push({
+                    photo_id:$(this).attr('id'),
+                    xpos:$(this).position().left,
+                    ypos:$(this).position().top})
+
+            });
+
+
+            $.ajax({
+                url:"<%= save_photo_positions_path %>",
+                type:"post",
+                data:JSON.stringify(data),
+                contentType:"application/json",
+                success:function (data) {
+                    alert("Position Saved...");
+                }
+            });
+
+
+        }
+
+
+        });
+
+        $("#existing-photo-position").click(function () {
+
+        });
+
+    });
+
+</script>
+
+
+  <%= render :partial => "form_menu" %>
+  <div class="content detail-panel" id="basic-panel">
+    <div style="width:700px;height: 500px;background-color: grey ">
+
+      <% @flat.photos.where("tagging_allowed=?", true).each do |existing_photo| %>
+          <%= image_tag(existing_photo.image.url(:thumbnail), :class => "existing-photos", :id => existing_photo.id, :style => "position:absolute;left:#{existing_photo.xpos}px;top:#{existing_photo.ypos}px") %>
+          <br>
+          <br>
+
+      <% end %>
+    </div>
+
+
+  </div>

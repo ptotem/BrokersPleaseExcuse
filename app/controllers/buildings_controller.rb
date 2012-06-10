@@ -96,8 +96,6 @@ class BuildingsController < ApplicationController
     @phone=@contact.phones.build
     @email=@contact.emails.build
 
-     @labellings=Labelling.where("is_flat_contact_label=?",true).all
-     @contacts=Contact.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -177,6 +175,14 @@ class BuildingsController < ApplicationController
     @photos = Photo.all
     @photo = Photo.new
   end
+
+  def tag_photos
+    @building = Building.find(params[:building_id])
+    @flat = Flat.find(params[:id])
+    @photos = Photo.all
+    @photo = Photo.new
+  end
+
 
   # POST /buildings
   # POST /buildings.json
@@ -280,7 +286,7 @@ class BuildingsController < ApplicationController
             @building=@flat.building
 
             params[:flat][:photos_attributes].count.times do |i|
-            Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
+              Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
             end
             format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
 
@@ -312,7 +318,6 @@ class BuildingsController < ApplicationController
     #TODO: send only the contacts not included previously so the data processing becomes lighter
 
   end
-
 
 
 end
