@@ -1,24 +1,19 @@
-<!--<script type="text/javascript" src="/assets/exclusions/jquery.yoxthumbs.js"></script>-->
-<%= javascript_include_tag "exclusions/yoxview-init" %>
-<%= javascript_include_tag "exclusions/jquery.yoxview-2.21.min" %>
-<%= javascript_include_tag "exclusions/jquery.yoxthumbs" %>
-<%= javascript_include_tag "exclusions/yox" %>
-<%= stylesheet_link_tag "exclusions/yoxview" %>
-<!--<script type="text/javascript" src="/assets/exclusions/yox.js"></script>-->
-<!--<script type="text/javascript" src="/assets/exclusions/yoxview-nojquery.js"></script>-->
-<!--<script type="text/javascript" src="/assets/exclusions/lang/en.js"></script>-->
+<%= content_for :head do %>
 
-<script type="text/javascript">
-    $(function () {
-        $('div.amenu a').popover({
-            placement:'bottom',
-            html:true
-        });
-        $(".yoxview").yoxview({
-            lang: 'en'
-        });
-    })
-</script>
+    <%= javascript_include_tag "exclusions/jquery.lightbox-0.5.min" %>
+    <%= stylesheet_link_tag "exclusions/jquery.lightbox-0.5" %>
+    <script type="text/javascript">
+        $(function() {
+            $('div.amenu a').popover({
+                placement:'bottom',
+                html:true
+            });
+
+            $('a.lightbox').lightBox(); // Select all links with lightbox class
+        })
+    </script>
+
+<% end %>
 
 
 
@@ -225,7 +220,7 @@
     </div>
 
     <div class="span3">
-      <%= image_tag "sample.png" %>
+      <%= image_tag @flat.photos.where('showcase_image=?',true).first.image.url(:lightbox) %>
       <br>
 
       <h2>Description</h2>
@@ -298,11 +293,9 @@
 
   <div class="row-fluid">
     <h2>Viewing Gallery</h2>
-
-    <div class="yoxview" id="thumbnails">
+    <br>
       <% @flat.photos.each do |photo| %>
-          <a href="<%= photo.image.url(:original) %>"><img src="<%= photo.image.url(:thumbnail) %>" alt="<%= photo.name %>" title="<%= photo.name %>"/></a>
+          <a href="<%= photo.image.url(:lightbox) %>" class="lightbox"><img src="<%= photo.image.url(:thumbnail) %>" alt="<%= photo.name %>" title="<%= photo.name %>" style="width:200px;"/></a>
       <% end %>
-    </div>
   </div>
 </div>

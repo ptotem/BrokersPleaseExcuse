@@ -22,7 +22,7 @@
         <%= link_to "Building", edit_property_building_features_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "building" %>
         <%= link_to "Flat", edit_property_flat_features_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "flat" %>
         <%= link_to "Photos", edit_property_flat_photos_path(@building,@flat), :class => "btn btn-inverse btn-large panel-link", :id => "photos" %>
-        <%= link_to "More Info", '#', :class => "btn btn-inverse btn-large panel-link", :id => "info" %>
+        <%= link_to "More Info", edit_property_flat_moreinfo_path, :class => "btn btn-inverse btn-large panel-link", :id => "info" %>
       </div>
     </div>
   </div>
