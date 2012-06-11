@@ -15,7 +15,7 @@
         <small><%= @flat.flat_key.upcase %></small>
       </h3>
     </div>
-    <div class="span7">
+    <div class="span7 pull-right">
       <div class="row-fluid" style="margin-top: 20px;">
         <%= link_to "Basic Data", edit_property_basic_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "basic" %>
         <%= link_to "Location", edit_property_location_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "location" %>
@@ -23,6 +23,7 @@
         <%= link_to "Flat", edit_property_flat_features_path(@building, @flat), :class => "btn btn-inverse btn-large panel-link", :id => "flat" %>
         <%= link_to "Photos", edit_property_flat_photos_path(@building,@flat), :class => "btn btn-inverse btn-large panel-link", :id => "photos" %>
         <%= link_to "More Info", edit_property_flat_moreinfo_path, :class => "btn btn-inverse btn-large panel-link", :id => "info" %>
+        <%= link_to "Terms", edit_property_terms_path, :class => "btn btn-inverse btn-large panel-link", :id => "terms" %>
       </div>
     </div>
   </div>

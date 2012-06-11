@@ -33,6 +33,18 @@
         });
         marker.setIcon("/assets/marker.png");
 
+    <% @pois.each do |poi| %>
+        var latlng_<%= poi.id %> = new google.maps.LatLng(<%= poi.latitude %>, <%= poi.longitude %>);
+        var marker_<%= poi.id %> = new google.maps.Marker({
+            draggable:true,
+            position:latlng_<%= poi.id %>,
+            map:map,
+            title:"<%= poi.name %>"
+        });
+
+        marker_<%= poi.id %>.setIcon("/assets<%= poi.poi_type.avatar.url %>");
+    <% end %>
+
         //this is the code for search in the map
         geocoder = new google.maps.Geocoder();
 
@@ -100,8 +112,8 @@
                 });
             }
 
-            document.getElementById('building_address_latitude').value = location.lat();
-            document.getElementById('building_address_longitude').value = location.lng();
+            document.getElementById('poi_address_latitude').value = location.lat();
+            document.getElementById('poi_address_longitude').value = location.lng();
             document.getElementById('lat_hidden_field').value = location.lat();
             document.getElementById('lon_hidden_field').value = location.lng();
             getAddress(location);
@@ -167,95 +179,124 @@
         map.setCenter(options.position);
     }
 
-
     google.maps.event.addDomListener(window, 'load', initialize);
 
+    $(function () {
+        $("#poi_poi_type_id").change(function () {
+            if ($(this).val() == "<%= PoiType.find_by_name("Building").id %>") {
+                $('#poi_note').show();
+            }
+            else {
+                $('#poi_note').hide();
+            }
+        });
+    });
 
 </script>
 
-<h2>Location</h2>
+<h2>Point of Interest</h2>
 
-<%= nested_form_for @building do |b| %>
-
-    <%= hidden_field_tag :came_from, "location" %>
-    <%= hidden_field_tag :flat_id, @flat.id %>
-
-    <%= render :partial => 'form_menu' %>
-    <br>
+<%= nested_form_for @poi do |b| %>
 
     <div class="content detail-panel" id="basic-panel">
 
       <div class="row-fluid">
-        <div class="span4">
-
-          <h2>Location</h2>
-
-          <div class="row-fluid">
-            <%= b.label :road, :class => "blabel" %>
-            <%= b.text_field :road, :value => @building.road %>
-          </div>
-
-          <div class="row-fluid">
-            <%= b.label :landmark, :class => "blabel" %>
-            <%= b.text_field :landmark, :value => @building.landmark %>
-          </div>
-
-          <div class="row-fluid">
-            <%= b.label "Also considered in", :class => "blabel" %>
-            <%= hidden_field_tag 'building[locality_ids][]', nil %>
-            <%= select_tag 'building[locality_ids][]', options_from_collection_for_select(@localities, 'id', 'name', @building.locality_ids), :multiple => true, :class => 'chzn-container-multi' %>
-          </div>
-
-          <div class="row-fluid">
-            <%= b.label :pincode, :class => "blabel" %>
-            <%= b.text_field :pincode, :value => @building.pincode %>
-          </div>
-
-          <div class="row-fluid">
-            <%= b.label :latitude, :class => "blabel" %>
-            <%= b.number_field :latitude, :value => @building.latitude||=10, :id => "building_address_latitude", :disabled => true %>
-            <%= b.hidden_field :latitude, :value => @building.latitude||=10, :id => "lat_hidden_field" %>
-            <br>
-            <%= b.label :longitude, :class => "blabel" %>
-            <%= b.number_field :longitude, :value => @building.longitude||=10, :id => "building_address_longitude", :disabled => true %>
-            <%= b.hidden_field :longitude, :value => @building.longitude||=10, :id => "lon_hidden_field" %>
-            <br>
-            <br>
-          </div>
-
-
-          <div class="row-fluid">
-            <h2>Directions</h2>
-            <%= b.fields_for :building_routes do |builder| %>
-                <%= builder.text_area :name, :rows => 1, :class=>'span4' %>
-                <br>
-                <%= builder.link_to_remove "Remove" %> <br/>
-            <% end %>
-            <%= b.link_to_add 'Add Route', :building_routes %> <br/>
-          </div>
-
-
-
-          <br>
-          <br>
-
-          <div>
-            <%= b.hidden_field :id, :value => @building.id %>
-            <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
-          </div>
-
-        </div>
-
-        <div class="span8">
+        <div class="span12">
           <!--TODO Search should have value input when revisited-->
-          <%= text_field_tag :search, "", :id => "address", :style => "margin-left:20px;" %>
-          <%= link_to "Search", "#", :id => "update-map", :onclick => "codeAddress();", :class => "btn btn-inverse", :style => "margin-top:-10px;" %>
-          <br>
 
-          <div id="map" style="height: 360px;width:600px;" class="span8"></div>
+          <div class="row-fluid">
+            <div class="span2"><h1>Points of Interest</h1></div>
+            <div class="span10">
+              <table>
+                <tr>
+                  <td colspan="4">
+                    <%= text_field_tag :search, "", :id => "address", :class => "span7" %>
+                    <%= link_to "Search", "#", :id => "update-map", :onclick => "codeAddress();", :class => "btn btn-inverse", :style => "margin-top:-10px;" %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><%= b.label :latitude %> </td>
+                  <td><%= b.number_field :latitude, :value => @poi.latitude||=10, :id => "poi_address_latitude", :disabled => true %> </td>
+                  <td><%= b.label :longitude %> </td>
+                  <td style="text-align: right"><%= b.number_field :longitude, :value => @poi.longitude||=10, :id => "poi_address_longitude", :disabled => true %> </td>
+                </tr>
+              </table>
+            </div>
+            <%= b.hidden_field :longitude, :value => @poi.longitude||=10, :id => "lon_hidden_field" %>
+            <%= b.hidden_field :latitude, :value => @poi.latitude||=10, :id => "lat_hidden_field" %>
+
+            <br>
+          </div>
+
+          <div id="map" style="height: 420px;width:840px;"></div>
           <br>
           <br>
         </div>
+      </div>
+
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="span3">
+            <%= b.label "Type" %>
+            <%= b.select :poi_type_id, options_from_collection_for_select(@poi_type_ids, "id", "name", @poi.poi_type_id), :id => "poi-type" %>
+            <br/>
+          </div>
+
+          <div class="span3">
+            <%= b.label "Name" %>
+            <br>
+            <%= b.text_field :name %>
+          </div>
+          <div class="span3">
+            <%= b.label "Locality" %>
+            <%= b.select :locality_id, options_from_collection_for_select(@localities, "id", "name", @poi.locality_id) %>
+            <br/>
+          </div>
+          <div class="span3">
+            <%= b.submit "Save", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
+          </div>
+          <br>
+          <br>
+        </div>
+        <br>
+
+        <div class="row-fluid" id="poi_note">
+          <div class="span12">
+            <div class="span8">
+              <%= b.label "Building Note", :class => "blabel" %>
+              <%= b.text_area :note, :rows => 1, :class => "span10" %>
+              <br/>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <br>
+        <% unless Poi.all.blank? %>
+            <!--TODO Add dhtmlx here-->
+            <div class="row-fluid" style="margin-top:20px;">
+              <h1>Existing Points of Interest</h1>
+              <table class="table table-condensed" style="width:840px;">
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Locality</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
+                </tr>
+                <% @pois.each do |poi| %>
+                    <tr>
+                      <td><%= poi.name %></td>
+                      <td><%= poi.poi_type.name %></td>
+                      <td><%= poi.locality.name %>, <%= poi.locality.area.name %> </td>
+                      <td><%= poi.latitude %></td>
+                      <td><%= poi.longitude %></td>
+                    </tr>
+                <% end %>
+              </table>
+            </div>
+        <% end %>
+
       </div>
 
     </div>

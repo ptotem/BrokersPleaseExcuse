@@ -28,6 +28,7 @@ class Building < ActiveRecord::Base
   accepts_nested_attributes_for :building_facilities, :reject_if => lambda { |a| a[:facility_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :building_facility_features, :reject_if => lambda { |a| a[:facility_feature_id].blank? }, :allow_destroy => true
 
+  after_save :make_poi
 
   def main_locality
     primary_locality_id.blank? ? nil :Locality.find(self.primary_locality_id)
@@ -35,6 +36,21 @@ class Building < ActiveRecord::Base
 
   def full_name
     main_locality.nil? ? "#{self.name}" : "#{self.name}, #{self.main_locality.name}"
+  end
+
+  def make_poi
+    unless (self.latitude.blank? or self.longitude.blank?)
+      if Poi.find_by_name(self.name).blank?
+        @poi=Poi.new
+        @poi.name=self.name
+        @poi.locality_id=self.primary_locality_id
+        @poi.poi_type_id=PoiType.find_by_name("Building").id
+        @poi.note=self.qknote
+        @poi.latitude=self.latitude
+        @poi.longitude=self.longitude
+        @poi.save
+      end
+    end
   end
 
   validates_presence_of :name

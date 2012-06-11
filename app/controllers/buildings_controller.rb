@@ -180,6 +180,21 @@ class BuildingsController < ApplicationController
     @photo = Photo.new
   end
 
+  def moreinfo
+    @building = Building.find(params[:building_id])
+    @flat = Flat.find(params[:id])
+    @services = Service.all
+    @building_services=@building.building_services
+    @building.building_services.build
+
+  end
+
+  def terms
+    @building = Building.find(params[:building_id])
+    @flat = Flat.find(params[:id])
+
+  end
+
   def tag_photos
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
@@ -221,15 +236,18 @@ class BuildingsController < ApplicationController
     @contact = Contact.new(params[:contact])
 
     respond_to do |format|
-      if params[:building][:flat].blank?
-        format.html { redirect_to new_property_path(@building, :contact => @contact.id), :notice => "Property could not be created. You must choose a building and put in the flat name and configuration"}
 
-      elsif @building.update_attributes(params[:building])
+      if !@contact.name.blank?
+        @contact.save!
+      end
 
-        if !@contact.name.blank?
-          @contact.save!
-          format.html { redirect_to edit_property_basic_path(@building, @flat) }
-        end
+      #if params[:building][:flats_attributes].blank?
+      #  format.html { redirect_to new_property_path(@building, :contact => @contact.id), :notice => "Property could not be created. You must choose a building and put in the flat name and configuration"}
+      #elsif @building.update_attributes(params[:building])
+
+      # TODO Put in the validations for blank form submits using client-side validations
+      
+      if @building.update_attributes(params[:building])
 
         case params[:came_from]
           when nil
@@ -281,11 +299,23 @@ class BuildingsController < ApplicationController
           when 'photos'
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
-
-            params[:flat][:photos_attributes].count.times do |i|
-              Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
+            format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Photo Gallery was successfully updated.' }
+          when 'moreinfo'
+            @flat=Flat.find(params[:flat_id])
+            @building=@flat.building
+            if params[:external]=="true"
+              format.html { redirect_to edit_property_terms_path(@building, @flat), notice:'Additional Info was successfully updated.' }
+            else
+              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Additional Info was successfully updated.' }
             end
-            format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
+          when 'terms'
+            @flat=Flat.find(params[:flat_id])
+            @building=@flat.building
+            if params[:external]=="true"
+              format.html { redirect_to edit_property_basic_path(@building, @flat), notice:'Terms were successfully updated.' }
+            else
+              format.html { redirect_to show_property_path(@flat), notice:'Terms were successfully updated.' }
+            end
 
         end
       end

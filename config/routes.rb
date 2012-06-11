@@ -7,6 +7,8 @@ BPEv075::Application.routes.draw do
   match 'building/:building_id/flat/:id/detailed_form/flat_features', :to => "buildings#flat_features", :as => "edit_property_flat_features"
   match 'building/:building_id/flat/:id/detailed_form/photos', :to => "buildings#photos", :as => "edit_property_flat_photos"
   match 'building/:building_id/flat/:id/detailed_form/tag_photos', :to => "buildings#tag_photos", :as => "tag_property_flat_photos"
+  match 'building/:building_id/flat/:id/detailed_form/moreinfo', :to => "buildings#moreinfo", :as => "edit_property_flat_moreinfo"
+  match 'building/:building_id/flat/:id/detailed_form/terms', :to => "buildings#terms", :as => "edit_property_terms"
   match 'property/:id', :to => "flats#show", :as => "show_property"
 
 
@@ -20,6 +22,8 @@ BPEv075::Application.routes.draw do
   resources :flats
   resources :tasks
   resources :photos
+  resources :building_services
+  resources :pois
 
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

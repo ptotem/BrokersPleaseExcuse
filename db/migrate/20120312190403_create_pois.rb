@@ -4,6 +4,7 @@ class CreatePois < ActiveRecord::Migration
       t.integer :locality_id
       t.integer :poi_type_id
       t.string :name
+      t.text :note
 
       t.timestamps
     end

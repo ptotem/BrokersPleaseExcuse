@@ -1,0 +1,63 @@
+<%= nested_form_for(@building) do |b| %>
+    <%= b.fields_for :flats, @flat do |f| %>
+
+        <%= hidden_field_tag :came_from, "moreinfo" %>
+        <%= hidden_field_tag :flat_id, @flat.id %>
+        <%= hidden_field_tag :external, false %>
+        <%= render :partial => 'form_menu' %>
+        <br>
+        <div class="content detail-panel" id="terms-panel">
+          <div class="row-fluid">
+
+            <div class="span10">
+
+              <h2>Terms and Conditions</h2>
+              <br>
+
+              <div class="blabel">Available From:</div>
+              <%= f.fields_for :available_froms, @available_from do |er| %>
+                  <!--TODO Datepicker Edit to be Put in-->
+                  <%= er.text_field :name, :value => @flat.available_froms.last.name %>
+                  <%#= er.datepicker :name, :value => @flat.available_froms.last.name, :dateFormat => "dd/mm/yy" %>
+              <% end %>
+
+              <%= f.fields_for :expected_rents, @expected_rent do |er| %>
+                  <div class="blabel">Expected Rent:</div>
+                  <%= er.text_field :name %>
+                  <br>
+
+                  <div class="blabel">Minimum Rent:</div>
+                  <%= er.text_field :minimum_value %>
+              <% end %>
+
+              <%= f.fields_for :rental_terms, @rental_terms do |er| %>
+                  <div class="blabel">Estimated Brokerage:</div>
+                  <%= er.number_field :estimated_brokerage%>
+                  <br>
+                  <div class="blabel">Package Details:</div>
+                  <%= er.text_area :package_details, :class=>"span6", :rows=>"2" %>
+                  <br>
+
+                  <div class="blabel">Landlord Conditions:</div>
+                  <%= er.text_area :landlord_conditions, :class=>"span6", :rows=>"2" %>
+                  <br>
+
+                  <div class="blabel">Brokerage Details:</div>
+                  <%= er.text_area :brokerage_details, :class=>"span6", :rows=>"2" %>
+                  <br>
+
+                  <div class="blabel">Showing Details:</div>
+                  <%= er.text_area :showing_details, :class=>"span6", :rows=>"2" %>
+                  <br>
+              <% end %>
+
+            </div>
+          </div>
+          <br>
+          <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large" %>
+          <%= b.submit "Save and Exit", :class => "btn btn-success btn-large", :onclick => "$('#external').val('true')" %>
+        </div>
+
+    <% end %>
+<% end %>
+

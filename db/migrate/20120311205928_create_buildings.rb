@@ -12,6 +12,7 @@ class CreateBuildings < ActiveRecord::Migration
       t.float :latitude
       t.float :longitude
       t.string :landmark
+      t.date :year_built
 
       t.timestamps
     end

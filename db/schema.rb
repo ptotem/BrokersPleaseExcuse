@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607071736) do
+ActiveRecord::Schema.define(:version => 20120611122532) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(:version => 20120607071736) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "landmark"
+    t.date     "year_built"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.text     "qknote"
@@ -447,16 +448,23 @@ ActiveRecord::Schema.define(:version => 20120607071736) do
 
   create_table "poi_types", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   create_table "pois", :force => true do |t|
     t.integer  "locality_id"
     t.integer  "poi_type_id"
     t.string   "name"
+    t.text     "note"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "qualities", :force => true do |t|
@@ -488,10 +496,13 @@ ActiveRecord::Schema.define(:version => 20120607071736) do
   create_table "rental_terms", :force => true do |t|
     t.integer  "flat_id"
     t.integer  "rent_year"
-    t.text     "name"
-    t.boolean  "deposit"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "estimated_brokerage"
+    t.text     "package_details"
+    t.text     "landlord_conditions"
+    t.text     "brokerage_details"
+    t.text     "showing_details"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "restrictions", :force => true do |t|

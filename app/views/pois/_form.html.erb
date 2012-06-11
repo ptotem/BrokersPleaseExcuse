@@ -1,0 +1,11 @@
+<%= semantic_form_for @poi do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :locality_id %>
+    <%= f.input :poi_type_id %>
+    <%= f.input :name %>
+  <% end %>
+
+  <%= f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+<% end %>

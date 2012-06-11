@@ -1,52 +1,122 @@
 <%= nested_form_for(@building) do |b| %>
-    <%= b.fields_for :flats do |f| %>
+
+    <%= hidden_field_tag :came_from, "moreinfo" %>
+    <%= hidden_field_tag :flat_id, @flat.id %>
+    <%= hidden_field_tag :external, false %>
+    <%= render :partial => 'form_menu' %>
+
+    <br>
+    <div class="content detail-panel" id="basic-panel">
 
 
-        <%= hidden_field_tag :came_from, "moreinfo" %>
-        <%= hidden_field_tag :flat_id, @flat.id %>
-        <%= render :partial => 'form_menu' %>
+      <div class="row-fluid">
+        <div class="span4">
+          <h2>Building Services</h2>
+          <br/>
 
-        <br>
-        <div class="content detail-panel" id="basic-panel">
+          <div class="span7">
+            <table class="table table-condensed" cellpadding="0" cellspacing="0" border="0" id="all_services">
+              <thead>
+              <tr style="height:15px;">
+                <th style="text-align: left">Service</th>
+                <th style="text-align: left">Name</th>
+                <th style="text-align: left"></th>
+                <th style="text-align: left"></th>
+              </tr>
+              </thead>
+              <tbody style="border-bottom: solid 1px #daa520; margin-bottom: 10px;">
+              <% @building_services.each do |bs| %>
+                  <%= b.fields_for :building_services, bs do |building_service| %>
+                      <% unless bs.name.blank? %>
+                          <tr>
+                            <td><%= bs.service.name %></td>
+                            <td><%= bs.name %></td>
+                            <td>
+                              <a href="#details_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Details</a>
+                            </td>
+                            <td>
+                              <a href="#phone_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Helplines</a>
+                            </td>
+                            <td>
+                              <a href="#note_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Notes</a>
+                            </td>
+                            <td><%= link_to "Delete", building_service_path(bs,:flat_id=>@flat.id ), :method => :delete%></td>
+                          </tr>
 
+                          <div id="phone_<%= bs.id %>" class="modal hide fade">
+                            <div class="modal-header">
+                              <h2><%= bs.service.name %> : <%= bs.name %></h2>
+                            </div>
+                            <div class="modal-body" style="height:300px;overflow:auto;">
+                              <% bs.building_service_helplines.build %>
+                              <h3>Phones:</h3>
+                              <%= building_service.fields_for :building_service_helplines do |repeater| %>
+                                  <%= repeater.text_field :name, :placeholder => "Helpline Number" %>
+                                  <%= repeater.link_to_remove "Remove" %>
+                              <% end %>
+                            </div>
+                            <div class="modal-footer">
+                              <%= b.submit "Save and Continue", :class=>"btn btn-primary pull-left btn-large" %>
+                              <div class="close pull-left" data-dismiss="modal">Back</div>
+                            </div>
+                          </div>
 
-          <div class="row-fluid">
-            <div class="span4" style="overflow: auto;height:320px;padding-right:40px;margin-top: -20px; margin-left: 20px;">
-              <h3>Add New Service</h3>
-              <br/>
-              <%= b.fields_for :building_services do |building_service| %>
-                  <% if building_service.object.new_record? %>
-                      <%= building_service.select :service_id, options_from_collection_for_select(@services, :id, :name), {:multiple => false}, {:class => "chzn-select span3", :'data-placeholder' => "Select Service"} %>
-                      <br/>
-                      <%= building_service.text_field :name, :class => "span3", :style => "margin-top:5px;", :placeholder => "Name" %>
-                      <br/>
-                      <%= building_service.link_to_add 'Add helpline', :building_service_helplines %> <br/>
+                          <div id="note_<%= bs.id %>" class="modal hide fade">
+                            <div class="modal-header">
+                              <h2><%= bs.service.name %> : <%= bs.name %></h2>
+                            </div>
+                            <div class="modal-body" style="height:300px;overflow:auto;">
+                              <% bs.building_service_notes.build %>
+                              <h3>Phones:</h3>
+                              <%= building_service.fields_for :building_service_notes do |repeater| %>
+                                  <%= repeater.text_field :name, :placeholder => "Building Service Note" %>
+                                  <%= repeater.link_to_remove "Remove" %>
+                              <% end %>
+                            </div>
+                            <div class="modal-footer">
+                              <%= b.submit "Save and Continue", :class => "btn btn-primary pull-left btn-large" %>
+                              <div class="close pull-left" data-dismiss="modal">Back</div>
+                            </div>
+                          </div>
 
-                      <%= building_service.fields_for :building_service_helplines do |repeater| %>
-                          <%= repeater.text_field :name, :placeholder => "Helpline Number" %>
-                          <%= repeater.link_to_remove "Remove" %>
-                      <% end %>
-                      <br/>
-                      <%= building_service.link_to_add 'Add Note', :building_service_notes %> <br/>
+                          <div id="details_<%= bs.id %>" class="modal hide fade">
+                            <div class="modal-header">
+                              <h2><%= bs.service.name %> : <%= bs.name %></h2>
+                            </div>
+                            <div class="modal-body" style="height:300px;overflow:auto;">
+                              <h3>Phones:</h3>
+                              <br/>
+                              <% bs.building_service_helplines.each do |phone| %>
+                                  <%= phone.name %>
+                                  <br/>
+                              <% end %>
+                              <br/>
+                              <br/>
 
-                      <%= building_service.fields_for :building_service_notes do |builder| %>
-                          <%= builder.text_area :name, :rows => 2, :placeholder => "Building Note" %>
-                          <%= builder.link_to_remove "Remove" %>
-                      <% end %>
-                      <br/>
-                      <%= f.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %>
+                              <h3>Notes:</h3>
+                              <br/>
+                              <% bs.building_service_notes.each do |note| %>
+                                  <%= note.name %>
+                                  <br/>
+                              <% end %>
+                            </div>
+                            <div class="modal-footer">
+                              <div class="close" data-dismiss="modal">Back</div>
+                            </div>
+                          </div>
+                      <%- end -%>
                   <% end %>
-              <% end %>
-              </table>
-            </div>
-            <div class="span7">
-              <%= render :partial => 'building_services_table' %>
-            </div>
-            <br/>
-
+              <%- end -%>
+              </tbody>
+            </table>
+            </table>
           </div>
         </div>
+        <br/>
 
-    <% end %>
+      </div>
+      <%= b.submit "Save and Continue", :class=>"btn btn-primary btn-large", :onclick=>"$('#external').val('true')" %>
+    </div>
+
 <% end %>
 

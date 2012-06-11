@@ -1,10 +1,10 @@
-<table class="display" cellpadding="0" cellspacing="0" border="0" id="all_services">
+<table class="table table-condensed" cellpadding="0" cellspacing="0" border="0" id="all_services">
   <thead>
   <tr style="height:15px;">
     <th style="text-align: left">Service</th>
     <th style="text-align: left">Name</th>
     <th style="text-align: left">Phone</th>
-    <th style="text-align: left"></th>
+    <th style="text-align: left">Add Phone</th>
     <th style="text-align: left"></th>
   </tr>
   </thead>
@@ -12,10 +12,16 @@
   <% @building_services.each do |bs| %>
       <% unless bs.name.blank? %>
           <tr>
-            <td style="background: transparent;"><%= bs.service.name %></td>
-            <td style="background: transparent;"><%= bs.name %></td>
-            <td style="background: transparent;"><%= bs.building_service_helplines.first.phone %></td>
-            <td style="background: transparent;">
+            <td><%= bs.service.name %></td>
+            <td><%= bs.name %></td>
+            <td><%= bs.building_service_helplines.first.name %></td>
+            <td>
+              <%= building_service.fields_for :building_service_helplines, bs do |repeater| %>
+                  <%= repeater.text_field :name, :placeholder => "Helpline Number" %>
+                  <%= repeater.link_to_remove "Remove" %>
+              <% end %>
+            </td>
+            <td>
               <a href="#details_<%= bs.id %>" data-toggle="modal" data-backdrop="static">More...</a>
             </td>
             <td style="background: transparent;"><%= link_to "Delete", :method => :delete %></td>
@@ -28,7 +34,7 @@
               <h3>Phones:</h3>
               <br/>
               <% bs.building_service_helplines.each do |phone| %>
-                   <%= phone.phone %>
+                   <%= phone.name %>
                   <br/>
               <% end %>
               <br/>
@@ -36,7 +42,7 @@
               <h3>Notes:</h3>
               <br/>
               <% bs.building_service_notes.each do |note| %>
-                  <%= note.comment%>
+                  <%= note.name%>
                   <br/>
               <% end %>
             </div>

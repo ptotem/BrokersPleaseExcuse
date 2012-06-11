@@ -1,0 +1,27 @@
+<h1>Listing pois</h1>
+
+<table>
+  <tr>
+    <th>Locality</th>
+    <th>Poi type</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pois.each do |poi| %>
+  <tr>
+    <td><%= poi.locality_id %></td>
+    <td><%= poi.poi_type_id %></td>
+    <td><%= poi.name %></td>
+    <td><%= link_to 'Show', poi %></td>
+    <td><%= link_to 'Edit', edit_poi_path(poi) %></td>
+    <td><%= link_to 'Destroy', poi, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Poi', new_poi_path %>
