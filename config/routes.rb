@@ -6,7 +6,7 @@ BPEv075::Application.routes.draw do
   match 'building/:building_id/flat/:id/detailed_form/building_features', :to => "buildings#building_features", :as => "edit_property_building_features"
   match 'building/:building_id/flat/:id/detailed_form/flat_features', :to => "buildings#flat_features", :as => "edit_property_flat_features"
   match 'building/:building_id/flat/:id/detailed_form/photos', :to => "buildings#photos", :as => "edit_property_flat_photos"
-  match 'building/:building_id/flat/:id/detailed_form/moreinfo', :to => "buildings#moreinfo", :as => "edit_property_flat_moreinfo"
+  match 'building/:building_id/flat/:id/detailed_form/tag_photos', :to => "buildings#tag_photos", :as => "tag_property_flat_photos"
   match 'property/:id', :to => "flats#show", :as => "show_property"
 
 
@@ -35,6 +35,7 @@ BPEv075::Application.routes.draw do
   match "delete_all_photos/:flat_id" => "photos#delete_all_photos", :as => "delete_all_photos"
   match "make_showcase_image/:photo_id" => "photos#make_showcase_image", :as => "make_showcase_image"
   match "update_photo_sequence" => "photos#update_photo_sequence", :as => "update_photo_sequence"
+  match "save_photo_positions"=>"photos#save_photo_positions",:as=>"save_photo_positions"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

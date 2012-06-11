@@ -100,8 +100,6 @@ class BuildingsController < ApplicationController
     @phone=@contact.phones.build
     @email=@contact.emails.build
 
-    @labellings=Labelling.where("is_flat_contact_label=?", true).all
-    @contacts=Contact.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -182,13 +180,13 @@ class BuildingsController < ApplicationController
     @photo = Photo.new
   end
 
-  def moreinfo
+  def tag_photos
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
-    @building_service = @building.building_services.build
-    @building_services=@building.building_services
-    @services=Service.all
+    @photos = Photo.all
+    @photo = Photo.new
   end
+
 
   # POST /buildings
   # POST /buildings.json
@@ -284,15 +282,10 @@ class BuildingsController < ApplicationController
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
 
-            if !params[:flat].blank?
-              params[:flat][:photos_attributes].count.times do |i|
-                Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
-              end
-              format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Photos were successfully uploaded.' }
-            else
-              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Photos were successfully updated.' }
+            params[:flat][:photos_attributes].count.times do |i|
+              Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
             end
-
+            format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
 
         end
       end

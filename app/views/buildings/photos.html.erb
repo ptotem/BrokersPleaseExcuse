@@ -112,6 +112,7 @@
             Gallery
             <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
             <%= link_to "Sequencify", edit_property_flat_photos_path(@building, @flat), :class => "btn btn-primary" %>
+            <%= link_to "Taggify!", tag_property_flat_photos_path(@building, @flat), :class => "btn btn-inverse" %>
           </h2>
 
           <i>

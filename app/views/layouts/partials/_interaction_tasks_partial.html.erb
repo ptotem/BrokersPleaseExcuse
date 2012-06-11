@@ -167,7 +167,7 @@
 
         <% @interactions.each do |interaction| %>
             <tr>
-              <td><%= interaction.interaction_date.strftime("%e %b") %></td>
+              <td style="visibility: hidden;"><%= interaction.interaction_date.strftime("%e %b") %></td>
               <td><%= InteractionType.find(interaction.interaction_type_id).name %></td>
               <td><a href="#" id="<%= interaction.id %>" class="interaction_link"><%= interaction.name[0,80] %></a></td>
               <td><%= link_to Contact.find(interaction.primary_contact_id).name,contact_path(Contact.find(interaction.primary_contact_id)),:target => "_blank" %></td>
@@ -217,7 +217,7 @@
 
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn btn-danger" data-dismiss="modal"">Close</a>
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
 
               </div>
             </div>
@@ -254,6 +254,9 @@
         mygrid.setColWidth(1, 60);
         mygrid.setColWidth(2, 240);
         mygrid.setColWidth(3, 100);
+
+        //hiding columns
+      //  mygrid.setColumnHidden(0,true);
     }
 
     $(function () {
