@@ -37,7 +37,6 @@ class Building < ActiveRecord::Base
     main_locality.nil? ? "#{self.name}" : "#{self.name}, #{self.main_locality.name}"
   end
 
-
-
+  validates_presence_of :name
 
 end

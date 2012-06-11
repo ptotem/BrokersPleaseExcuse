@@ -40,8 +40,8 @@ class Flat < ActiveRecord::Base
   accepts_nested_attributes_for :balconies, :reject_if => lambda { |a| a[:balcony_type_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :parkings, :reject_if => lambda { |a| a[:parking_type_id].blank? }, :allow_destroy => true
 
-  validates_presence_of :name
-  validates_presence_of :bhk_config_id
+  validates_presence_of :name, :message => "Flat name not entered"
+  validates_presence_of :bhk_config_id, :message => "Flat Configuration not entered"
 
   before_create :create_flat_key
   after_create :create_basics

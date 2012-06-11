@@ -43,7 +43,7 @@ class BuildingsController < ApplicationController
     @sources=Flatype.all
     @furnstats=Furnstat.all
     @contacts=Contact.all
-    @contact_types=Labelling.where("is_flat_contact_label=?", true).all
+    @labellings=Labelling.where("is_flat_contact_label=?", true).all
     @rent_year= RentYear.where('name=?', Time.now.year).first
 
     @flat = @building.flats.build
@@ -79,11 +79,15 @@ class BuildingsController < ApplicationController
     @sources=Flatype.all
     @furnstats=Furnstat.all
     @contacts=Contact.all
-    @contact_types=Labelling.where("is_flat_contact_label=?", true).all
+    @labellings=Labelling.where("is_flat_contact_label=?", true).all
     @rent_year= RentYear.where('name=?', Time.now.year).first
 
-    @expected_rent = @flat.expected_rents.first
-    @available_from = @flat.available_froms.first
+    unless @expected_rent = @flat.expected_rents.first
+      @expected_rent=@flat.expected_rents.build
+    end
+    unless @available_from = @flat.available_froms.first
+      @available_from = @flat.available_froms.build
+    end
 
     if params[:contact]
       @default_contact_id=params[:contact]
@@ -190,26 +194,20 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
 
-
     @building = Building.new(params[:building])
-
     @contact=Contact.new(params[:contact])
 
     respond_to do |format|
-
       if !@contact.name.blank? && @contact.save!
         format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice:'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
         format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), notice:"You selected #{@selected_building.name}. Now add the flat." }
       else
-        if @building.save!
-
+        if @building.save
           format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice:'Building was successfully created.' }
-          format.json { render json :@building, :status => :created, :location => @building }
         else
-          format.html { render action :"quick_form" }
-          format.json { render json :@building.errors, :status => :unprocessable_entity }
+          format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), :notice => "Property could not be created. You must choose a building and put in the flat name and configuration" }
         end
       end
 
@@ -224,9 +222,11 @@ class BuildingsController < ApplicationController
 
     @contact = Contact.new(params[:contact])
 
-
     respond_to do |format|
-      if @building.update_attributes(params[:building])
+      if params[:building][:flat].blank?
+        format.html { redirect_to new_property_path(@building, :contact => @contact.id), :notice => "Property could not be created. You must choose a building and put in the flat name and configuration"}
+
+      elsif @building.update_attributes(params[:building])
 
         if !@contact.name.blank?
           @contact.save!
@@ -236,12 +236,9 @@ class BuildingsController < ApplicationController
         case params[:came_from]
           when nil
             @flat=Flat.last
-
             format.html { redirect_to edit_property_basic_path(@building, @flat), notice:'Property was successfully created.' }
-
           when 'basic'
             @flat=Flat.find(params[:flat_id])
-
             format.html { redirect_to edit_property_location_path(@building, @flat), notice:'Basic Property data was successfully updated.' }
           when 'location'
             @flat=Flat.find(params[:flat_id])

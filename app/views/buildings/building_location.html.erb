@@ -196,6 +196,11 @@
           </div>
 
           <div class="row-fluid">
+            <%= b.label :landmark, :class => "blabel" %>
+            <%= b.text_field :landmark, :value => @building.landmark %>
+          </div>
+
+          <div class="row-fluid">
             <%= b.label "Also considered in", :class => "blabel" %>
             <%= hidden_field_tag 'building[locality_ids][]', nil %>
             <%= select_tag 'building[locality_ids][]', options_from_collection_for_select(@localities, 'id', 'name', @building.locality_ids), :multiple => true, :class => 'chzn-container-multi' %>

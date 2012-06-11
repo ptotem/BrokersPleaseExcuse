@@ -1,5 +1,5 @@
 <%= nested_form_for(@building) do |b| %>
-    <%= b.fields_for :flats do |f| %>
+    <%= b.fields_for :flats, @flat do |f| %>
 
 
         <%= hidden_field_tag :came_from, "flat_features" %>

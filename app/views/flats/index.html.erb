@@ -60,7 +60,7 @@
 
 
         <tr>
-          <td id=<%= flat.id+0 %>><%= link_to flat.flat_key, "/building/#{flat.building.id}/flat/#{flat.id}/edit" %></td>
+          <td id=<%= flat.id+0 %>><%= link_to flat.flat_key, "property/#{flat.id}" %></td>
           <td <%= flat.id+1 %>><%= flat.name %></td>
           <td <%= flat.id+2 %>><%= flat.building.name %></td>
           <td <%= flat.id+3 %>><%= flat.building.primary_locality.name+","+flat.building.localities.map { |l| l.name }.join(",") %></td>

@@ -59,12 +59,12 @@
               <br>
               <br>
 
-              <div class="blabel">Source:</div>
-              <%= f.select :flatype_id, options_from_collection_for_select(@sources, 'id', 'name', @flat.flatype_id), {:include_blank => ''} %>
-              <br>
-
               <div class="blabel">Configuration*:</div>
               <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''}, {} %>
+              <br>
+
+              <div class="blabel">Source:</div>
+              <%= f.select :flatype_id, options_from_collection_for_select(@sources, 'id', 'name', @flat.flatype_id), {:include_blank => ''} %>
               <br>
 
               <div class="blabel">Furnishing Status:</div>
