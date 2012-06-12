@@ -13,7 +13,11 @@
     document.onkeypress = stopRKey;
 
     var map;
+    <% unless @building.latitude.blank? %>
+    var myLatlng = new google.maps.LatLng(<%= @building.latitude %>, <%= @building.longitude %>);
+    <% else %>
     var myLatlng = new google.maps.LatLng(18.9647, 72.8258);
+    <% end %>
     function initialize() {
 
         var myOptions = {
@@ -32,6 +36,18 @@
             title:"This is where you are"
         });
         marker.setIcon("/assets/marker.png");
+
+    <% @pois.each do |poi| %>
+        var latlng_<%= poi.id %> = new google.maps.LatLng(<%= poi.latitude %>, <%= poi.longitude %>);
+        var marker_<%= poi.id %> = new google.maps.Marker({
+            draggable:false,
+            position:latlng_<%= poi.id %>,
+            map:map,
+            title:"<%= poi.name %>"
+        });
+
+        marker_<%= poi.id %>.setIcon("<%= poi.poi_type.avatar.url %>");
+    <% end %>
 
         //this is the code for search in the map
         geocoder = new google.maps.Geocoder();
@@ -227,13 +243,12 @@
           <div class="row-fluid">
             <h2>Directions</h2>
             <%= b.fields_for :building_routes do |builder| %>
-                <%= builder.text_area :name, :rows => 1, :class=>'span4' %>
+                <%= builder.text_area :name, :rows => 1, :class => 'span4' %>
                 <br>
                 <%= builder.link_to_remove "Remove" %> <br/>
             <% end %>
             <%= b.link_to_add 'Add Route', :building_routes %> <br/>
           </div>
-
 
 
           <br>

@@ -8,9 +8,37 @@
     <br>
     <div class="content detail-panel" id="basic-panel">
 
-
       <div class="row-fluid">
-        <div class="span4">
+        <div class="span5">
+          <h3>
+            Add New Service
+            <%= b.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %>
+          </h3>
+          <br/>
+          <%= b.fields_for :building_services do |building_service| %>
+              <% if building_service.object.new_record? %>
+                  <%= building_service.select :service_id, options_from_collection_for_select(@services, :id, :name), {:multiple => false}, {:class => "chzn-select span3", :'data-placeholder' => "Select Service"} %>
+                  <br/>
+                  <%= building_service.text_field :name, :class => "span3", :style => "margin-top:5px;", :placeholder => "Name" %>
+                  <br/>
+                  <%= building_service.link_to_add 'Add helpline', :building_service_helplines %> <br/>
+
+                  <%= building_service.fields_for :building_service_helplines do |repeater| %>
+                      <%= repeater.text_field :name, :placeholder => "Helpline Number" %>
+                      <%= repeater.link_to_remove "Remove" %>
+                  <% end %>
+                  <br/>
+                  <%= building_service.link_to_add 'Add Note', :building_service_notes %> <br/>
+
+                  <%= building_service.fields_for :building_service_notes do |builder| %>
+                      <%= builder.text_area :name, :rows => 2, :placeholder => "Building Note" %>
+                      <%= builder.link_to_remove "Remove" %>
+                  <% end %>
+                  <br/>
+              <% end %>
+          <% end %>
+        </div>
+        <div class="span7">
           <h2>Building Services</h2>
           <br/>
 
@@ -40,7 +68,7 @@
                             <td>
                               <a href="#note_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Notes</a>
                             </td>
-                            <td><%= link_to "Delete", building_service_path(bs,:flat_id=>@flat.id ), :method => :delete%></td>
+                            <td><%= link_to "Delete", building_service_path(bs, :flat_id => @flat.id), :method => :delete %></td>
                           </tr>
 
                           <div id="phone_<%= bs.id %>" class="modal hide fade">
@@ -56,7 +84,7 @@
                               <% end %>
                             </div>
                             <div class="modal-footer">
-                              <%= b.submit "Save and Continue", :class=>"btn btn-primary pull-left btn-large" %>
+                              <%= b.submit "Save and Continue", :class => "btn btn-primary pull-left btn-large" %>
                               <div class="close pull-left" data-dismiss="modal">Back</div>
                             </div>
                           </div>
@@ -115,7 +143,9 @@
         <br/>
 
       </div>
-      <%= b.submit "Save and Continue", :class=>"btn btn-primary btn-large", :onclick=>"$('#external').val('true')" %>
+      <br>
+      <br>
+      <%= b.submit "Save and Continue", :class => "btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
     </div>
 
 <% end %>

@@ -7,6 +7,5 @@ class BuildingService < ActiveRecord::Base
   accepts_nested_attributes_for :building_service_helplines, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_service_notes, :reject_if => :all_blank, :allow_destroy => true
 
-  validates_presence_of :name
 
 end

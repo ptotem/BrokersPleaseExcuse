@@ -90,6 +90,8 @@
 
         <%= hidden_field_tag :came_from, "photos" %>
         <%= hidden_field_tag :flat_id, @flat.id %>
+        <%= hidden_field_tag :external, false %>
+
 
         <%= render :partial => 'form_menu' %>
         <br>
@@ -147,7 +149,7 @@
             </ul>
           </div>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :id => "submit-basic" %>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick=>"$('#external').val('true')" %>
           <br>
           <br>
 

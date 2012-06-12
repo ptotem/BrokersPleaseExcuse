@@ -53,6 +53,4 @@ class Building < ActiveRecord::Base
     end
   end
 
-  validates_presence_of :name
-
 end

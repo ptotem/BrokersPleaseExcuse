@@ -13,7 +13,13 @@
     document.onkeypress = stopRKey;
 
     var map;
+
+    <%  unless Poi.count.zero? %>
+    var myLatlng = new google.maps.LatLng(<%= Poi.last.latitude %>, <%= Poi.last.longitude %>);
+    <% else %>
     var myLatlng = new google.maps.LatLng(18.9647, 72.8258);
+    <% end %>
+
     function initialize() {
 
         var myOptions = {
@@ -42,7 +48,7 @@
             title:"<%= poi.name %>"
         });
 
-        marker_<%= poi.id %>.setIcon("/assets<%= poi.poi_type.avatar.url %>");
+        marker_<%= poi.id %>.setIcon("<%= poi.poi_type.avatar.url %>");
     <% end %>
 
         //this is the code for search in the map
@@ -228,8 +234,7 @@
             <br>
           </div>
 
-          <div id="map" style="height: 420px;width:840px;"></div>
-          <br>
+          <div id="map" style="height: 360px;width:840px;"></div>
           <br>
         </div>
       </div>

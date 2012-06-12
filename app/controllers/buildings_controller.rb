@@ -112,6 +112,7 @@ class BuildingsController < ApplicationController
     @building = Building.find(params[:building_id])
     @flat=Flat.find(params[:id])
     @localities=Locality.all
+    @pois=Poi.where('poi_type_id=?', PoiType.find_by_name('Building').id).all
     @building.building_localities.build
     @building.building_routes.build unless !@building.building_routes.blank?
 
@@ -246,7 +247,7 @@ class BuildingsController < ApplicationController
       #elsif @building.update_attributes(params[:building])
 
       # TODO Put in the validations for blank form submits using client-side validations
-      
+
       if @building.update_attributes(params[:building])
 
         case params[:came_from]
@@ -299,14 +300,24 @@ class BuildingsController < ApplicationController
           when 'photos'
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
-            format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Photo Gallery was successfully updated.' }
+
+            if params[:flat]
+              params[:flat][:photos_attributes].count.times do |i|
+                Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
+              end
+            end
+            if params[:external]=="true"
+              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Photos were successfully updated.' }
+            else
+              format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Photos were successfully uploaded.' }
+            end
           when 'moreinfo'
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
             if params[:external]=="true"
-              format.html { redirect_to edit_property_terms_path(@building, @flat), notice:'Additional Info was successfully updated.' }
+              format.html { redirect_to edit_property_terms_path(@building, @flat), notice:'Building Services were successfully updated.' }
             else
-              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Additional Info was successfully updated.' }
+              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Building Service was created.' }
             end
           when 'terms'
             @flat=Flat.find(params[:flat_id])
