@@ -66,7 +66,7 @@
 
                 <a data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
 
-                <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%">
+                <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%;overflow: hidden;">
                   <div class="modal-header">
                     <button class="close" data-dismiss="modal">×</button>
                     <h1>Add Interaction</h1>
@@ -75,8 +75,6 @@
                     <div class="row-fluid">
                       <%= render 'interactions/form', :locals => {} %>
                     </div>
-                  </div>
-                  <div class="modal-footer">
                   </div>
                 </div>
               </li>

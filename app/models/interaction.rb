@@ -6,6 +6,6 @@ class Interaction < ActiveRecord::Base
   has_many :contacts,:through => :interaction_contacts
   has_many :interaction_flats,:dependent => :destroy
   has_many :flats,:through => :interaction_flats
-  accepts_nested_attributes_for :interaction_contacts
+  accepts_nested_attributes_for :interaction_contacts, :reject_if => proc { |a| a['contact_id'].blank? }
   accepts_nested_attributes_for :interaction_flats
 end

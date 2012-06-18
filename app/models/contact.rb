@@ -1,8 +1,12 @@
 class Contact < ActiveRecord::Base
 
+  has_one :user
+
   has_and_belongs_to_many :labellings
   has_and_belongs_to_many :contact_types
 
+  has_many :interaction_contacts
+  has_many :interactions, :through => :interaction_contacts
   has_many :connections, :dependent => :destroy
   has_many :addresses, :dependent => :destroy
   has_many :phones, :dependent => :destroy

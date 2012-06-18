@@ -6,23 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-if User.find_by_email("admin@tss.com").nil?
-User.create!(:email=>'admin@tss.com',:password=>'secret',:password_confirmation=>'secret',:admin=>true)
-end
+@contact=Contact.create!(:name=>"All")
 
-@contact=Contact.create!(:name=>"Administrator")
-Email.create!(:name=>"admin@tss.com",:contact_id=>@contact.id)
-Phone.create!(:name=>"9769655345",:contact_id=>@contact.id)
-
-ContactType.create!(:name=>'Client')
+@client=ContactType.create!(:name=>'Client')
 ContactType.create!(:name=>'Partner')
 ContactType.create!(:name=>'Vendor')
-@admin=ContactType.create!(:name=>'Employee')
+ContactType.create!(:name=>'Employee')
 ContactType.create!(:name=>'Friend')
 
-@contact.contact_types << @admin
-
-
+User.create!(:name=>"Administrator",:email=>'admin@tss.com',:password=>'secret',:password_confirmation=>'secret',:admin=>true)
 
 MovingRequirement.create!(:name=>"Landlord NOC")
 MovingRequirement.create!(:name=>"Police Notification")
@@ -258,3 +250,22 @@ RentYear.create!(:name=>"2013")
 RentYear.create!(:name=>"2014")
 RentYear.create!(:name=>"2015")
 RentYear.create!(:name=>"2016")
+
+# These are testing seeds
+
+User.create!(:name=>"Kenneth Serrao",:email=>'kenneth@bpe.com',:password=>'secret',:password_confirmation=>'secret',:admin=>false)
+User.create!(:name=>"Kaushal Shah",:email=>'kaushal@bpe.com',:password=>'secret',:password_confirmation=>'secret',:admin=>false)
+User.create!(:name=>"Arijit Lahiri",:email=>'arijit@ptotem.com',:password=>'secret',:password_confirmation=>'secret',:admin=>false)
+User.create!(:name=>"Deepak Jhavar",:email=>'deepak@bpe.com',:password=>'secret',:password_confirmation=>'secret',:admin=>false)
+
+
+
+@contact=Contact.create!(:name=>"Prashant Mohanraj")
+@contact.contact_types<<@client
+@contact.phones<<Phone.create(:name=>"9797978787")
+@contact.emails<<Email.create(:name=>"prashant@gmail.com")
+
+@contact=Contact.create!(:name=>"Kamalika Bhattacharya")
+@contact.contact_types<<@client
+@contact.phones<<Phone.create(:name=>"9797978787")
+@contact.emails<<Email.create(:name=>"kamalika@gmail.com")

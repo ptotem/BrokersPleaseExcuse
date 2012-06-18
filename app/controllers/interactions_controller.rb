@@ -26,7 +26,7 @@ class InteractionsController < ApplicationController
   def new
     @interaction = Interaction.new
     @interaction.taskings.build
- #   @interaction.interaction_entities.build
+    #   @interaction.interaction_entities.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,19 +47,20 @@ class InteractionsController < ApplicationController
     #return
 
     @interaction = Interaction.new(params[:interaction])
-    if !params["prev_interaction_id"].nil?
-    @prev_interaction=Interaction.find(params["prev_interaction_id"])
-    @prev_interaction.taskings.each do |tasking|
-      tasking.active=false
-      tasking.save!
-    end
-    @interaction.name=@prev_interaction.name+"<br>"+params[:interaction][:name]
-    @prev_interaction.name=@prev_interaction.name+"<br>"+params["prev_comment"]
-    @prev_interaction.save!
-
-     end
     respond_to do |format|
       if @interaction.save
+        if !params["prev_interaction_id"].nil?
+          @prev_interaction=Interaction.find(params["prev_interaction_id"])
+          @prev_interaction.taskings.each do |tasking|
+            tasking.active=false
+            tasking.save!
+          end
+          @interaction.name=@prev_interaction.name+"<br>"+params[:interaction][:name]
+          @prev_interaction.name=@prev_interaction.name+"<br>"+params["prev_comment"]
+          @prev_interaction.save!
+        end
+        logger.debug params
+        logger.debug @interaction.interaction_contacts
         format.html { redirect_to :back, notice: 'Interaction was successfully created.' }
       else
         format.html { render :back, notice: 'Interaction could not be created.' }

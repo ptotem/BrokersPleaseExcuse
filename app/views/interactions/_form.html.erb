@@ -5,23 +5,23 @@
 </style>
 
 <%= semantic_form_for(@interaction) do |f| %>
-    <%= f.label "How When Who".titleize, :style => "font-weight:bold;font-size:20px" %>
     <div class="row-fluid " style="color:black;font-size: 16px;width:93%">
 
       <div class="span6 blocky">
-        <% InteractionType.all.each do |interaction| %>
-            <%= f.radio_button :interaction_type_id, interaction.id, :id=>"interaction_#{interaction.id}" %>
-            <%= f.label interaction.name, :for=>"interaction_#{interaction.id}", :class=>"pointered" %>
+        <% InteractionType.all.each do |interaction_type| %>
+            <%= f.radio_button :interaction_type_id, interaction_type.id, :id => "interaction_#{interaction_type.id}", :checked => "#{(interaction_type.id==1) ? 'checked' :'false'}" %>
+            <%= f.label interaction_type.name, :for => "interaction_#{interaction_type.id}", :class => "pointered" %>
         <% end %>
+        <br>
 
-
+        <div style="font-size: 12px">
+          Date of Interaction:
+          <%= f.text_field :interaction_date, :value => Date.today.strftime('%d %b'), :class => "timepicker", :onclick => "$('.ui-datepicker').css('z-index','999999999');", :style => "font-size:12px;height:24px; padding-left:3px;background:white;" %>
+        </div>
       </div>
       <div class="span5">
-        <span style="font-size: 12px">Date of Interaction:
-          <%= f.text_field :interaction_date, :class => "timepicker input-small" %></span>
-        <br>
         <span style="font-size: 12px">Choose Primary Contact for interaction *
-          <%= f.select :primary_contact_id, options_from_collection_for_select(Contact.all, "id", "name") %></span>
+          <%= f.select :primary_contact_id, options_from_collection_for_select(ContactType.find_by_name('Client').contacts, "id", "name"), :class => 'span5 pull-right' %></span>
       </div>
     </div>
 
@@ -31,42 +31,38 @@
       <div class="span5" style="border-right: 1px solid gray">
         <%= f.label "Interaction Details", :style => "font-weight:bold;font-size:20px" %>
         <br/>
-        <%= f.text_area :name, :rows => 5, :style => "margin-left:0; width:90%" %>
+        <%= f.text_area :name, :rows => 5, :style => "margin-left:0; width:90%;font-size:12px;padding:5px;" %>
       </div>
       <div class="span6">
         <h4 style="font-weight:bold;font-size:20px">Tag This Interaction</h4>
         <br>
         <% @interaction.interaction_flats.build %>
         <% @interaction.interaction_contacts.build %>
-        <%= f.fields_for :interaction_flats do |builder| %>
-            <%= builder.select :flat_id, options_from_collection_for_select(Flat.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen0 span5", :'data-placeholder' => "Tag Flats involved", :multiple => true} %>
-        <% end %>
+        <%= hidden_field_tag 'interaction[flat_ids][]', nil %>
+        <%= select_tag 'interaction[flat_ids][]', options_from_collection_for_select(Flat.all, 'id', 'name'), :multiple => true, :class => 'chzn-container-multi' %>
         <br>
         <br>
-        <%= f.fields_for :interaction_contacts do |builder| %>
-            <%= builder.select :contact_id, options_from_collection_for_select(Contact.all, 'id', 'name'), {:include_blank => ""}, {:class => "multi-select-chosen1 span5", :'data-placeholder' => "Tag Contacts involved", :multiple => true} %>
-        <% end %>
-
+        <%= hidden_field_tag 'interaction[contact_ids][]', nil %>
+        <%= select_tag 'interaction[contact_ids][]', options_from_collection_for_select(Contact.all, 'id', 'name'), :multiple => true, :class => 'chzn-container-multi' %>
       </div>
     </div>
     <br>
     <div class="row-fluid">
-
       <div class="span12" style="margin-left: 0px;">
-
         <h3 style="font-weight:bold;font-size:20px">Next Interaction due</h3>
-        <br>
         <%= f.semantic_fields_for :taskings do |builder| %>
-            <div class="span4">
-
+            <div class="span4" style="margin-left: 0px">
+              <%= builder.label :assigned_to, :class => "blabel" %>
+              <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2", :onclick => "$('.chzn-drop').css('margin-top','-240px');"} %>
+              <br>
               <%= builder.label :due_date, :class => "blabel" %>
               <br>
-              <%= builder.text_field :due_date, :class => "timepicker" %>
+              <%= builder.text_field :due_date, :class => "timepicker", :onclick => "$('.ui-datepicker').css('z-index','999999999');", :style => "font-size:12px;height:24px; padding-left:3px;" %>
+              <br>
+
             </div>
             <div class="span4">
-
-              <%= builder.label :assigned_to, :class => "blabel" %>
-              <%= builder.select :assigned_to, options_from_collection_for_select(Contact.all, "id", "name"), {}, {:class => "multi-select-chosen2"} %>
+              <%= f.submit " Submit", :style => "height:80px;width:300px; margin-right:60px;", :class => "btn btn-inverse pull-right" %>
             </div>
             <%= builder.hidden_field :active, :value => true %>
         <% end %>
@@ -78,8 +74,6 @@
 
     </div>
     <br>
-    <%= f.submit " Submit", :style => "height:40px;width:150px; margin-right:60px;", :class => "btn btn-inverse" %>
-
     <%= f.hidden_field :created_by, :value => current_user.id %>
 
     <% if !locals[:task].nil? %>
@@ -98,10 +92,8 @@
 
 <script type="text/javascript">
     $(".timepicker").datetimepicker({
-
         dateFormat:'dd-mm-yy'
     });
-
     $(".multi-select-chosen0").chosen();
     $(".multi-select-chosen1").chosen();
     $(".multi-select-chosen2").chosen();
