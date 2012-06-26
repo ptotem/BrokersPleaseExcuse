@@ -8,10 +8,20 @@
   <script type="text/javascript">
       $(function () {
 
-          $('select.chzn-container-multi').chosen();
+          $(".interaction-link").click(function () {
+              var target_element=$(this).attr("href");
+              $.get("/interactions/new", function (data) {
+                  $(target_element).children(".modal-body").html(data);
+              });
+
+          });
+
+
+//          $('select.chzn-container-multi').chosen();
           $('select').chosen();
 
-          $("form").live("nested:fieldAdded",function(){
+
+          $("form").live("nested:fieldAdded", function () {
               $(this).find("select").chosen();
           });
 
@@ -65,7 +75,7 @@
                 <% @interaction=Interaction.new %>
                 <% @interaction.taskings.build %>
 
-                <a data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
+                <a class="interaction-link" data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
 
                 <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%;overflow: hidden;">
                   <div class="modal-header">
@@ -74,7 +84,7 @@
                   </div>
                   <div class="modal-body">
                     <div class="row-fluid">
-                      <%= render 'interactions/form', :locals => {} %>
+                      <%#= render 'interactions/form', :locals => {} %>
                     </div>
                   </div>
                 </div>

@@ -7,8 +7,21 @@
     <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
 
     <script type="text/javascript">
+        function clickmodal_link(data,element,task_id){
 
 
+            $.get("/interactions/new?task_id="+task_id+"&prev_comment="+data,function(data){
+                $($(element).attr("href")).children(".modal-body").html(data);
+            }) ;
+
+        }
+
+        $(".modal-link").click(function () {
+
+            $(this).modal('toggle');
+
+
+        });
         var mygrid;
         function doInitGrid() {
             mygrid = new dhtmlXGridFromTable("dhtmlx_interactions_table");
@@ -87,13 +100,16 @@
       <h2>Background
         <%= link_to "Network Map", "#", :class => "btn btn-info pull-right" %>
       </h2>
-      <%= f.text_area :qknote, :value => @contact.qknote, :style=>"width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
-      <%= f.submit "Update", :style=>"width:20%; height:100px;", :class=>"btn btn-inverse" %>
+      <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
+      <%= f.submit "Update", :style => "width:20%; height:100px;", :class => "btn btn-inverse" %>
       <div class="orangey">
         <h3>Properties</h3>
         <% @contact.flat_contacts.each do |flat_contact| %>
             <% unless flat_contact.labelling.blank? %>
-                <%= flat_contact.labelling.name %> : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class=>"property_link" %> ( <span style="font-size: 10px;"><%= flat_contact.flat.name %>, <%= flat_contact.flat.building.name %>, <%= flat_contact.flat.building.main_locality.name %></span>)
+                <%= flat_contact.labelling.name %>
+                : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class => "property_link" %>
+                ( <span style="font-size: 10px;"><%= flat_contact.flat.name %>, <%= flat_contact.flat.building.name %>
+        , <%= flat_contact.flat.building.main_locality.name %></span>)
             <% end %>
         <% end %>
       </div>
@@ -187,12 +203,12 @@
 
                         <span style="font-size: 10px;font-weight: normal;">Created By: <%= Contact.find(task.interaction.created_by).name %></span>
                       </div>
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="$('#task_job').val('complete');">Mark
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('complete',this,<%= task.id %>);" class="modal-link">Mark
                         as
                         Complete</a> |
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="$('#task_job').val('reschedule');">Re-Schedule</a>
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('reschedule',this,<%= task.id %>); " class="modal-link">Re-Schedule</a>
                       |
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="$('#task_job').val('cancel');">Cancel</a>
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('cancel',this,<%= task.id %>);" class="modal-link">Cancel</a>
 
                       <a class="collapser pull-right" href="#">Collapse</a>
                     </div>
@@ -207,7 +223,7 @@
                   <h3>Amend Task</h3>
                 </div>
                 <div class="modal-body">
-                  <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Cancelled"} %>
+                  <%#= render 'interactions/form', :locals => {:task => task, :prev_comment => "Cancelled"} %>
                 </div>
                 <div class="modal-footer">
                   <a href="#" class="btn">Close</a>

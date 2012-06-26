@@ -26,6 +26,10 @@ class InteractionsController < ApplicationController
   def new
     @interaction = Interaction.new
     @interaction.taskings.build
+    if !params[:task_id].blank?
+    @task=Tasking.find(params[:task_id])
+    @prev_comment=params[:prev_comment]
+    end
     #   @interaction.interaction_entities.build
 
     respond_to do |format|
