@@ -9,6 +9,5 @@ class WelcomeController < ApplicationController
     @interactions=Interaction.order("interaction_date DESC")
     @interaction=Interaction.new
     @interaction.taskings.build
-
   end
 end

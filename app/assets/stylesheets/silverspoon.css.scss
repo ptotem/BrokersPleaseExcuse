@@ -16,7 +16,7 @@ html, body, .onlyhead, .due-detailed {
 
 }
 
-.overdue-detailed {
+.overdue-detailed, .orangey {
 
   background: #ffc578; /* Old browsers */
   background: -moz-radial-gradient(center, ellipse cover, #ffc578 0%, #fb9d23 100%); /* FF3.6+ */
@@ -154,7 +154,7 @@ input, textarea, select, chzn-select, .chzn-container-single .chzn-single, .chzn
   margin-top: 5px;
 }
 
-.blocky {
+.blocky, .orangey {
   border: solid 1px black;
   padding: 5px;
   margin-top: 3px;
@@ -240,6 +240,10 @@ ul.nav li img {
 
 .page-sized {
   height: 580px;
+}
+
+.half-sized {
+  height: 300px;
 }
 
 .summary-task {

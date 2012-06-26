@@ -21,7 +21,8 @@
       </div>
       <div class="span5">
         <span style="font-size: 12px">Choose Primary Contact for interaction *
-          <%= f.select :primary_contact_id, options_from_collection_for_select(ContactType.find_by_name('Client').contacts, "id", "name"), :class => 'span5 pull-right' %></span>
+          <%= f.select :primary_contact_id, options_from_collection_for_select(ContactType.find_by_name('Client').contacts, "id", "name"), :class => 'span5 pull-right multi-select-chosen0', :id=>"pc_select" %>
+        </span>
       </div>
     </div>
 
@@ -40,8 +41,6 @@
         <% @interaction.interaction_contacts.build %>
         <%= hidden_field_tag 'interaction[flat_ids][]', nil %>
         <%= select_tag 'interaction[flat_ids][]', options_from_collection_for_select(Flat.all, 'id', 'name'), :multiple => true, :class => 'chzn-container-multi' %>
-        <br>
-        <br>
         <%= hidden_field_tag 'interaction[contact_ids][]', nil %>
         <%= select_tag 'interaction[contact_ids][]', options_from_collection_for_select(Contact.all, 'id', 'name'), :multiple => true, :class => 'chzn-container-multi' %>
       </div>

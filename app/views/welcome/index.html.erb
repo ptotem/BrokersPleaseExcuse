@@ -3,21 +3,6 @@
         background: black;
     }
 </style>
-<%= content_for :head do %>
-    <script type="text/javascript">
-        $(function () {
-            $('.summary-task').click(function () {
-                $(this).parent().find('.detailed-task').slideDown();
-                $(this).hide();
-            });
-            $('.detailed-task a.collapser').click(function () {
-                $(this).parent().parent().parent().find('.detailed-task').hide();
-                $(this).parent().parent().parent().find('.summary-task').show();
-            });
-
-        });
-    </script>
-<% end %>
 <div class="row-fluid" style="width:101%;margin-top: -5px;">
   <div class="span2" style="margin-left: -10px;font-size: 12px;">
     <div class="info-unit page-sized" style="background: black;border:none;">

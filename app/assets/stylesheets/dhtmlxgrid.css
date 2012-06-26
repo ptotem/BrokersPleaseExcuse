@@ -680,3 +680,101 @@ div.gridbox_dhx_skyblue div.ftr td{
 	background-image:url(./imgs/sky_blue_grid.gif);
 	border-color:#A4BED4;
 }
+
+/*BPE theme*/
+
+div.gridbox_bpe {
+    border: 1px solid #c2d5dc;
+}
+
+div.gridbox_bpe .xhdr {
+    background: #45484d; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #45484d), color-stop(100%, #000000)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* IE10+ */
+    background: radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#45484d', endColorstr = '#000000', GradientType = 1); /* IE6-9 fallback on horizontal gradient */
+}
+
+div.gridbox_bpe .xhdr_last {
+    border: 1px solid;
+    border-color: #FDFDFD #93AFBA #93AFBA #FDFDFD;
+}
+
+div.gridbox_bpe table.hdr {
+    background-image: url(imgs/skin_bpe_header.png);
+}
+
+div.gridbox_bpe table.hdr td {
+    border: 1px solid;
+    border-color: #FDFDFD #93AFBA #93AFBA #FDFDFD;
+    background-color: transparent;
+    font-family: Tahoma;
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    vertical-align: top;
+    text-align: left;
+}
+
+div.gridbox_bpe table.hdr td div.hdrcell {
+    width: auto;
+    padding-left: 3px;
+}
+
+div.gridbox_bpe table.hdr .filter {
+    padding-left: 0px !important;
+    text-align: center;
+    -moz-user-select: text;
+}
+
+div.gridbox_bpe table.obj td {
+    border-width: 0px 1px 0px 1px;
+    border-left: 1px solid white;
+    border-right: 1px solid #D6D6D6;
+    font-family: Tahoma;
+    font-size: 11px;
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+div.gridbox_bpe table.obj {
+    border-bottom: 1px solid #D6D6D6;
+}
+
+div.gridbox_bpe table.row20px tr td {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+div.gridbox_bpe .dhx_combo_edit {
+    font-family: Tahoma;
+    font-size: 11px;
+}
+
+div.gridbox_bpe table.obj tr.rowselected td {
+    background-color: #ededed;
+    color: black;
+}
+
+div.gridbox_bpe table.obj tr.rowselected td.cellselected, div.gridbox_bpe table.obj td.cellselected {
+    background-color: #ededed;
+}
+
+div.gridbox_bpe .odd_bpe {
+    background: rgb(254, 191, 4); /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgb(254, 191, 4)), color-stop(100%, rgb(255, 214, 94))); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* IE10+ */
+    background: radial-gradient(center, ellipse cover, rgb(254, 191, 4) 0%, rgb(255, 214, 94) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#febf04', endColorstr = '#ffd65e', GradientType = 1); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+div.gridbox_bpe div.ftr td {
+    empty-cells: show;
+}

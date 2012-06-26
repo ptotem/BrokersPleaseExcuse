@@ -13,7 +13,7 @@
         function doInitGrid() {
             mygrid = new dhtmlXGridFromTable("dhtmlx_interactions_table");
 
-            mygrid.setSkin("light");
+            mygrid.setSkin("bpe");
             mygrid.attachHeader("#text_filter,#select_filter,#text_filter,#text_filter");
             mygrid.enableAutoWidth(true);
             mygrid.enableAutoHeight(true);
@@ -21,10 +21,10 @@
             mygrid.setSizes();
 
 
-            mygrid.setColWidth(0, 40);
+            mygrid.setColWidth(0, 60);
             mygrid.setColWidth(1, 60);
-            mygrid.setColWidth(2, 240);
-            mygrid.setColWidth(3, 100);
+            mygrid.setColWidth(2, 300);
+            mygrid.setColWidth(3, 150);
 
             //hiding columns
             //  mygrid.setColumnHidden(0,true);
@@ -32,6 +32,16 @@
 
         $(function () {
             doInitGrid();
+
+            $('.summary-task').click(function () {
+                $(this).parent().find('.detailed-task').slideDown();
+                $(this).hide();
+            });
+            $('.detailed-task a.collapser').click(function () {
+                $(this).parent().parent().parent().find('.detailed-task').hide();
+                $(this).parent().parent().parent().find('.summary-task').show();
+            });
+
             $(".interaction_link").click(function () {
 
                 //alert("index");
@@ -54,7 +64,7 @@
                         var classstring = "." + status.split(' ')[i] + "." + role.split(' ')[j];
                         $('.task-item' + classstring).show();
                         $('.task-item').each(function () {
-                            if ($(this).children(':first').text().match(player.toString()) == null && player.toString()!="All") {
+                            if ($(this).children(':first').text().match(player.toString()) == null && player.toString() != "All") {
                                 $(this).hide();
                             }
                         });
@@ -67,12 +77,33 @@
 
     </script>
 
-<% end %>
+    <style type="text/css">
 
+    </style>
+
+<% end %>
 <div class="span5 info-unit page-sized" style="margin-left: -20px">
+  <% if @contact_page %>
+      <h2>Background
+        <%= link_to "Network Map", "#", :class => "btn btn-info pull-right" %>
+      </h2>
+      <%= f.text_area :qknote, :value => @contact.qknote, :style=>"width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
+      <%= f.submit "Update", :style=>"width:20%; height:100px;", :class=>"btn btn-inverse" %>
+      <div class="orangey">
+        <h3>Properties</h3>
+        <% @contact.flat_contacts.each do |flat_contact| %>
+            <% unless flat_contact.labelling.blank? %>
+                <%= flat_contact.labelling.name %> : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class=>"property_link" %> ( <span style="font-size: 10px;"><%= flat_contact.flat.name %>, <%= flat_contact.flat.building.name %>, <%= flat_contact.flat.building.main_locality.name %></span>)
+            <% end %>
+        <% end %>
+      </div>
+
+      <br>
+  <% end %>
   <h2>
     Tasks
     <div class="pull-right">
+      <%= hidden_field_tag :task_job, "new" %>
       <%= select_tag :status, options_for_select([["All", "all"], ["Due", "due"], ["Overdue", "overdue"]]), {:style => "width:80px", :class => 'filtration'} %>
       <%= select_tag :role, options_for_select([["All", "all"], ["Assigned", "assigned"], ["Involved", "involved"]]), {:style => "width:80px", :class => 'filtration'} %>
       <%= select_tag :players, options_from_collection_for_select(Contact.all, 'name', 'name'), {:class => "span3 chosen-select filtration"} %>
@@ -102,8 +133,6 @@
                       <span style="font-size: 10px;font-weight: normal;">Last Contact:<%= task.interaction.interaction_date.strftime("%e %b") %></span>
                     </div>
                     <br>
-
-
                     <br>
 
                     <div style="font-weight: normal"><%= "#{raw task.interaction.name[0..60]} ...." %></div>
@@ -158,11 +187,12 @@
 
                         <span style="font-size: 10px;font-weight: normal;">Created By: <%= Contact.find(task.interaction.created_by).name %></span>
                       </div>
-                      <a data-toggle="modal" href="#complete_task_modal<%= index %>">Mark as
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="$('#task_job').val('complete');">Mark
+                        as
                         Complete</a> |
-                      <a data-toggle="modal" href="#reschedule_task_modal<%= index %>">Re-Schedule</a>
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="$('#task_job').val('reschedule');">Re-Schedule</a>
                       |
-                      <a data-toggle="modal" href="#cancel_task_modal<%= index %>">Cancel</a>
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="$('#task_job').val('cancel');">Cancel</a>
 
                       <a class="collapser pull-right" href="#">Collapse</a>
                     </div>
@@ -171,37 +201,13 @@
               </div>
 
 
-              <div class="modal fade" id="cancel_task_modal<%= index %>" style="width:840px;height:500px;">
+              <div class="modal hide fade" id="task_modal<%= index %>" style="width:840px;height:500px;">
                 <div class="modal-header">
                   <button class="close" data-dismiss="modal">×</button>
-                  <h3>Cancel Task</h3>
+                  <h3>Amend Task</h3>
                 </div>
                 <div class="modal-body">
-                  <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Canclled"} %>
-                </div>
-                <div class="modal-footer">
-                  <a href="#" class="btn">Close</a>
-                </div>
-              </div>
-              <div class="modal fade" id="reschedule_task_modal<%= index %>" style="width:840px;height:550px;">
-                <div class="modal-header">
-                  <button class="close" data-dismiss="modal">×</button>
-                  <h3>Reschedule task</h3>
-                </div>
-                <div class="modal-body">
-                  <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Rescheduled"} %>
-                </div>
-                <div class="modal-footer">
-                  <a href="#" class="btn">Close</a>
-                </div>
-              </div>
-              <div class="modal fade" id="complete_task_modal<%= index %>" style="width:840px;height:500px;">
-                <div class="modal-header">
-                  <button class="close" data-dismiss="modal">×</button>
-                  <h3>Mark Task As Complete</h3>
-                </div>
-                <div class="modal-body">
-                  <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Marked As Complete"} %>
+                  <%= render 'interactions/form', :locals => {:task => task, :prev_comment => "Cancelled"} %>
                 </div>
                 <div class="modal-footer">
                   <a href="#" class="btn">Close</a>
@@ -236,7 +242,7 @@
 
         <% @interactions.each do |interaction| %>
             <tr>
-              <td style="visibility: hidden;"><%#= interaction.interaction_date.strftime("%e %b") %></td>
+              <td><%= interaction.interaction_date.strftime("%e %b") %></td>
               <td><%= InteractionType.find(interaction.interaction_type_id).name %></td>
               <td><a href="#" id="<%= interaction.id %>" class="interaction_link"><%= interaction.name[0, 80] %></a>
               </td>
