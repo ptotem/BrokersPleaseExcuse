@@ -28,7 +28,8 @@
         <%#=TODO:the interaction should be show only if it is not a task  %>
         <% unless Interaction.where("primary_contact_id=? ", contact.id).blank? %>
             <td><%= Interaction.where("primary_contact_id=? ", contact.id).order("interaction_date").last.name %></td>
-            <td><%= Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction| interaction.taskings.first }.sort { |elea, eleb| elea.due_date<eleb.due_date }.first.interaction.name %></td>
+
+            <td><%= Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction| if interaction.taskings.count>0 then  interaction.taskings.first end }%><%#= .sort { |elea, eleb| if (!elea.nil? and !eleb.nil? )then elea.due_date<eleb.due_date end }.first.interaction.name %></td>
             </tr>
         <% end %>
   <% end %>
@@ -46,7 +47,7 @@
         mygrid = new dhtmlXGridFromTable("dhtmlx_contacts_table");
 
         mygrid.setSkin("light");
-        mygrid.attachHeader("#text_filter,#select_filter,#text_filter,#text_filter,#text_filter,#select_filter,#text_filter,#text_filter,#text_filter");
+        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
         mygrid.enableAutoWidth(true);
         mygrid.enableAutoHeight(true);
 
