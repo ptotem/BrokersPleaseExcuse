@@ -35,6 +35,10 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new
     @contact_types= ContactType.all
+    @contact.phones.build
+    @contact.emails.build
+    @contact.addresses.build
+
   end
 
   # GET /contacts/1/edit
@@ -66,6 +70,7 @@ class ContactsController < ApplicationController
   # PUT /contacts/1
   # PUT /contacts/1.json
   def update
+
     @contact = Contact.find(params[:id])
 
     if @contact.update_attributes(params[:contact])
@@ -75,7 +80,7 @@ class ContactsController < ApplicationController
           Connection.create!(:contact_id => @other.id, :other_id => @contact.id, :relationship => connection.relationship)
         end
       end
-      respond_with @contact, :notice => 'Contact was successfully updated.'
+      redirect_to @contact, :notice => 'Contact was successfully updated.'
     end
   end
 

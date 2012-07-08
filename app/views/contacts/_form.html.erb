@@ -1,8 +1,22 @@
 <%= content_for :head do %>
     <script type="text/javascript">
         $(function () {
+            var radio_selected = false;
             $(".chzn-select").chosen();
+            $("form").submit(function () {
+
+                if (!radio_selected){
+                    alert("Select a Contact Type")
+                }
+                return radio_selected;
+            });
+            $("input[type='radio']").click(function () {
+
+                radio_selected = true;
+            });
+
         });
+
     </script>
 
 
@@ -65,19 +79,20 @@
               <div class="span3">
                 <%= hidden_field_tag "contact[contact_type_ids][]", nil %>
                 <% @contact_types.each do |contact_type| %>
-                    <%= check_box_tag "contact[contact_type_ids][]", contact_type.id, @contact.contact_type_ids.include?(contact_type.id), id: dom_id(contact_type) %>
+                    <%= radio_button_tag "contact[contact_type_ids][]", contact_type.id, @contact.contact_type_ids.include?(contact_type.id), id: dom_id(contact_type) %>
                     <%= label_tag dom_id(contact_type), contact_type.name %>
                 <% end %>
               </div>
             </div>
 
             <br>
+
             <div class="row-fluid">
               <div class="span2">
                 <%= f.label :name %>
               </div>
               <div class="span3">
-                <%= f.text_field :name %>
+                <%= f.text_field :name,:class=>"required" %>
               </div>
             </div>
 
@@ -108,7 +123,7 @@
               <div class="span3" style="position:relative;">
                 <%= f.link_to_add 'Add Phone', :phones %>
                 <%= f.fields_for :phones do |builder| %>
-                    <%= builder.text_field :name %>
+                    <%= builder.text_field :name,:class=>"required" %>
                     <%= builder.link_to_remove "Remove" %>
                 <% end %>
               </div>
@@ -120,7 +135,7 @@
               <div class="span3" style="position:relative;">
                 <%= f.link_to_add 'Add Email', :emails %>
                 <%= f.fields_for :emails do |builder| %>
-                    <%= builder.text_field :name %>
+                    <%= builder.text_field :name,:class=>"required" %>
                     <%= builder.link_to_remove "Remove" %>
                 <% end %>
               </div>

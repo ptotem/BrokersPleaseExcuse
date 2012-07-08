@@ -7,13 +7,13 @@
     <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
 
     <script type="text/javascript">
-        function clickmodal_link(data,element,task_id){
+        function clickmodal_link(data, element, task_id) {
 
             $("#new_interaction_form").children(".modal-body").html("");
 
-            $.get("/interactions/new?task_id="+task_id+"&prev_comment="+data,function(data){
+            $.get("/interactions/new?task_id=" + task_id + "&prev_comment=" + data, function (data) {
                 $($(element).attr("href")).children(".modal-body").html(data);
-            }) ;
+            });
 
         }
 
@@ -172,23 +172,31 @@
                         <br>
                         Involved:
                         <% task.interaction.contacts.each do |contact| %>
-                            <%= contact.contact_types.count %>
+                            <%#this is to handle exception in relationships
+                                in case of any exceptions raised due to this relationship,
+                                the default value of @col is set at #ff00ff in the rescue block.
 
-                            <%# case contact.contact_types.first.name %>
-                        <% #when "Vendor" %>
-                                <% #@col="#ff0000" %>
-                            <%# when "Client" %>
-                                <%# @col="#0088CC" %>
-                            <% #when "Employee" %>
-                                <%# @col="#338833" %>
-                            <%# when "Partner" %>
-                                <% @col="#ff00ff" %>
-                            <% #else %>
-                                <%# @col="#ff00ff" %>
-                            <%# end %>
+                              %>
+                            <% begin %>
+                                <% case contact.contact_types.first.name %>
+                        <% when "Vendor" %>
+                                    <% @col="#ff0000" %>
+                                <% when "Client" %>
+                                    <% @col="#0088CC" %>
+                                <% when "Employee" %>
+                                    <% @col="#338833" %>
+                                <% when "Partner" %>
+                                    <% @col="#ff00ff" %>
+                                <% else %>
+                                    <% @col="#ff00ff" %>
+                                <% end %>
+                            <% rescue Exception=>e %>
+                                <% @col = "#000000"%>
+
+                            <% end %>
 
                             <style type="text/css">
-                                #cnt_<%= contact.id %>_ <%= task.id %> {
+                                #cnt_<%= contact.id %>_<%= task.id %> {
                                     color: <%= @col %>;
                                 }
                             </style>
@@ -288,17 +296,17 @@
                 </p>
 
                 <% if interaction.taskings.count>0 %>
-                <p>
-                  <u>Next Interaction Due :</u><br>
-                  <%= interaction.taskings.first.due_date.strftime("%e %b") %>
-                </p>
+                    <p>
+                      <u>Next Interaction Due :</u><br>
+                      <%= interaction.taskings.first.due_date.strftime("%e %b") %>
+                    </p>
 
-                <p>
-                  <u>Assigned To :</u><br>
-                  <%= Contact.find(interaction.taskings.first.assigned_to).name %>
-                </p>
+                    <p>
+                      <u>Assigned To :</u><br>
+                      <%= Contact.find(interaction.taskings.first.assigned_to).name %>
+                    </p>
 
-                    <% end %>
+                <% end %>
                 <p>
                   <u>Created By :</u><br>
                   <%= Contact.find(interaction.created_by).name %>

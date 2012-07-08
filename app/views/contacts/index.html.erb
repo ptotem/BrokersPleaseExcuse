@@ -22,22 +22,20 @@
       <tr>
         <td><%= link_to contact.name, contact_path(contact), :target => "_blank" %></td>
         <td><%= contact.phones.map { |phone| phone.name }.join(",") %></td>
-        <td><%= contact.emails.map { |email| email.name }.join(",") %></td>
-        <td>All labels</td>
-        <td>All Properties</td>
-        <%#=TODO:the interaction should be show only if it is not a task  %>
-        <% unless Interaction.where("primary_contact_id=? ", contact.id).blank? %>
-            <td><%= Interaction.where("primary_contact_id=? ", contact.id).order("interaction_date").last.name %></td>
+        <td><a href="mailto:<%= contact.emails.map { |email| email.name }.join(",") %>"><%= contact.emails.map { |email| email.name }.join(",") %></a></td>
+        <td><%= contact.labellings.map { |label| label.name }[0..3].join(",") %></td>
+        <td><%= contact.flats.map { |flat| flat.name }[0..3].join(",") %></td>
+        <%#These methods are defined in contact helpers  %>
+        <td><%= get_interaction_td_for_contact(contact) %></td>
 
-            <td><%= Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction| if interaction.taskings.count>0 then  interaction.taskings.first end }%><%#= .sort { |elea, eleb| if (!elea.nil? and !eleb.nil? )then elea.due_date<eleb.due_date end }.first.interaction.name %></td>
+
+            <td><%= due_overdue_task_count(contact) %></td>
             </tr>
         <% end %>
-  <% end %>
 </table>
 
 <br/>
 
-<%= link_to 'New Contact', new_contact_path %>
 
 <script type="text/javascript">
 
@@ -46,7 +44,7 @@
     function doInitGrid() {
         mygrid = new dhtmlXGridFromTable("dhtmlx_contacts_table");
 
-        mygrid.setSkin("light");
+        mygrid.setSkin("bpe");
         mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
         mygrid.enableAutoWidth(true);
         mygrid.enableAutoHeight(true);
@@ -54,10 +52,13 @@
         mygrid.setSizes();
 
 
-        mygrid.setColWidth(0, 40);
+        mygrid.setColWidth(0, 120);
         mygrid.setColWidth(1, 60);
-        mygrid.setColWidth(2, 240);
+        mygrid.setColWidth(2, 140);
         mygrid.setColWidth(3, 100);
+        mygrid.setColWidth(4, 100);
+        mygrid.setColWidth(5, 300);
+        mygrid.setColWidth(6, 200);
     }
 
     $(function () {

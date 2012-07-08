@@ -1,2 +1,37 @@
 module ContactsHelper
+  def get_interaction_td_for_contact(contact)
+    if !Interaction.where("primary_contact_id=? ", contact.id).blank?
+      interaction=Interaction.where("primary_contact_id=? ", contact.id).order("interaction_date").last
+      if interaction.taskings.count>0
+        col="#CD0000"
+      else
+        col="#000000"
+      end
+      #'<td style="color:#{col}">#{interaction.name}</td>'
+
+      return raw("<span style='color:#CD0000'>#{interaction.name}</span>")
+    end
+  else
+    return raw("<span style='color:#000000'>No Interaction</span>")
+
+  end
+
+
+  def due_overdue_task_count(contact)
+
+    overdue_tasks=Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction|
+      if interaction.taskings.count>0 then
+        interaction.taskings.where("due_date<?", Date.today).count
+      end }.sum
+    due_tasks=Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction|
+      if interaction.taskings.count>0 then
+        interaction.taskings.where("due_date>?", Date.today).count
+      end }.sum
+
+    raw("<span>OverDue=#{overdue_tasks} | Due:#{due_tasks}</span>")
+
+
+
+  end
+
 end

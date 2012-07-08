@@ -21,6 +21,15 @@
           $('select').chosen();
 
 
+          //this is the code required for client side validation
+          //message is the text which the users see when validation fails.
+          //this is the validation which fails when input is blank.
+          //in case we want other type of validations ,modify the expression below.
+          $(".required").validate({
+              expression: "if(VAL != '') return true; else return false;",
+              message: "Hey,Don't keep me blank ! :("
+          });
+
           $("form").live("nested:fieldAdded", function () {
               $(this).find("select").chosen();
           });

@@ -49,7 +49,7 @@
             <% if @contact.emails.blank? %>
                 No Emails
             <% else %>
-                <%= @contact.emails.first.name %>
+               <a href="mailto: <%= @contact.emails.first.name %>"><%= @contact.emails.first.name %></a>
             <% end %>
           </div>
           <div style="margin-left: -20px;margin-top: 10px; height:100px;">
@@ -72,7 +72,13 @@
 
             <div class="row-fluid">
               <div class="span9" style="font-weight: bold;">
-                <h3 style="margin-bottom: 5px;">Properties</h3>
+                <h3 style="margin-bottom: 5px;height: 100px;overflow: auto;">Properties</h3>
+                <ul>
+                <%= @contact.flats.each do |flat| %>
+                <li><%= flat.name  %></li>
+
+                <% end %>
+                </ul>
               </div>
               <table>
 

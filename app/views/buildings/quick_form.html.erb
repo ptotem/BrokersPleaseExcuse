@@ -12,6 +12,8 @@
 <script type="text/javascript">
     $(function () {
 //        $('select').chosen();
+
+
     })
 </script>
 
@@ -38,7 +40,7 @@
                     <br>
                 <% else %>
                     <div class="blabel">Building Name*:</div>
-                    <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'full_name'), {:include_blank => '', :class => 'autosubmit', :'data-placeholder' => "Select the building"} %>
+                    <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'full_name'), {:include_blank => '', :class => 'autosubmit required', :'data-placeholder' => "Select the building"} %>
                     <br>
                     <span style="font-style: italic;">Can't find the building you are looking for?</span>
                     <a data-backdrop="static" data-toggle="modal" href="#add_building">Add it!</a>
@@ -68,7 +70,7 @@
                 Flat Name*:
               </div>
 
-              <%= f.text_field :name, :value => @flat.name %>
+              <%= f.text_field :name, :value => @flat.name ,:class=>"required" %>
               <br>
               <br>
 

@@ -1,6 +1,13 @@
 <script type="text/javascript">
     $(function () {
         $('select').chosen();
+
+        alert($("#building-select").val());
+        $("#building-select").validate({
+            expression: "if(VAL != '') return true; else return false;",
+            message: "Make is required."
+        });
+
     })
 </script>
 
@@ -58,7 +65,7 @@
               Flat Name*:
             </div>
 
-            <%= f.text_field :name, :value => @flat.name %>
+            <%= f.text_field :name,:class=>"building_select"%>
             <br>
             <br>
 

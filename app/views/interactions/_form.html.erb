@@ -3,6 +3,13 @@
         display: inline;
     }
 </style>
+<script type="text/javascript">
+
+    $(function(){
+    $(".timepicker123").datetimepicker( );
+  })  ;
+
+</script>
 
 <%= semantic_form_for(@interaction) do |f| %>
     <div class="row-fluid " style="color:black;font-size: 16px;width:93%">
@@ -56,7 +63,7 @@
               <br>
               <%= builder.label :due_date, :class => "blabel" %>
               <br>
-              <%= builder.text_field :due_date, :class => "timepicker", :onclick => "$('.ui-datepicker').css('z-index','999999999');", :style => "font-size:12px;height:24px; padding-left:3px;" %>
+              <%= builder.text_field :due_date, :class => "timepicker123", :onclick => "$('.ui-datepicker').css('z-index','999999999');", :style => "font-size:12px;height:24px; padding-left:3px;" %>
               <br>
 
             </div>

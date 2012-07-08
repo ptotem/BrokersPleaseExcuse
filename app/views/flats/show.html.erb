@@ -209,7 +209,8 @@
 
 
       <% @flat.flat_contacts.each do |flat_contact| %>
-          <div class="slabel"><%= flat_contact.labelling.name %></div>
+
+          <div class="slabel"><%= flat_contact.labelling.name unless flat_contact.labelling_id.nil? %></div>
           <br>
           <%= link_to flat_contact.contact.name, flat_contact.contact %>
           <br>
@@ -220,7 +221,7 @@
     </div>
 
     <div class="span3">
-      <%= image_tag @flat.photos.where('showcase_image=?',true).first.image.url(:lightbox) %>
+      <%= image_tag @flat.photos.where('showcase_image=?',true).first.image.url(:lightbox) unless @flat.photos.where('showcase_image=?',true).first.nil? %>
       <br>
 
       <h2>Description</h2>
