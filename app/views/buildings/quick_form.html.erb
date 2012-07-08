@@ -12,6 +12,9 @@
 <script type="text/javascript">
     $(function () {
 //        $('select').chosen();
+        $(".add_building_link").click(function(){
+             $(".required").removeClass("required");
+        })  ;
 
 
     })
@@ -35,15 +38,17 @@
                         <%= @building.name %>,
                         <br>
                         <%= @building.main_locality.name %>
+                        <% @required_class="required" %>
                       </div>
                     </h3>
                     <br>
                 <% else %>
+                    <% @required_class="not_required" %>
                     <div class="blabel">Building Name*:</div>
-                    <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'full_name'), {:include_blank => '', :class => 'autosubmit required', :'data-placeholder' => "Select the building"} %>
+                    <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'full_name'), {:include_blank => '', :class => 'autosubmit', :'data-placeholder' => "Select the building"} %>
                     <br>
                     <span style="font-style: italic;">Can't find the building you are looking for?</span>
-                    <a data-backdrop="static" data-toggle="modal" href="#add_building">Add it!</a>
+                    <a data-backdrop="static" data-toggle="modal" href="#add_building" class="add_building_link">Add it!</a>
                     <br>
                     <br>
 
@@ -70,7 +75,7 @@
                 Flat Name*:
               </div>
 
-              <%= f.text_field :name, :value => @flat.name ,:class=>"required" %>
+              <%= f.text_field :name, :value => @flat.name ,:class=>@required_class %>
               <br>
               <br>
 
