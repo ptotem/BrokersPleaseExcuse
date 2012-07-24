@@ -3,17 +3,7 @@
         $(function () {
             var radio_selected = false;
             $(".chzn-select").chosen();
-            $("form").submit(function () {
 
-                if (!radio_selected){
-                    alert("Select a Contact Type")
-                }
-                return radio_selected;
-            });
-            $("input[type='radio']").click(function () {
-
-                radio_selected = true;
-            });
 
         });
 
@@ -62,24 +52,36 @@
 <% end %>
 
 
-<div style="margin-top: 20px;">
+<div style="margin-top: 0px;">
+  <% if !@building_selected
+       @required_class="not_required"
+       @required_either_class="not_required_either"
+     else
+       @required_class="required"
+       @required_either_class="required_either"
+     end
+  %>
 
-  <%= nested_form_for(@contact) do |f| %>
+  <%= nested_form_for(@contact, :html => {:class => "contact_form"}) do |f| %>
 
       <div class="content">
         <div class="row-fluid">
           <div class="span12">
-            <h1>Contact</h1>
-            <br/>
 
             <div class="row-fluid blocky">
-              <div class="span2">
+              <div class="span12">
                 <%= f.label "Contact Type" %>
-              </div>
-              <div class="span3">
+
+                &nbsp;&nbsp;
                 <%= hidden_field_tag "contact[contact_type_ids][]", nil %>
+
                 <% @contact_types.each do |contact_type| %>
-                    <%= radio_button_tag "contact[contact_type_ids][]", contact_type.id, @contact.contact_type_ids.include?(contact_type.id), id: dom_id(contact_type) %>
+                    <% if contact_type.name.downcase=="client" %>
+                        <% checked=true %>
+                    <% else %>
+                        <% checked=false %>
+                    <% end %>
+                    <%= radio_button_tag "contact[contact_type_ids][]", contact_type.id, @contact.contact_type_ids.include?(contact_type.id), id: dom_id(contact_type), :checked => checked %>
                     <%= label_tag dom_id(contact_type), contact_type.name %>
                 <% end %>
               </div>
@@ -92,10 +94,37 @@
                 <%= f.label :name %>
               </div>
               <div class="span3">
-                <%= f.text_field :name,:class=>"required" %>
+                <%= f.text_field :name, :class => @required_class%>
               </div>
             </div>
 
+
+            <%#= TODO Add contact-contact_type relations   %>
+
+            <div class="row-fluid">
+              <div class="span2">
+                <%= f.label :phones %>
+              </div>
+              <div class="span3" style="position:relative;">
+                <%= f.link_to_add 'Add Phone', :phones %>
+                <%= f.fields_for :phones do |builder| %>
+                    <%= builder.text_field :name, :class => @required_either_class %>
+                    <%= builder.link_to_remove "Remove" %>
+                <% end %>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span2">
+                <%= f.label :emails %>
+              </div>
+              <div class="span3" style="position:relative;">
+                <%= f.link_to_add 'Add Email', :emails %>
+                <%= f.fields_for :emails do |builder| %>
+                    <%= builder.text_field :name, :class => @required_either_class %>
+                    <%= builder.link_to_remove "Remove" %>
+                <% end %>
+              </div>
+            </div>
             <div class="row-fluid">
               <div class="span2">
                 <%= f.label :facebook %>
@@ -114,32 +143,6 @@
               </div>
             </div>
 
-            <%#= TODO Add contact-contact_type relations   %>
-
-            <div class="row-fluid">
-              <div class="span2">
-                <%= f.label :phones %>
-              </div>
-              <div class="span3" style="position:relative;">
-                <%= f.link_to_add 'Add Phone', :phones %>
-                <%= f.fields_for :phones do |builder| %>
-                    <%= builder.text_field :name,:class=>"required" %>
-                    <%= builder.link_to_remove "Remove" %>
-                <% end %>
-              </div>
-            </div>
-            <div class="row-fluid">
-              <div class="span2">
-                <%= f.label :emails %>
-              </div>
-              <div class="span3" style="position:relative;">
-                <%= f.link_to_add 'Add Email', :emails %>
-                <%= f.fields_for :emails do |builder| %>
-                    <%= builder.text_field :name,:class=>"required" %>
-                    <%= builder.link_to_remove "Remove" %>
-                <% end %>
-              </div>
-            </div>
             <div class="row-fluid">
               <div class="span2">
                 <%= f.label :addresses %>

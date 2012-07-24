@@ -1,4 +1,5 @@
 class Flat < ActiveRecord::Base
+
   belongs_to :flatype
   belongs_to :furnstat
   belongs_to :building

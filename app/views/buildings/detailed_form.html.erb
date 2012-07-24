@@ -1,3 +1,9 @@
+<style type="text/css">
+
+  .modal{
+      width:700px;
+  }
+</style>
 
 <script type="text/javascript">
     $(function () {
@@ -26,7 +32,7 @@
 </script>
 
 
-<%= nested_form_for(@building) do |b| %>
+<%= nested_form_for(@building,:html=>{:class=>"validated_form"}) do  |b| %>
     <%= b.fields_for :flats, @flat do |f| %>
 
 
@@ -112,20 +118,7 @@
                   <h3>Add a Contact</h3>
                 </div>
                 <div class="modal-body">
-                  <%= fields_for @contact do |contact| %>
-                      <div class="blabel">Name</div>
-                      <%= contact.text_field :name %>
-                      <br>
-                      <%= contact.fields_for :phones, @phone do |phone| %>
-                          <div class="blabel">Phone</div>
-                          <%= phone.phone_field :name %>
-                      <% end %>
-                      <br>
-                      <%= contact.fields_for :emails, @email do |email| %>
-                          <div class="blabel">Email</div>
-                          <%= email.text_field :name %>
-                      <% end %>
-                  <% end %>
+                  <%= render 'contacts/form',:layout=>false %>
                 </div>
                 <div class="modal-footer">
                   <%= b.submit "Save Changes", :class => "btn btn-primary" %>

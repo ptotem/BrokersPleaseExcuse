@@ -60,7 +60,7 @@ class BuildingsController < ApplicationController
     @contact=@flat.contacts.build
     @phone=@contact.phones.build
     @email=@contact.emails.build
-
+    @contact_types=ContactType.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -99,6 +99,7 @@ class BuildingsController < ApplicationController
     @contact=@flat.contacts.build
     @phone=@contact.phones.build
     @email=@contact.emails.build
+    @contact_types=ContactType.all
 
 
     respond_to do |format|

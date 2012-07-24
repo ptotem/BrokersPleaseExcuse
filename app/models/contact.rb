@@ -5,6 +5,23 @@ class Contact < ActiveRecord::Base
   has_and_belongs_to_many :labellings
   has_and_belongs_to_many :contact_types
 
+
+  # this is the place where we have over ridden contact_types association method.
+  # tyhe reason is it should not throw an error if no associated objects are found
+  def contact_types
+    types=super
+    if types.count==0
+      e=ErrorObject.get_error_object(:name,"No Contact Type Found")
+
+      return [e]
+
+    else
+      types
+    end
+
+
+  end
+
   has_many :interaction_contacts
   has_many :interactions, :through => :interaction_contacts
   has_many :connections, :dependent => :destroy
@@ -34,5 +51,6 @@ class Contact < ActiveRecord::Base
       errors.add(:name, "could not be saved as you have to enter either Email or Phone Number")
     end
   end
+
 
 end
