@@ -32,9 +32,9 @@
         <br>
         <small>
           <div style="margin-top: -10px;">
-            <%= @flat.furnstat.name %> |
-            Rs <%= @flat.expected_rents.first.name %> |
-            <%= @flat.available_froms.first.name.strftime('%b %Y') %>
+            <%= @flat.furnstat.name unless @flat.furnstat.nil? %> |
+            Rs <%= @flat.expected_rents.first.name unless @flat.expected_rents.first.nil? %> |
+            <%= @flat.available_froms.first.name.strftime('%b %Y') unless @flat.available_froms.first.nil? %>
           </div>
         </small>
       </h2>
@@ -174,24 +174,24 @@
       <div class="show-block">
         <%= @flat.name %>, <%= @building.name %>,
         <br>
-        <%= @building.road %>,
+        <%= @building.road unless @building.road.nil? %>,
         <br>
-        <%= @building.main_locality.name %>, <%= @building.main_locality.area.name %>
+        <%= @building.main_locality.name unless @building.main_locality.nil? %>, <%= @building.main_locality.area.name %>
         <br>
-        <%= @building.main_locality.area.city.name %> - <%= @building.pincode %>
+        <%= @building.main_locality.area.city.name unless @building.main_locality.area.city.nil? %> - <%= @building.pincode %>
       </div>
       <br>
 
       <div class="slabel">Area</div>
-      <%= @flat.area %> sq.ft.
+      <%= @flat.area unless @flat.area.nil? %> sq.ft.
       <br>
 
       <div class="slabel">Floor</div>
-      <%= @flat.floor %>
+      <%= @flat.floor unless @flat.direction.nil? %>
       <br>
 
       <div class="slabel">Facing</div>
-      <%= @flat.direction.name %>
+      <%= @flat.direction.name unless @flat.direction.nil? %>
       <br>
 
       <div class="slabel">Bathrooms</div>

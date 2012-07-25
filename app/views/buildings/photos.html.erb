@@ -80,6 +80,15 @@
             }
         });
 
+        $(".floor_plan").click(function () {
+
+            $.get("/make_floor_plan/" + "<%= @flat.id %>" + "/" + $(this).attr("id"), function () {
+                alert("marked as floor plan")
+            })
+
+        });
+
+
     });
 
 </script>
@@ -130,17 +139,25 @@
                     <% @backcolor="black" %>
                     <% if photo.showcase_image? %>
                         <% @backcolor="green" %>
+
+                    <% elsif photo.is_floor_plan? %>
+                        <% @backcolor="blue" %>
+
                     <% end %>
 
                     <div class="image-wrapper" style="background-color: <%= @backcolor %>">
                       <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
                       <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
-                      <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(photo.id) %>
+                      <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(@flat.id,photo.id) %>
                       <br>
 
                       <div>
                         <%= text_field_tag :caption, photo.name, :class => "input-large", :id => "photo_#{photo.id}" %>
                         <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
+                        <br>
+                        <%= link_to "Mark as Floor Plan", "#", :class => "btn btn-warning floor_plan", :id => photo.id %>
+                        <br>
+
                       </div>
                     </div>
                   </li>
@@ -149,7 +166,7 @@
             </ul>
           </div>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick=>"$('#external').val('true')" %>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
           <br>
           <br>
 

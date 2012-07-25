@@ -23,13 +23,6 @@
 
 
 //          $('select.chzn-container-multi').chosen();
-         $('select').chosen();
-
-
-          //this is the code required for client side validation
-          //message is the text which the users see when validation fails.
-          //this is the validation which fails when input is blank.
-          //in case we want other type of validations ,modify the expression below.
 
 
 
@@ -45,6 +38,7 @@
                       return false;
                   });
               });
+              return true;
           });
 
           $(".navbar .nav>li>a").popover({

@@ -50,7 +50,7 @@ class PhotosController < ApplicationController
     @flat=Flat.find(params[:photo][:flat_id])
     @building=@flat.building
     params[:photo][:image].count.times do |i|
-      @photo=Photo.create!(:image => params[:photo][:image][i], :flat_id => params[:photo][:flat_id], :tagging_allowed => true)
+      @photo=Photo.create!(:image => params[:photo][:image][i], :flat_id => params[:photo][:flat_id], :tagging_allowed => false)
     end
     #@photo = Photo.new(params[:photo])
 
@@ -133,13 +133,24 @@ class PhotosController < ApplicationController
   end
 
   def save_photo_positions
-    params[:fields].count.times do |i|
-      @photo=Photo.find(params[:fields][i][:photo_id])
-      @photo.xpos=params[:fields][i][:xpos]
-      @photo.ypos=params[:fields][i][:ypos]
+      @photo=Photo.find(params[:photo_id])
+      @photo.xpos=params[:xpos]
+      @photo.ypos=params[:ypos]
+      @photo.tagging_allowed=true
       @photo.save!
+      render :nothing => true
     end
-    render :nothing => true
+
+
+  def make_floor_plan
+    @photo=Photo.find(params[:photo_id])
+    @flat=Flat.find(params[:flat_id])
+    @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
+    @prev_floor_plan.is_floor_plan=false
+    @prev_floor_plan.save!
+    @photo.is_floor_plan=true
+    @photo.save!
+
   end
 
 end

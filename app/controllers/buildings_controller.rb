@@ -202,6 +202,7 @@ class BuildingsController < ApplicationController
     @flat = Flat.find(params[:id])
     @photos = Photo.all
     @photo = Photo.new
+    @floor_plan=Photo.where("flat_id=? and is_floor_plan=?",@flat.id,true).first
   end
 
 
@@ -304,7 +305,7 @@ class BuildingsController < ApplicationController
 
             if params[:flat]
               params[:flat][:photos_attributes].count.times do |i|
-                Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => true)
+                Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => false)
               end
             end
             if params[:external]=="true"

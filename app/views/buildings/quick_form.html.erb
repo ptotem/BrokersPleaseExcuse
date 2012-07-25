@@ -124,20 +124,6 @@
 
               <br>
 
-              <div class="modal hide fade" id="add_contact">
-                <div class="modal-header">
-                  <a class="close" data-dismiss="modal">×</a>
-
-                  <h3>Add a Contact</h3>
-                </div>
-                <div class="modal-body">
-                  <%= render 'contacts/form' %>
-                </div>
-                <div class="modal-footer">
-                  <%= b.submit "Save Changes", :class => "btn btn-primary" %>
-                  <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
-                </div>
-              </div>
 
             </div>
           </div>
@@ -147,7 +133,22 @@
       <br>
 
 
-      <%= b.submit "Save Property", :class => "btn btn-inverse btn-large" %>
+      <%= b.submit "Save Property", :class => "btn btn-inverse btn-large " %>
 
   <% end %>
+</div>
+
+<div class="modal hide fade" id="add_contact">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+
+    <h3>Add a Contact</h3>
+  </div>
+  <div class="modal-body">
+    <%= render 'contacts/form' %>
+  </div>
+  <div class="modal-footer">
+    <%#= b.submit "Save Changes", :class => "btn btn-primary" %>
+    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+  </div>
 </div>

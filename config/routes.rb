@@ -37,9 +37,10 @@ BPEv075::Application.routes.draw do
 
   match "rename_photo/:photo_id" => "photos#rename_photo", :as => "rename_photo"
   match "delete_all_photos/:flat_id" => "photos#delete_all_photos", :as => "delete_all_photos"
-  match "make_showcase_image/:photo_id" => "photos#make_showcase_image", :as => "make_showcase_image"
+  match "make_showcase_image/:flat_id/:photo_id" => "photos#make_showcase_image", :as => "make_showcase_image"
   match "update_photo_sequence" => "photos#update_photo_sequence", :as => "update_photo_sequence"
-  match "save_photo_positions"=>"photos#save_photo_positions",:as=>"save_photo_positions"
+  match "save_photo_positions/:photo_id/:xpos/:ypos"=>"photos#save_photo_positions",:as=>"save_photo_positions"
+  match "make_floor_plan/:flat_id/:photo_id"=>"photos#make_floor_plan",:as=>"make_floor_plan"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -63,4 +63,13 @@ class Flat < ActiveRecord::Base
     end
   end
 
+  def furnstat
+    if super.nil?
+      e=ErrorObject.get_error_object(:name,"-")
+      e
+    else
+      super
+    end
+  end
+
 end

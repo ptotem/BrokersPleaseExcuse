@@ -1,63 +1,154 @@
 <% @flat_photos=@flat.photos.build %>
 
 <style type="text/css">
-    image {
-        position: absolute;
-    }
+
 </style>
 
 <script type="text/javascript">
+    var delete_button;
+    var image_element;
+    var is_camera_allowed = false;
+    var left = 0;
+    var top = 0;
+
 
     $(function () {
-        $(".existing-photos").draggable({ containment:"parent",
-        stop:function(event,ui){
-
-            var data = {fields:[]};
-            $(".existing-photos").each(function () {
-                data["fields"].push({
-                    photo_id:$(this).attr('id'),
-                    xpos:$(this).position().left,
-                    ypos:$(this).position().top})
-
-            });
 
 
-            $.ajax({
-                url:"<%= save_photo_positions_path %>",
-                type:"post",
-                data:JSON.stringify(data),
-                contentType:"application/json",
-                success:function (data) {
-                    alert("Position Saved...");
-                }
-            });
+        var left_pos = 0;
+        var top_pos = 0;
+        var image_code = "<img src='camera.png' style='position:absolute ;left: left_pos;top:top_pos'/>";
+
+        $(".floor_plan").click(function (event) {
+            if (is_camera_allowed) {
+                left_pos = event.pageX + "px";
+                top_pos = event.pageY + "px";
+                left = event.pageX;
+                top = event.pageY;
+
+                image_element = $("<img src='/assets/camera.png'/>");
+
+                image_element.css("position", "absolute");
+                image_element.css("left", left_pos);
+                image_element.css("top", top_pos);
+                image_element.attr("class", "floor_plan_camera");
 
 
-        }
+                delete_button = $("<a href='#'><img src='/assets/delete.png'></a>");
+                delete_button.css("position", "absolute");
+                delete_button.css("left", (event.pageX + 32));
+                delete_button.css("top", top_pos);
+                delete_button.attr("class", "delete_icon");
+                delete_button.attr("z-index", "999999999");
+
+
+                $(this).append(image_element);
+                $(this).append(delete_button);
+            }
+            else {
+                alert("Please click camera icon above to enable editing");
+            }
+        });
+
+        $(".delete_icon").live("click", function () {
+            $(this).prev().remove();
+            $(this).remove();
+            image_element.remove();
+            delete_button.remove();
 
 
         });
 
-        $("#existing-photo-position").click(function () {
+        $(".existing-photos").on("click", function () {
+
+            $.get("/save_photo_positions/" + $(this).attr("id") + "/" + left + "/" + top, function (data) {
+
+                alert("photo saved...");
+
+            });
+
 
         });
+
+
+        $(".existing_delete_icon").on("click", function () {
+
+            $(this).prev().remove();
+            $(this).remove();
+
+            $.get("/save_photo_positions/" + $(this).attr("id") + "/" + 0 + "/" + 0, function (data) {
+
+                alert("photo saved...");
+//                image_element.remove();
+//                delete_button.remove();
+            });
+
+
+        });
+
+        $("#enable_editing").click(function () {
+            if (!is_camera_allowed){
+                $(this).removeClass("btn-primary");
+                $(this).addClass("btn-danger");
+                $(this).text("Switch Off Editing");
+            }
+
+            else
+            {
+                $(this).removeClass("btn-danger");
+                $(this).addClass("btn-primary");
+                $(this).text("Switch On Editing");
+            }
+            is_camera_allowed = !is_camera_allowed;
+
+
+        });
+
 
     });
 
 </script>
 
 
-  <%= render :partial => "form_menu" %>
-  <div class="content detail-panel" id="basic-panel">
-    <div style="width:700px;height: 500px;background-color: grey ">
+<%= render :partial => "form_menu" %>
+<div class="content detail-panel row-fluid" id="basic-panel">
 
-      <% @flat.photos.where("tagging_allowed=?", true).each do |existing_photo| %>
-          <%= image_tag(existing_photo.image.url(:thumbnail), :class => "existing-photos", :id => existing_photo.id, :style => "position:absolute;left:#{existing_photo.xpos}px;top:#{existing_photo.ypos}px") %>
-          <br>
-          <br>
+  <div class="span6">
+    <div class="span2">
+      <%= link_to "Switch On Editing", "#",:class=>"btn btn-primary", :id => "enable_editing" %>
+
+    </div>
+    <div class="floor_plan" style="width:500px;height: 500px;background-image: url(<%= @floor_plan.image.url(:original) %>) ">
+      <% @flat.photos.where("tagging_allowed=? and is_floor_plan=?", true, false).each_with_index do |existing_photo, index| %>
+          <%= link_to image_tag("camera.png", :style => "position:absolute;left:#{existing_photo.xpos}px;top:#{existing_photo.ypos}px"), existing_photo.image.url, :class => "existing_icons", :target => "_blank" %>
+          <%= link_to image_tag("delete.png", :style => "position:absolute;left:#{existing_photo.xpos+32}px;top:#{existing_photo.ypos}px"), "#", :class => "existing_delete_icon", :id => existing_photo.id %>
 
       <% end %>
+
     </div>
-
-
   </div>
+  <div class="span12" style="position: absolute;left: 650px;top:200px;max-height: 550px;overflow: auto;">
+    <table>
+      <tr>
+        <% @flat.photos.where("is_floor_plan=?", false).each_with_index do |existing_photo, index| %>
+
+            <% @back_color="white" %>
+            <% if existing_photo.tagging_allowed? %>
+                <% @back_color="green" %>
+
+                <% end %>
+            <td style="padding: 10px; background-color: <%= @back_color %>"><%= link_to image_tag(existing_photo.image.url(:thumbnail), :class => "existing-photos", :id => existing_photo.id, :size => "100x100"), "#" %>
+              <br>
+            <%= existing_photo.name %>
+            </td>
+
+            <% if (index+1)%3==0 %>
+                </tr>
+                <tr>
+            <% end %>
+        <% end %>
+        </table>
+  </div>
+</div>
+
+

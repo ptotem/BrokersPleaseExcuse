@@ -53,4 +53,18 @@ class Building < ActiveRecord::Base
     end
   end
 
+  before_save :insert_qualities
+  before_create :insert_qualities
+  def insert_qualities
+    if self.approach_quality_id.blank?
+      self.approach_quality_id=2
+
+    end
+    if self.building_quality_id.blank?
+      self.building_quality_id=2
+
+    end
+
+  end
+
 end
