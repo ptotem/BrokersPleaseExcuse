@@ -27,8 +27,26 @@ class InteractionsController < ApplicationController
     @interaction = Interaction.new
     @interaction.taskings.build
     if !params[:task_id].blank?
-    @task=Tasking.find(params[:task_id])
-    @prev_comment=params[:prev_comment]
+      @task=Tasking.find(params[:task_id])
+      @prev_comment=params[:prev_comment]
+      @primary_contact=@task.interaction.primary_contact_id
+      @default_flats=@task.interaction.flats.map{|f| f.id}
+      @tagged_contacts=@task.interaction.contacts.map{|c| c.id}
+      @tagged_contacts << current_user.contact_id
+    else
+      if !params[:contact_id].blank?
+      @primary_contact=params[:contact_id].to_i
+      else
+        @default_flats=params[:property_id]
+      end
+      @tagged_contacts=[current_user.contact_id]
+      end
+
+    if @task.nil?
+
+    else
+
+
     end
     #   @interaction.interaction_entities.build
 
@@ -52,15 +70,15 @@ class InteractionsController < ApplicationController
 
     @interaction = Interaction.new(params[:interaction])
     respond_to do |format|
-      if @interaction.save
+      if @interaction.save!
         if !params["prev_interaction_id"].nil?
           @prev_interaction=Interaction.find(params["prev_interaction_id"])
           @prev_interaction.taskings.each do |tasking|
             tasking.active=false
             tasking.save!
           end
-          @interaction.name=@prev_interaction.name+"<br>"+params[:interaction][:name]
-          @prev_interaction.name=@prev_interaction.name+"<br>"+params["prev_comment"]
+          @interaction.name=params[:interaction][:name]+"\n"+@prev_interaction.name
+          @prev_interaction.name=params["prev_comment"]+"\n"+@prev_interaction.name
           @prev_interaction.save!
         end
         logger.debug params

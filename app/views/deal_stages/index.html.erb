@@ -1,0 +1,23 @@
+<h1>Listing deal_stages</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @deal_stages.each do |deal_stage| %>
+  <tr>
+    <td><%= deal_stage.name %></td>
+    <td><%= link_to 'Show', deal_stage %></td>
+    <td><%= link_to 'Edit', edit_deal_stage_path(deal_stage) %></td>
+    <td><%= link_to 'Destroy', deal_stage, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Deal stage', new_deal_stage_path %>

@@ -52,7 +52,7 @@
 <% end %>
 
 
-<div style="margin-top: 0px;">
+<div style="margin-top: 10px;">
   <% if !@building_selected
        @required_class="not_required"
        @required_either_class="not_required_either"
@@ -73,7 +73,13 @@
                 <%= f.label "Contact Type" %>
 
                 &nbsp;&nbsp;
+
                 <%= hidden_field_tag "contact[contact_type_ids][]", nil %>
+                <% if locals.nil? %>
+                    <%= hidden_field_tag :flat_id, locals[:flat_id] %>
+                    <%else %>
+                    <%= hidden_field_tag :flat_id, 0 %>
+                <% end %>
 
                 <% @contact_types.each do |contact_type| %>
                     <% if contact_type.name.downcase=="client" %>
@@ -92,9 +98,10 @@
             <div class="row-fluid">
               <div class="span2">
                 <%= f.label :name %>
+
               </div>
               <div class="span3">
-                <%= f.text_field :name, :class => @required_class%>
+                <%= f.text_field :name, :class => @required_class %>
               </div>
             </div>
 

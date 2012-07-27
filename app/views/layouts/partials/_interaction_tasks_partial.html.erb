@@ -24,8 +24,7 @@
             mygrid.setSkin("bpe");
             mygrid.attachHeader("#text_filter,#select_filter,#text_filter,#text_filter");
             mygrid.enableAutoWidth(true);
-            mygrid.enableAutoHeight(true);
-
+            mygrid.enableAutoHeight(false);
             mygrid.setSizes();
 
 
@@ -64,7 +63,7 @@
                     status = "due overdue";
                 }
                 if (role == "all") {
-                    role = "assigned involved";
+                    role = "assigned involved others";
                 }
                 $('.task-item').hide();
                 for (i = 0; i < status.split(' ').length; i++) {
@@ -92,19 +91,17 @@
 <% end %>
 <div class="span5 info-unit page-sized" style="margin-left: -20px">
   <% if @contact_page %>
-      <h2>Background
-        <%= link_to "Network Map", "#", :class => "btn btn-info pull-right" %>
-      </h2>
-      <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
-      <%= f.submit "Update", :style => "width:20%; height:100px;", :class => "btn btn-inverse" %>
-      <div class="orangey">
-        <h3>Properties</h3>
+      <h2>Properties Linked</h2>
+
+      <div class="orangey" style="height: 85px;overflow: auto;">
+
         <% @contact.flat_contacts.each do |flat_contact| %>
             <% unless flat_contact.labelling.blank? %>
                 <%= flat_contact.labelling.name %>
                 : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class => "property_link" %>
                 ( <span style="font-size: 10px;"><%= flat_contact.flat.name %>, <%= flat_contact.flat.building.name %>
-        , <%= flat_contact.flat.building.main_locality.name %></span>)
+        , <%= flat_contact.flat.building.main_locality.name %>) --<%= flat_contact.name %></span>
+                <br>
             <% end %>
         <% end %>
       </div>
@@ -127,10 +124,16 @@
   <!-- Tasks Panel -->
 <%#= TODO Please include jScrollPane for the scrolling here %>
 <%#= TODO Build the filters using the Select tags above %>
-  <div id="task-panel">
+  <div id="task-panel" style="height: 320px;overflow: auto;">
     <% @tasks.each_with_index do |task, index| %>
         <% if task.active %>
-            <div id="task_<%= task.id %>" class="task-item <%= (Time.now>task.due_date) ? "overdue" :"due" %> <%= (task.assigned_to==current_user.contact.id) ? "assigned" :"involved" %>">
+            <div id="task_<%= task.id %>" class="task-item <%= (Time.now>task.due_date) ? "overdue" :"due" %> <%= if (task.assigned_to==current_user.contact.id) then
+                                                                                                                    "assigned"
+                                                                                                                  elsif (!InteractionContact.find_by_interaction_id_and_contact_id(task.interaction.id, current_user.contact.id).blank?) then
+                                                                                                                    "involved"
+                                                                                                                  else
+                                                                                                                    "others"
+                                                                                                                  end %>">
               <div class="row-fluid" style="margin-bottom: 5px;">
                 <div>
                   <div class="summary-task <%= (Time.now>task.due_date) ? "overdue_summary" :"blocky" %>">
@@ -167,7 +170,7 @@
                         <span style="font-weight: bold">To: <%= Contact.find(task.assigned_to).name.humanize %>
                           | </span>
                         For:
-                        <a target="_blank" href="<%= contact_path(@primary_contact) %>" id="cnt_<%= @primary_contact.id %>_<%= task.id %>"> <%= @primary_contact.name %>
+                        <a target="_blank" href="<%= contact_path(@primary_contact) %>" id="cnt_<%= @primary_contact.id %>_<%= task.id %>"> <%= @primary_contact.display_name %>
                           |</a>
                         <br>
                         Involved:
@@ -176,7 +179,7 @@
                                 in case of any exceptions raised due to this relationship,
                                 the default value of @col is set at #ff00ff in the rescue block.
 
-                              %>
+                            %>
                             <% begin %>
                                 <% case contact.contact_types.first.name %>
                         <% when "Vendor" %>
@@ -190,13 +193,13 @@
                                 <% else %>
                                     <% @col="#ff00ff" %>
                                 <% end %>
-                            <% rescue Exception=>e %>
-                                <% @col = "#000000"%>
+                            <% rescue Exception => e %>
+                                <% @col = "#000000" %>
 
                             <% end %>
 
                             <style type="text/css">
-                                #cnt_<%= contact.id %>_<%= task.id %> {
+                                #cnt_<%= contact.id %>_ <%= task.id %> {
                                     color: <%= @col %>;
                                 }
                             </style>
@@ -208,12 +211,12 @@
 
                         <span style="font-size: 10px;font-weight: normal;">Created By: <%= Contact.find(task.interaction.created_by).name %></span>
                       </div>
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('complete',this,<%= task.id %>);" class="modal-link">Mark
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('COMPLETE',this,<%= task.id %>);" class="modal-link">Mark
                         as
                         Complete</a> |
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('reschedule',this,<%= task.id %>); " class="modal-link">Re-Schedule</a>
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('RESCHEDULE',this,<%= task.id %>); " class="modal-link">Re-Schedule</a>
                       |
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('cancel',this,<%= task.id %>);" class="modal-link">Cancel</a>
+                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('CANCEL',this,<%= task.id %>);" class="modal-link">Cancel</a>
 
                       <a class="collapser pull-right" href="#">Collapse</a>
                     </div>
@@ -244,15 +247,21 @@
 </div>
 <div class="span7" style="margin-left: 10px;">
   <div class="info-unit page-sized">
-
+    <% if @contact_page %>
+        <h2>Background
+          <%= link_to "Network Map", "#", :class => "btn btn-info pull-right" %>
+        </h2>
+        <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
+        <%= f.submit "Update", :style => "width:20%; height:100px;", :class => "btn btn-inverse" %>
+    <% end %>
     <!--Header and Search for Interactions-->
+    <h2>
+      Interactions
+    </h2>
 
     <div class="pull-right123">
       <!-- TODO Build an interaction table using DHTMLX (Fields: Date, InteractionType, Interaction summary, (Hidden but searchable: Added by, InteractionContacts, InteractionFlats -> Opens in a modal)  -->
-      <h2>
-        Interactions
-      </h2>
-      <table style="font-size: 12px" id="dhtmlx_interactions_table">
+      <table style="font-size: 12px" id="dhtmlx_interactions_table" gridHeight="400px">
         <tr>
           <td>Date</td>
           <td>Type</td>
@@ -267,7 +276,7 @@
               <td><%= InteractionType.find(interaction.interaction_type_id).name %></td>
               <td><a href="#" id="<%= interaction.id %>" class="interaction_link"><%= interaction.name[0, 80] %></a>
               </td>
-              <td><%= link_to Contact.find(interaction.primary_contact_id).name, contact_path(Contact.find(interaction.primary_contact_id)), :target => "_blank" %></td>
+              <td><%= link_to Contact.find(interaction.primary_contact_id).display_name, contact_path(Contact.find(interaction.primary_contact_id)), :target => "_blank" %></td>
 
             </tr>
 
@@ -281,37 +290,48 @@
               <div class="modal-body">
                 <p>
 
-                  <u>Interaction Details:</u><br>
+                  <u>Interaction Details:</u>
                   <%= interaction.name %>
                 </p>
 
+                <br>
+                <br>
+
                 <p>
-                  <u>Contacts Involved:</u><br>
+                  <u>Primary Contact:</u>
+                  <%= Contact.find(interaction.primary_contact_id).display_name %>
+                </p>
+
+                <p>
+                  <u>Others Involved:</u>
                   <%= interaction.contacts.map { |contact| contact.name }.join("|") %>
                 </p>
+                <br>
 
                 <p>
-                  <u>Properties Involved:</u><br>
-                  <%= interaction.flats.map { |flat| flat.name }.join("|") %>
-                </p>
+                  <u>Properties Involved:</u>
 
+                  <%= interaction.flats.map { |flat| flat.name+"--"+flat.building.name+"--"+flat.building.main_locality.name }.join("|") %>
+                </p>
+                <br>
                 <% if interaction.taskings.count>0 %>
                     <p>
-                      <u>Next Interaction Due :</u><br>
+                      <u>Next Interaction Due :</u>
                       <%= interaction.taskings.first.due_date.strftime("%e %b") %>
                     </p>
+                    <br>
 
                     <p>
-                      <u>Assigned To :</u><br>
+                      <u>Assigned To :</u>
                       <%= Contact.find(interaction.taskings.first.assigned_to).name %>
                     </p>
-
+                    <br>
                 <% end %>
                 <p>
-                  <u>Created By :</u><br>
+                  <u>Created By :</u>
                   <%= Contact.find(interaction.created_by).name %>
                 </p>
-
+                <br>
 
               </div>
               <div class="modal-footer">

@@ -200,6 +200,55 @@
 
 </script>
 
+
+<!--This is the script for dhtmlx..-->
+<%= content_for :head do %>
+    <%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+
+    <script type="text/javascript">
+        function clickmodal_link(data, element, task_id) {
+
+            $("#new_interaction_form").children(".modal-body").html("");
+
+            $.get("/interactions/new?task_id=" + task_id + "&prev_comment=" + data, function (data) {
+                $($(element).attr("href")).children(".modal-body").html(data);
+            });
+
+        }
+
+        var mygrid;
+        function doInitGrid() {
+            mygrid = new dhtmlXGridFromTable("dhtmlx_interactions_table");
+
+            mygrid.setSkin("bpe");
+            mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
+            mygrid.enableAutoWidth(true);
+            mygrid.enableAutoHeight(true);
+            mygrid.setSizes();
+
+
+
+
+            //hiding columns
+            //  mygrid.setColumnHidden(0,true);
+        }
+
+        $(function () {
+            doInitGrid();
+
+
+
+
+        });
+
+    </script>
+    <% end %>
+
 <h2>Point of Interest</h2>
 
 <%= nested_form_for @poi do |b| %>
@@ -213,7 +262,7 @@
           <div class="row-fluid">
             <div class="span2"><h1>Points of Interest</h1></div>
             <div class="span10">
-              <table>
+              <table >
                 <tr>
                   <td colspan="4">
                     <%= text_field_tag :search, "", :id => "address", :class => "span7" %>
@@ -281,21 +330,19 @@
             <!--TODO Add dhtmlx here-->
             <div class="row-fluid" style="margin-top:20px;">
               <h1>Existing Points of Interest</h1>
-              <table class="table table-condensed" style="width:840px;">
+              <table class="table table-condensed" style="width:840px;" id="dhtmlx_interactions_table">
                 <tr>
                   <th>Name</th>
                   <th>Type</th>
                   <th>Locality</th>
-                  <th>Longitude</th>
-                  <th>Latitude</th>
+                  <th>Note</th>
                 </tr>
                 <% @pois.each do |poi| %>
                     <tr>
                       <td><%= poi.name %></td>
                       <td><%= poi.poi_type.name %></td>
                       <td><%= poi.locality.name %>, <%= poi.locality.area.name %> </td>
-                      <td><%= poi.latitude %></td>
-                      <td><%= poi.longitude %></td>
+                      <td><%= poi.note[0..60] %></td>
                     </tr>
                 <% end %>
               </table>

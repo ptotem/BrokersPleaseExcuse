@@ -11,7 +11,7 @@ class Photo < ActiveRecord::Base
                             :geometry => "640x600>"
                         },
                         :thumbnail => {
-                            :geometry => "300x300"
+                            :geometry => "300x300!"
                         }
                     }
 

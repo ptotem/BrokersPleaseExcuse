@@ -31,6 +31,7 @@ function toggleSubmit() {
 function validate_page(page) {
 
 
+
     $(page).find(".content .row-fluid").find(".required_either").each(function (idx, element) {
 
         if (element.value == "") {
@@ -140,6 +141,7 @@ $(function () {
 
 
     $("select").live('change', function () {
+        if($(this).attr("class")=="required"){
 
         if (this.value < 1) {
 
@@ -156,6 +158,7 @@ $(function () {
         }
         toggleSubmit();
 
+        }
     });
 
 

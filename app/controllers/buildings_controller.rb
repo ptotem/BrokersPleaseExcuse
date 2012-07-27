@@ -2,6 +2,32 @@ class BuildingsController < ApplicationController
 
   autocomplete :building, :name
 
+  before_filter :get_current_action
+
+  def get_current_action
+    @default_form_class="btn btn-inverse btn-large panel-link"
+    case params[:action]
+      when "detailed_form"
+        @detailed_form_class="btn btn-primary btn-large panel-link"
+      when "building_features"
+        @building_form_class="btn btn-primary btn-large panel-link"
+      when "flat_features"
+        @flat_form_class="btn btn-primary btn-large panel-link"
+      when "photos"
+        @photos_form_class="btn btn-primary btn-large panel-link"
+      when "building_location"
+        @location_form_class="btn btn-primary btn-large panel-link"
+      when "moreinfo"
+        @moreinfo_form_class="btn btn-primary btn-large panel-link"
+      when "terms"
+        @terms_form_class="btn btn-primary btn-large panel-link"
+      else
+        @default_form_class="btn btn-inverse btn-large panel-link"
+
+    end
+
+  end
+
   # GET /buildings
   # GET /buildings.json
   def index
@@ -17,7 +43,20 @@ class BuildingsController < ApplicationController
   # GET /buildings/1.json
   def show
     @building = Building.find(params[:id])
-
+    @flat=@building.flats.first
+    @approach_quality=Quality.find(@building.approach_quality_id)
+    @interiors_quality=Quality.find(@flat.interiors_quality_id)
+    @view_quality=Quality.find(@flat.view_quality_id)
+    @building_quality=Quality.find(@building.building_quality_id)
+    @locality_quality=@building.main_locality.quality
+    @overall_quality_value = ((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
+    @overall_quality_name = Quality.find_by_value(@overall_quality_value).name
+    @flats=@building.flats
+    @deals=Deal.all
+    @broker_relation=DealRelation.find_by_name("Broker")
+    @landlord_relation=DealRelation.find_by_name("Landlord")
+    @employee_relation=DealRelation.find_by_name("Employee")
+    @tenant_relation=DealRelation.find_by_name("Tenant")
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json :@building }
@@ -100,7 +139,8 @@ class BuildingsController < ApplicationController
     @phone=@contact.phones.build
     @email=@contact.emails.build
     @contact_types=ContactType.all
-
+    @building_selected=true
+    #@available_from = @flat.available_froms.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -188,12 +228,29 @@ class BuildingsController < ApplicationController
     @services = Service.all
     @building_services=@building.building_services
     @building.building_services.build
+    @building.building_services.each do |bs|
+      bs.building_service_helplines.build
+      bs.building_service_notes.build
+    end
+
 
   end
 
   def terms
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
+
+    if @flat.expected_rents.first.blank?
+      @expected_rent=@flat.expected_rents.build
+    else
+      @expected_rent=@flat.expected_rents.first
+    end
+
+    if @flat.rental_terms.first.blank?
+      @rental_term = @flat.rental_terms.build
+    else
+      @rental_term = @flat.rental_terms.first
+    end
 
   end
 
@@ -202,7 +259,7 @@ class BuildingsController < ApplicationController
     @flat = Flat.find(params[:id])
     @photos = Photo.all
     @photo = Photo.new
-    @floor_plan=Photo.where("flat_id=? and is_floor_plan=?",@flat.id,true).first
+    @floor_plan=Photo.where("flat_id=? and is_floor_plan=?", @flat.id, true).first
   end
 
 
@@ -215,13 +272,13 @@ class BuildingsController < ApplicationController
 
     respond_to do |format|
       if !@contact.name.blank? && @contact.save!
-        format.html { redirect_to new_property_path(:contact => params[:contact_id]), notice:'Contact was successfully created.' }
+        format.html { redirect_to new_property_path(:contact => params[:contact_id]), :notice => 'Contact was successfully created.' }
       elsif !params[:selected_building].blank?
         @selected_building=Building.find(params[:selected_building])
-        format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), notice:"You selected #{@selected_building.name}. Now add the flat." }
+        format.html { redirect_to new_property_path(@selected_building, :contact => params[:contact_id]), :notice => "You selected #{@selected_building.name}. Now add the flat." }
       else
         if @building.save
-          format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), notice:'Building was successfully created.' }
+          format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), :notice => 'Building was successfully created.' }
         else
           format.html { redirect_to new_property_path(@building, :contact => params[:contact_id]), :notice => "Property could not be created. You must choose a building and put in the flat name and configuration" }
         end
@@ -234,37 +291,31 @@ class BuildingsController < ApplicationController
   # PUT /buildings/1.json
   def update
 
+
     @building = Building.find(params[:id])
 
     @contact = Contact.new(params[:contact])
-
     respond_to do |format|
 
       if !@contact.name.blank?
         @contact.save!
       end
 
-      #if params[:building][:flats_attributes].blank?
-      #  format.html { redirect_to new_property_path(@building, :contact => @contact.id), :notice => "Property could not be created. You must choose a building and put in the flat name and configuration"}
-      #elsif @building.update_attributes(params[:building])
-
-      # TODO Put in the validations for blank form submits using client-side validations
-
-      if @building.update_attributes(params[:building])
+      if @building.update_attributes!(params[:building])
 
         case params[:came_from]
           when nil
             @flat=Flat.last
-            format.html { redirect_to edit_property_basic_path(@building, @flat), notice:'Property was successfully created.' }
+            format.html { redirect_to edit_property_basic_path(@building, @flat), :notice => 'Property was successfully created.' }
           when 'basic'
             @flat=Flat.find(params[:flat_id])
-            format.html { redirect_to edit_property_location_path(@building, @flat), notice:'Basic Property data was successfully updated.' }
+            format.html { redirect_to edit_property_location_path(@building, @flat), :notice => 'Basic Property data was successfully updated.' }
           when 'location'
             @flat=Flat.find(params[:flat_id])
-            format.html { redirect_to edit_property_building_features_path(@building, @flat), notice:'Property Location details were successfully updated.' }
+            format.html { redirect_to edit_property_building_features_path(@building, @flat), :notice => 'Property Location details were successfully updated.' }
           when 'building_features'
             @flat=Flat.find(params[:flat_id])
-            format.html { redirect_to edit_property_flat_features_path(@building, @flat), notice:'Building Features were successfully updated.' }
+            format.html { redirect_to edit_property_flat_features_path(@building, @flat), :notice => 'Building Features were successfully updated.' }
           when 'flat_features'
             @flat=Flat.find(params[:flat_id])
             unless params[:flat].blank?
@@ -298,7 +349,7 @@ class BuildingsController < ApplicationController
               end
 
             end
-            format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Flat Utilities and Features were successfully updated.' }
+            format.html { redirect_to edit_property_flat_photos_path(@building, @flat), :notice => 'Flat Utilities and Features were successfully updated.' }
           when 'photos'
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
@@ -309,25 +360,26 @@ class BuildingsController < ApplicationController
               end
             end
             if params[:external]=="true"
-              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Photos were successfully updated.' }
+              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), :notice => 'Photos were successfully updated.' }
             else
-              format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice:'Photos were successfully uploaded.' }
+              format.html { redirect_to edit_property_flat_photos_path(@building, @flat), :notice => 'Photos were successfully uploaded.' }
             end
           when 'moreinfo'
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
             if params[:external]=="true"
-              format.html { redirect_to edit_property_terms_path(@building, @flat), notice:'Building Services were successfully updated.' }
+              format.html { redirect_to edit_property_terms_path(@building, @flat), :notice => 'Building Services were successfully updated.' }
             else
-              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), notice:'Building Service was created.' }
+              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), :notice => 'Building Service was created.' }
             end
           when 'terms'
             @flat=Flat.find(params[:flat_id])
+            logger.debug @flat
             @building=@flat.building
             if params[:external]=="true"
-              format.html { redirect_to edit_property_basic_path(@building, @flat), notice:'Terms were successfully updated.' }
+              format.html { redirect_to edit_property_successfully updatedbasic_path(@building, @flat), :notice => 'Terms were successfully updated.' }
             else
-              format.html { redirect_to show_property_path(@flat), notice:'Terms were successfully updated.' }
+              format.html { redirect_to show_property_path(@flat), :notice => 'Terms were successfully updated.' }
             end
 
         end

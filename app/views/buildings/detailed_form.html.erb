@@ -85,10 +85,9 @@
 
               <div class="blabel">Available From:</div>
               <%= f.fields_for :available_froms, @available_from do |er| %>
-                  <!--TODO Datepicker Edit to be Put in-->
-                  <%= er.text_field :name, :value => @flat.available_froms.last.name %>
-                  <%#= er.datepicker :name, :value => @flat.available_froms.last.name, :dateFormat => "dd/mm/yy" %>
+                  <%= er.datepicker :name, :value => @flat.available_froms.first.name.to_s, :dateFormat => "dd/mm/yy" %>
               <% end %>
+              <br>
               <br>
             </div>
 
@@ -111,20 +110,7 @@
 
               <br>
 
-              <div class="modal hide fade" id="add_contact">
-                <div class="modal-header">
-                  <a class="close" data-dismiss="modal">×</a>
 
-                  <h3>Add a Contact</h3>
-                </div>
-                <div class="modal-body">
-                  <%= render 'contacts/form',:layout=>false %>
-                </div>
-                <div class="modal-footer">
-                  <%= b.submit "Save Changes", :class => "btn btn-primary" %>
-                  <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
-                </div>
-              </div>
 
             </div>
           </div>
@@ -136,5 +122,20 @@
 
     <% end %>
 <% end %>
+
+<div class="modal hide fade" id="add_contact">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+
+    <h3>Add a Contact</h3>
+  </div>
+  <div class="modal-body">
+    <%= render 'contacts/form',:locals=>{:flat_id=>@flat.id} %>
+  </div>
+  <div class="modal-footer">
+
+    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+  </div>
+</div>
 
 

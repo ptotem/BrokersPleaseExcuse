@@ -1,5 +1,9 @@
 BPEv075::Application.routes.draw do
 
+  resources :deals
+
+  resources :deal_stages
+
   match 'property/(:building_id)/quick_form', :to => "buildings#quick_form", :as => "new_property"
   match 'building/:building_id/flat/:id/detailed_form/basic', :to => "buildings#detailed_form", :as => "edit_property_basic"
   match 'building/:building_id/flat/:id/detailed_form/location', :to => "buildings#building_location", :as => "edit_property_location"
@@ -10,6 +14,8 @@ BPEv075::Application.routes.draw do
   match 'building/:building_id/flat/:id/detailed_form/moreinfo', :to => "buildings#moreinfo", :as => "edit_property_flat_moreinfo"
   match 'building/:building_id/flat/:id/detailed_form/terms', :to => "buildings#terms", :as => "edit_property_terms"
   match 'property/:id', :to => "flats#show", :as => "show_property"
+
+  match 'property/notes/:building_id/:flat_id',:to=>"flats#notes",:as=>"notes"
 
 
   resources :interaction_entities

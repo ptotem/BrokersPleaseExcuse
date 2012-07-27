@@ -60,13 +60,13 @@
         });
 
         $(".existing-photos").on("click", function () {
-
+           if(is_camera_allowed){
             $.get("/save_photo_positions/" + $(this).attr("id") + "/" + left + "/" + top, function (data) {
 
                 alert("photo saved...");
 
             });
-
+           }
 
         });
 
@@ -90,14 +90,14 @@
             if (!is_camera_allowed){
                 $(this).removeClass("btn-primary");
                 $(this).addClass("btn-danger");
-                $(this).text("Switch Off Editing");
+                $(this).text("Switch Off Tagging");
             }
 
             else
             {
                 $(this).removeClass("btn-danger");
                 $(this).addClass("btn-primary");
-                $(this).text("Switch On Editing");
+                $(this).text("Switch On Tagging");
             }
             is_camera_allowed = !is_camera_allowed;
 
@@ -115,7 +115,7 @@
 
   <div class="span6">
     <div class="span2">
-      <%= link_to "Switch On Editing", "#",:class=>"btn btn-primary", :id => "enable_editing" %>
+      <%= link_to "Switch On Tagging", "#",:class=>"btn btn-primary btn-large", :id => "enable_editing" %>
 
     </div>
     <div class="floor_plan" style="width:500px;height: 500px;background-image: url(<%= @floor_plan.image.url(:original) %>) ">

@@ -1,0 +1,97 @@
+<%= render "top_menu" %>
+<div class="content" style="margin-top: 10px;">
+  <div class="row-fluid">
+    <div class="span6">
+      <%= nested_form_for(@building) do |b| %>
+          <%= b.fields_for :flats, @flat do |f| %>
+
+              <%= hidden_field_tag :came_from, "terms" %>
+              <%= hidden_field_tag :flat_id, @flat.id %>
+              <%= hidden_field_tag :external, false %>
+              <br>
+
+              <div class="content detail-panel" id="terms-panel">
+                <div class="row-fluid">
+
+                  <div class="span10">
+
+                    <%= f.hidden_field :name, :value => @flat.name %>
+                    <%= f.hidden_field :bhk_config_id, :value => @flat.bhk_config.id %>
+
+                    <h2>Terms and Conditions</h2>
+                    <br>
+
+                    <div class="blabel">Available From:</div>
+                    <%= f.fields_for :available_froms, @available_from do |er| %>
+                        <%= er.datepicker :name, :value => @flat.available_froms.first.name.to_s, :dateFormat => "dd/mm/yy" %>
+                    <% end %>
+
+
+                    <%= f.fields_for :expected_rents, @expected_rent do |er| %>
+                        <div class="blabel">Expected Rent:</div>
+                        <%= er.text_field :name %>
+                        <br>
+
+                        <div class="blabel">Minimum Rent:</div>
+                        <%= er.text_field :minimum_value %>
+                    <% end %>
+
+                    <%= f.fields_for :rental_terms, @rental_terms do |er| %>
+                        <div class="blabel">Estimated Brokerage:</div>
+                        <%= er.number_field :estimated_brokerage %>
+                        <br>
+
+                        <div class="blabel">Package Details:</div>
+                        <%= er.text_area :package_details, :class => "span6", :rows => "2", :placeholder => "Enter details of the package that the landlord wants or prefers. Details like 'HIGHER DEPOSIT','NO DEPOSIT','50k Rent minimum' should be captured here" %>
+                        <br>
+
+                        <div class="blabel">Landlord Conditions:</div>
+                        <%= er.text_area :landlord_conditions, :class => "span6", :rows => "2", :placeholder => "All conditions that the landlord may have specified apart from the standard conditions should be entered here. Specially private stuff like religion/caste preferences or biases against particular profiles should be captured here" %>
+                        <br>
+
+                        <div class="blabel">Brokerage Details:</div>
+                        <%= er.text_area :brokerage_details, :class => "span6", :rows => "2", :placeholder => "When Brokerage is discussed formally and agreed to, capture the terms of the brokerage deal here. Include who has spoken and when for easy reference later" %>
+                        <br>
+
+                        <div class="blabel">Showing Details:</div>
+                        <%= er.text_area :showing_details, :class => "span6", :rows => "2", :placeholder => "Capture details on how to access the key and show this property. Whether there is a broker or some place to pick up keys or someone to co-ordinate with" %>
+                        <br>
+                    <% end %>
+
+                  </div>
+                </div>
+                <br>
+                <%= b.submit "Save", :class => "btn btn-primary btn-large" %>
+              </div>
+
+
+              </div>
+              </div>
+              <div class="span6">
+                <br>
+                <br>
+                <br>
+
+                <div class="blocky">
+                  <b>Flat Description:</b>
+
+                  <p><%= @flat.qknote %></p>
+                </div>
+
+                <br>
+                <br>
+
+                <%= f.fields_for :flat_notes, @flat_note do |fn| %>
+                    <b><%= fn.label "Flat Notes " %></b><br>
+                    <%= fn.text_area :name, :class => "span6", :rows => "2", :placeholder => "Enter internal information about the flat here like 'This flat has poor quality interiors' or 'This flat has excellent furniture'" %>
+                    <%= fn.link_to_remove "Remove" %>
+                <% end %>
+                <%= f.link_to_add 'Add Note', :flat_notes %> <br/>
+
+              </div>
+          <% end %>
+
+
+
+          </div>
+      <% end %>

@@ -29,6 +29,7 @@ class Flat < ActiveRecord::Base
   has_many :photos, :dependent => :destroy
 
   accepts_nested_attributes_for :flat_notes, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :rental_terms
   accepts_nested_attributes_for :expected_rents, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :available_froms, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :flat_contacts, :reject_if => proc { |attrs| reject = %w(flat_id contact_id labelling_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
@@ -70,6 +71,17 @@ class Flat < ActiveRecord::Base
     else
       super
     end
+  end
+
+  def overall_quality
+    @building_quality=Quality.find(self.building.building_quality_id)
+    @approach_quality=Quality.find(self.building.approach_quality_id)
+    @interiors_quality=Quality.find(self.interiors_quality_id)
+    @view_quality=Quality.find(self.view_quality_id)
+
+    @locality_quality=self.building.main_locality.quality
+    @overall_quality=((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
+    Quality.find_by_value(@overall_quality).name
   end
 
 end

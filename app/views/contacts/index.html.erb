@@ -17,6 +17,8 @@
     <th>Properties Linked</th>
     <th>Last Interaction</th>
     <th>Next Task</th>
+    <th>Client Type</th>
+    <th>Last Interaction Date</th>
   </tr>
   <% @contacts.each do |contact| %>
       <tr>
@@ -29,7 +31,10 @@
         <td><%= get_interaction_td_for_contact(contact) %></td>
 
 
+
             <td><%= due_overdue_task_count(contact) %></td>
+            <td><%= contact.contact_types.first.name %></td>
+        <td><%= get_interaction_date(contact) %></td>
             </tr>
         <% end %>
 </table>

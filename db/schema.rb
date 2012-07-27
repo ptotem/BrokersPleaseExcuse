@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120617204747) do
+ActiveRecord::Schema.define(:version => 20120727102206) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -218,17 +218,45 @@ ActiveRecord::Schema.define(:version => 20120617204747) do
     t.integer "labelling_id"
   end
 
-  create_table "deals", :force => true do |t|
-    t.integer  "flat_id"
-    t.date     "deal_date"
-    t.integer  "brokerage"
-    t.integer  "rent"
-    t.integer  "deposit"
+  create_table "deal_contacts", :force => true do |t|
+    t.integer  "deal_id"
     t.integer  "contact_id"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.integer  "deal_relation_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "deal_relations", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "deal_stages", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "deals", :force => true do |t|
+    t.integer  "flat_id"
+    t.integer  "deal_stage_id"
+    t.boolean  "own_deal"
+    t.integer  "primary_rm"
+    t.date     "deal_date"
+    t.integer  "package"
+    t.date     "from_date"
+    t.date     "to_date"
+    t.date     "lockin_date"
+    t.float    "landlord_commission"
+    t.float    "tenant_commission"
+    t.float    "expenses"
+    t.float    "net_commission"
+    t.text     "package_details"
+    t.text     "comments"
+    t.integer  "primary_rm_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "directions", :force => true do |t|

@@ -48,8 +48,7 @@
               <tr style="height:15px;">
                 <th style="text-align: left">Service</th>
                 <th style="text-align: left">Name</th>
-                <th style="text-align: left"></th>
-                <th style="text-align: left"></th>
+                <th style="text-align: left">Helpline</th>
               </tr>
               </thead>
               <tbody style="border-bottom: solid 1px #daa520; margin-bottom: 10px;">
@@ -60,13 +59,16 @@
                             <td><%= bs.service.name %></td>
                             <td><%= bs.name %></td>
                             <td>
+                              <!--<a href="#phone_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Helplines</a>-->
+                              <%= bs.building_service_helplines.first.name %>
+                            </td>
+                            <td>
+                              <!--<a href="#note_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Notes</a>-->
+
+                            </td>
+                            <td>
                               <a href="#details_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Details</a>
-                            </td>
-                            <td>
-                              <a href="#phone_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Helplines</a>
-                            </td>
-                            <td>
-                              <a href="#note_<%= bs.id %>" data-toggle="modal" data-backdrop="static">Notes</a>
+
                             </td>
                             <td><%= link_to "Delete", building_service_path(bs, :flat_id => @flat.id), :method => :delete %></td>
                           </tr>

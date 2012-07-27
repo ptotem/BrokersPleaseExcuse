@@ -128,4 +128,22 @@ class FlatsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def notes
+    @flat = Flat.find(params[:flat_id])
+    @building = @flat.building
+    @building_quality=Quality.find(@building.building_quality_id)
+    @approach_quality=Quality.find(@building.approach_quality_id)
+    @interiors_quality=Quality.find(@flat.interiors_quality_id)
+    @view_quality=Quality.find(@flat.view_quality_id)
+    @flat.flat_notes.build
+
+    @locality_quality=@building.main_locality.quality
+    @overall_quality_value = ((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
+    @overall_quality_name = Quality.find_by_value(@overall_quality_value).name
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @flat }
+    end
+  end
 end

@@ -1,42 +1,13 @@
-<p id="notice"><%= notice %></p>
+<%= render "flats/top_menu" %>
 
-<p>
-  <b>Name:</b>
-  <%= @building.name %>
-</p>
+<div class="content" style="margin-top: 10px;">
+  <div class="row-fluid">
 
-<p>
-  <b>Address:</b>
-  <%= @building.address %>
-</p>
-
-<p>
-  <b>Road:</b>
-  <%= @building.road %>
-</p>
-
-<p>
-  <b>Pincode:</b>
-  <%= @building.pincode %>
-</p>
-
-<p>
-  <b>Latitude:</b>
-  <%= @building.latitude %>
-</p>
-
-<p>
-  <b>Longitude:</b>
-  <%= @building.longitude %>
-</p>
-
-<p>
-  <b>Localities:</b>
-  <% @building.localities.each do |locality| %>
-      <%= locality.name%>
-  <% end %>
-</p>
+    <h2>Properties</h2>
+  <%= render "flats/property_index" %>
 
 
-<%= link_to 'Edit', edit_building_path(@building) %> |
-<%= link_to 'Back', buildings_path %>
+    <h2>Deals</h2>
+<%= render "deals/deal_index" %>
+      </div>
+      </div>

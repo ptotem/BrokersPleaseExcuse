@@ -81,9 +81,11 @@
         });
 
         $(".floor_plan").click(function () {
-
-            $.get("/make_floor_plan/" + "<%= @flat.id %>" + "/" + $(this).attr("id"), function () {
-                alert("marked as floor plan")
+            var current_image=$(this);
+            $.get("/make_floor_plan/" + "<%= @flat.id %>" + "/" + $(this).attr("id"), function (data) {
+                //alert("Changes Done");
+                current_image.parent().parent().css("background-color","blue");
+                $("#"+data).parent().parent().css("background-color","black");
             })
 
         });
@@ -147,8 +149,10 @@
 
                     <div class="image-wrapper" style="background-color: <%= @backcolor %>">
                       <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
+
                       <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
-                      <%= link_to (image_tag photo.image.url(:thumbnail)), make_showcase_image_path(@flat.id,photo.id) %>
+                      <br>
+                      <%= link_to (image_tag(photo.image.url(:thumbnail),:size=>"200x200")), make_showcase_image_path(@flat.id,photo.id) %>
                       <br>
 
                       <div>

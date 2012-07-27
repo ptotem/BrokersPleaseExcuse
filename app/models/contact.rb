@@ -7,11 +7,11 @@ class Contact < ActiveRecord::Base
 
 
   # this is the place where we have over ridden contact_types association method.
-  # tyhe reason is it should not throw an error if no associated objects are found
+  # the reason is it should not throw an error if no associated objects are found
   def contact_types
     types=super
     if types.count==0
-      e=ErrorObject.get_error_object(:name,"No Contact Type Found")
+      e=ErrorObject.get_error_object(:name, "No Contact Type Found")
 
       return [e]
 
@@ -38,9 +38,9 @@ class Contact < ActiveRecord::Base
   accepts_nested_attributes_for :addresses, :reject_if => lambda { |a| a[:name].blank? }
   accepts_nested_attributes_for :contact_types, :reject_if => lambda { |a| a[:name].blank? }
   accepts_nested_attributes_for :contact_notes
-  accepts_nested_attributes_for :flat_contacts
+  accepts_nested_attributes_for :flat_contacts, :reject_if => lambda { |a| a[:name].blank? }
 
-  accepts_nested_attributes_for :connections, :reject_if => lambda { |a| a[:other_id].blank? } , :allow_destroy => true
+  accepts_nested_attributes_for :connections, :reject_if => lambda { |a|  !Connection.find_by_other_id_and_relationship_and_contact_id(a[:other_id], a[:relationship],a[:contact_id]).nil? or a[:other_id].blank? or a[:relationship].blank? }, :allow_destroy => true
 
   validates_presence_of :name
   #TODO:check the validation of email or phone. Not working in seeds
@@ -50,6 +50,10 @@ class Contact < ActiveRecord::Base
     if emails.size==0 and phones.size==0
       errors.add(:name, "could not be saved as you have to enter either Email or Phone Number")
     end
+  end
+
+  def display_name
+    [self.name,self.phones.first.name].join("--")
   end
 
 

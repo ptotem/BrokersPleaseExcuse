@@ -1,0 +1,96 @@
+    <%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+    <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+
+    <script type="text/javascript">
+
+
+        var mygrid_deals;
+        function doInitGrid() {
+            mygrid_deals = new dhtmlXGridFromTable("dhtmlx_interactions_table_deals");
+
+            mygrid_deals.setSkin("bpe");
+            mygrid_deals.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#numeric_filter,#numeric_filter,#numeric_filter,#text_filter,#text_filter");
+            mygrid_deals.enableAutoWidth(true);
+            mygrid_deals.enableAutoHeight(true);
+            mygrid_deals.setSizes();
+
+
+            //hiding columns
+            //  mygrid.setColumnHidden(0,true);
+        }
+
+        $(function () {
+            doInitGrid();
+
+
+        });
+
+    </script>
+
+
+
+
+
+
+
+
+<table id="dhtmlx_interactions_table_deals" gridwidth="900px">
+  <tr>
+    <th>Flat</th>
+    <th>Deal date</th>
+    <th>Deal Type</th>
+    <th>Deal Stage</th>
+    <th>Primary RM</th>
+    <th>Tenants</th>
+    <th>Landlords</th>
+    <th>Brokers</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Lock-in</th>
+    <th>Package</th>
+    <th>Package details</th>
+    <th>Landlord Commission</th>
+    <th>Tenant Commission</th>
+    <th>Expenses</th>
+    <th>Net Commission</th>
+    <th>Employees</th>
+    <th>Comments</th>
+    <th>Edit</th>
+    <th>Destroy</th>
+
+  </tr>
+
+  <% @deals.each do |deal| %>
+      <tr>
+        <td><%= deal.flat.name %></td>
+        <td><%= deal.deal_date.strftime("%b %e") %></td>
+        <td><%= deal.own_deal? %></td>
+        <td><%= deal.deal_stage.name %></td>
+        <td><%= Contact.find(deal.primary_rm_id).name %></td>
+        <td><%= deal.deal_contacts.where("deal_relation_id=?", @tenant_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>
+        <td><%= deal.deal_contacts.where("deal_relation_id=?", @landlord_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>
+        <td><%= deal.deal_contacts.where("deal_relation_id=?", @broker_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>
+        <td><%= deal.from_date.strftime("%b %e") %></td>
+        <td><%= deal.to_date.strftime("%b %e") %></td>
+        <td><%= deal.lockin_date.strftime("%b %e") %></td>
+        <td><%= deal.package %></td>
+        <td><%= deal.package_details %></td>
+        <td><%= deal.landlord_commission %></td>
+        <td><%= deal.tenant_commission %></td>
+        <td><%= deal.expenses %></td>
+        <td><%= deal.net_commission %></td>
+        <td><%= deal.deal_contacts.where("deal_relation_id=?", @employee_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>
+        <td><%= deal.comments %></td>
+
+        <td><%= link_to 'Edit', edit_deal_path(deal) %></td>
+        <td><%= link_to 'Destroy', deal, confirm: 'Are you sure?', method: :delete %></td>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+

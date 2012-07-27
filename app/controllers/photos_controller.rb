@@ -145,11 +145,14 @@ class PhotosController < ApplicationController
   def make_floor_plan
     @photo=Photo.find(params[:photo_id])
     @flat=Flat.find(params[:flat_id])
-    @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
+    if @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
     @prev_floor_plan.is_floor_plan=false
     @prev_floor_plan.save!
+    end
+
     @photo.is_floor_plan=true
     @photo.save!
+    render :text=>@prev_floor_plan.id||="Changes Saved..."
 
   end
 

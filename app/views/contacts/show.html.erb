@@ -57,8 +57,32 @@
               Info</a>
             <a href="#link_property" data-toggle="modal" data-backdrop="static" class="btn span2 sized">Link
               Property</a>
-            <%= link_to "Link Contact", "#", :class => "btn span2 sized" %>
+            <a href="#new_connection" data-toggle="modal" data-backdrop="static" class="btn span2 sized">Link
+              Contact</a>
           </div>
+
+          <div class="modal hide fade" id="new_connection">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">×</button>
+              <h3>New Connection</h3>
+            </div>
+            <div class="modal-body">
+
+              <%= f.fields_for :connections do |connection| %>
+                  <% if connection.object.new_record? %>
+                        <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Contact"} %>
+                        <%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %>
+                        <%= f.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %>
+                  <% end %>
+              <% end %>
+
+
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+          </div>
+
 
           <div class="orangey">
             <h3>Add Labels</h3>
@@ -76,7 +100,7 @@
                 <ul>
                 <%= @contact.flats.each do |flat| %>
                 <li><%= flat.name  %></li>
-
+                 <br>
                 <% end %>
                 </ul>
               </div>
@@ -183,7 +207,8 @@
         <%= f.fields_for :flat_contacts do |flat_contact| %>
             <% if flat_contact.object.new_record? %>
                 <%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Property"} %>
-                <%= flat_contact.select :name, options_from_collection_for_select(@labellings, "id", "name"), :class => "input-small", :style => "margin-top:5px;" %>
+                <%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), :class => "input-small", :style => "margin-top:5px;" %>
+                <%= flat_contact.text_field :name %>
                 <br>
                 <%= f.submit "Add", :class => "btn btn-inverse btn-large span1", :style => "margin-top:-4px;" %>
             <% end %>
