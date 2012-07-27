@@ -141,7 +141,8 @@ $(function () {
 
 
     $("select").live('change', function () {
-        if($(this).attr("class")=="required"){
+        //alert($(this).attr("class"));
+        if($(this).attr("class")=="required chzn-done"){
 
         if (this.value < 1) {
 
