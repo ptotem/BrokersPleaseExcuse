@@ -3,7 +3,7 @@
 
         <%= hidden_field_tag :came_from, "terms" %>
         <%= hidden_field_tag :flat_id, @flat.id %>
-        <%= hidden_field_tag :external, false %>
+        <%= hidden_field_tag :external, false%>
 
         <%= render :partial => 'form_menu' %>
         <br>
@@ -26,14 +26,13 @@
                   <div class="blabel">Expected Rent:</div>
                   <%= er.text_field :name %>
                   <%= er.hidden_field :rent_year,:value=>1 %>
-                  <%= er.hidden_field :flat_id,:value=>1 %>
                   <br>
 
                   <div class="blabel">Minimum Rent:</div>
                   <%= er.text_field :minimum_value %>
               <% end %>
 
-              <%= f.fields_for :rental_terms, @rental_terms do |er| %>
+              <%= f.fields_for :rental_terms, @rental_term do |er| %>
 
                   <div class="blabel">Estimated Brokerage:</div>
                   <%= er.number_field :estimated_brokerage%>

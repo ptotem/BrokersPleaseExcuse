@@ -47,7 +47,7 @@
 
           <div class="slabel"><%= flat_contact.labelling.name unless flat_contact.labelling_id.nil? %></div>
           <br>
-          <%= link_to flat_contact.contact.name+"--"+flat_contact.contact.phones.first.name, flat_contact.contact %>
+          <%= link_to flat_contact.contact.name+(flat_contact.contact.phones.first.blank? ? "" : "-" + flat_contact.contact.phones.first.name), flat_contact.contact %>
           <br>
           <span style="font-size:10px;font-style: italic; "><%= flat_contact.name %></span>
           <br>

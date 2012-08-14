@@ -49,7 +49,7 @@
             <% if @contact.emails.blank? %>
                 No Emails
             <% else %>
-               <a href="mailto: <%= @contact.emails.first.name %>"><%= @contact.emails.first.name %></a>
+                <a href="mailto: <%= @contact.emails.first.name %>"><%= @contact.emails.first.name %></a>
             <% end %>
           </div>
           <div style="margin-left: -20px;margin-top: 10px; height:100px;">
@@ -70,9 +70,9 @@
 
               <%= f.fields_for :connections do |connection| %>
                   <% if connection.object.new_record? %>
-                        <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Contact"} %>
-                        <%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %>
-                        <%= f.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %>
+                      <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Contact"} %>
+                      <%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %>
+                      <%= f.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %>
                   <% end %>
               <% end %>
 
@@ -87,29 +87,22 @@
           <div class="orangey">
             <h3>Add Labels</h3>
             <%= select_tag "contact[labelling_ids][]", options_from_collection_for_select(Labelling.all, :id, :name, @contact.labelling_ids), :multiple => true, :class => "chzn-container-multi", :'data-placeholder' => "Select Options", :style => "width:100%;border-radius:5px;" %>
-            <%= f.submit "Update", :style=>"width:100%; height:40px;", :class=>"btn btn-inverse" %>
+            <%= f.submit "Update", :style => "width:100%; height:40px;", :class => "btn btn-inverse" %>
           </div>
 
 
           <div class="content" style="display:none;padding:0;height:450px;overflow: auto;">
-
-
             <div class="row-fluid">
               <div class="span9" style="font-weight: bold;">
                 <h3 style="margin-bottom: 5px;height: 100px;overflow: auto;">Properties</h3>
                 <ul>
-                <%= @contact.flats.each do |flat| %>
-                <li><%= flat.name  %></li>
-                 <br>
-                <% end %>
+                  <%= @contact.flats.each do |flat| %>
+                      <li><%= flat.name %></li>
+                      <br>
+                  <% end %>
                 </ul>
               </div>
-              <table>
-
-              </table>
-
               <%= link_to "Add Property", new_property_path(:contact => @contact.id) %>
-
             </div>
             <br/>
 

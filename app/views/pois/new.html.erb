@@ -342,7 +342,7 @@
                       <td><%= poi.name %></td>
                       <td><%= poi.poi_type.name %></td>
                       <td><%= poi.locality.name %>, <%= poi.locality.area.name %> </td>
-                      <td><%= poi.note[0..60] %></td>
+                      <td><%= poi.note[0..60] unless poi.note.blank?%></td>
                     </tr>
                 <% end %>
               </table>

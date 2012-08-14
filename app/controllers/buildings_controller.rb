@@ -240,6 +240,12 @@ class BuildingsController < ApplicationController
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
 
+    if @flat.available_froms.first.blank?
+      @available_from=@flat.available_froms.build
+    else
+      @available_from=@flat.available_froms.first
+    end
+
     if @flat.expected_rents.first.blank?
       @expected_rent=@flat.expected_rents.build
     else
@@ -377,7 +383,7 @@ class BuildingsController < ApplicationController
             logger.debug @flat
             @building=@flat.building
             if params[:external]=="true"
-              format.html { redirect_to edit_property_successfully updatedbasic_path(@building, @flat), :notice => 'Terms were successfully updated.' }
+              format.html { redirect_to edit_property_basic_path(@building, @flat), :notice => 'Terms were successfully updated.' }
             else
               format.html { redirect_to show_property_path(@flat), :notice => 'Terms were successfully updated.' }
             end

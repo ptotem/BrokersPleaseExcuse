@@ -100,7 +100,7 @@
                 <%= flat_contact.labelling.name %>
                 : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class => "property_link" %>
                 ( <span style="font-size: 10px;"><%= flat_contact.flat.name %>, <%= flat_contact.flat.building.name %>
-        , <%= flat_contact.flat.building.main_locality.name %>) --<%= flat_contact.name %></span>
+        , <%= flat_contact.flat.building.main_locality.name %>) <%= flat_contact.name %></span>
                 <br>
             <% end %>
         <% end %>
