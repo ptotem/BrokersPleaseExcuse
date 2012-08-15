@@ -1,0 +1,14 @@
+<%= semantic_form_for @searching do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :phone %>
+    <%= f.input :email %>
+    <%= f.input :budget %>
+    <%= f.input :shifting %>
+    <%= f.input :restriction_id %>
+  <% end %>
+
+  <%= f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+<% end %>

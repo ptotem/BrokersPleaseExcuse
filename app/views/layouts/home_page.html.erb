@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Brokers Please Excuse</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+  </script>
+  <style type="text/css">
+      .navbar-inner{
+          height:300px;
+      }
+      .navbar .nav > li > a {
+          padding-top: 5px;
+          padding-bottom: 0px;
+          padding-right: 0px;
+          background: transparent;
+      }
+  </style>
+
+  <%= yield(:head) %>
+</head>
+<body>
+<div id="wrapper">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <%= yield :home_top %>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <%= js extend_gritter :position => :bottom_right %>
+    <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
+    <%= js add_gritter(flash[:alert], :image => :error, :title => "Alert!", :sticky => true) %>
+    <%= yield %>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
+

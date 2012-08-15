@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120727102206) do
+ActiveRecord::Schema.define(:version => 20120815223506) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -352,11 +352,13 @@ ActiveRecord::Schema.define(:version => 20120727102206) do
     t.string   "flat_key"
     t.integer  "area"
     t.integer  "floor"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "furnstat_id"
     t.integer  "flatype_id"
     t.text     "qknote"
+    t.boolean  "displayed",            :default => false
+    t.boolean  "approved",             :default => false
   end
 
   create_table "flatypes", :force => true do |t|
@@ -537,6 +539,38 @@ ActiveRecord::Schema.define(:version => 20120727102206) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "searching_areas", :force => true do |t|
+    t.integer  "searching_id"
+    t.integer  "area_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "searching_bhk_configs", :force => true do |t|
+    t.integer  "searching_id"
+    t.integer  "bhk_config_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "searching_facilities", :force => true do |t|
+    t.integer  "searching_id"
+    t.integer  "facility_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "searchings", :force => true do |t|
+    t.string   "name"
+    t.string   "phone"
+    t.string   "email"
+    t.integer  "budget"
+    t.date     "shifting"
+    t.integer  "restriction_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "services", :force => true do |t|

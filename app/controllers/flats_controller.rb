@@ -1,8 +1,16 @@
 class FlatsController < ApplicationController
+
+  skip_before_filter :authenticate_user!, :only => [:show, :index]
+
+
   # GET /flats
   # GET /flats.json
   def index
-    @flats = Flat.all
+    if current_user
+      @flats = Flat.all
+    else
+      @flats = Flat.where('displayed=? and approved=?', true, true).all
+    end
 
     @facilities=Facility.where("is_building=?", true)
     @features=Hash.new
@@ -18,7 +26,15 @@ class FlatsController < ApplicationController
   # GET /flats/1
   # GET /flats/1.json
   def show
-    @flat = Flat.find(params[:id])
+
+    if current_user
+      @flat = Flat.find(params[:id])
+    elsif Flat.find(params[:id]).displayed and Flat.find(params[:id]).approved
+      @flats = Flat.find(params[:id])
+    else
+      @flat=nil
+    end
+
     @building = @flat.building
     @building_quality=Quality.find(@building.building_quality_id)
     @approach_quality=Quality.find(@building.approach_quality_id)

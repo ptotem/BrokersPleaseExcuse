@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  phone: MyString
+  email: MyString
+  budget: 1
+  shifting: 2012-08-14
+  restriction_id: 1
+
+two:
+  name: MyString
+  phone: MyString
+  email: MyString
+  budget: 1
+  shifting: 2012-08-14
+  restriction_id: 1

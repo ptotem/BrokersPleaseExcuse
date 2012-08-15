@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @searching.name %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @searching.phone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @searching.email %>
+</p>
+
+<p>
+  <b>Budget:</b>
+  <%= @searching.budget %>
+</p>
+
+<p>
+  <b>Shifting:</b>
+  <%= @searching.shifting %>
+</p>
+
+<p>
+  <b>Restriction:</b>
+  <%= @searching.restriction_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_searching_path(@searching) %> |
+<%= link_to 'Back', searchings_path %>

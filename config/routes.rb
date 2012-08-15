@@ -18,6 +18,7 @@ BPEv075::Application.routes.draw do
   match 'property/notes/:building_id/:flat_id',:to=>"flats#notes",:as=>"notes"
 
 
+  resources :searchings
   resources :interaction_entities
   resources :taskings
   resources :interactions
@@ -98,7 +99,7 @@ BPEv075::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
-  root :to => 'welcome#index'
+  root :to => 'welcome#home'
 
   # See how all your routes lay out with "rake routes"
 
