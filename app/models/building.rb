@@ -10,7 +10,6 @@ class Building < ActiveRecord::Base
   has_and_belongs_to_many :restrictions
   has_many :building_notes, :dependent => :destroy
   has_many :building_routes, :dependent => :destroy
-  has_many :landmarks, :dependent => :destroy
   has_many :building_services, :dependent => :destroy
   has_many :services, :through => :building_services
 

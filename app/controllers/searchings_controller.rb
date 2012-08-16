@@ -1,4 +1,7 @@
 class SearchingsController < ApplicationController
+
+  skip_before_filter :authenticate_user!
+
   # GET /searchings
   # GET /searchings.json
   def index
@@ -14,6 +17,15 @@ class SearchingsController < ApplicationController
   # GET /searchings/1.json
   def show
     @searching = Searching.find(params[:id])
+
+    @searching.searching_bhk_configs.build
+    @searching.searching_areas.build
+    @searching.searching_facilities.build
+
+    @bhk_configs=BhkConfig.all
+    @areas=Area.all
+    @facilities=Facility.all
+
 
     respond_to do |format|
       format.html # show.html.erb

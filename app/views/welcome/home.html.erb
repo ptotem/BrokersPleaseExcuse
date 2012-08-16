@@ -99,7 +99,7 @@
               <br>
 
               <div style="margin-top: -10px;">in and around&nbsp;
-                <%= s.fields_for :searching_localities do |f| %>
+                <%= s.fields_for :searching_areas do |f| %>
                     <%= f.select :area_id, options_from_collection_for_select(@areas, 'id', 'name'), {}, {:multiple => true, :'data-placeholder' => " ", :class => "raised", :style => "width:470px;"} %>
                 <% end %></div>
               <br>
