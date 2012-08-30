@@ -11,16 +11,16 @@
       <tr>
         <td><h1 style="margin-left: 20px">Property Index</h1></td>
         <td>
-          <%= link_to "Flat Name", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(1,false)" %>
-          <%= link_to "Area", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(4,false)" %>
-          <%= link_to "Contacts", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(8,false)" %>
-          <%= link_to "Floor", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(10,false)" %>
-          <%= link_to "Bathroom", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(11,false)" %>
-          <%= link_to "Parking", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(12,false)" %>
-          <%= link_to "Facilities", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(13,false)" %>
-          <%= link_to "Infra", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(14,false)" %>
-          <%= link_to "Restriction", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(15,false)" %>
-          <%= link_to "Updated", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(17,false)" %>
+          <%= link_to "Flat Name", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('1',false)" %>
+          <%= link_to "Area", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('4',false)" %>
+          <%= link_to "Contacts", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('8',false)" %>
+          <%= link_to "Floor", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('10',false)" %>
+          <%= link_to "Bathroom", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('11',false)" %>
+          <%= link_to "Parking", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('12',false)" %>
+          <%= link_to "Facilities", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('13',false)" %>
+          <%= link_to "Infra", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('14',false)" %>
+          <%= link_to "Restriction", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('15',false)" %>
+          <%= link_to "Updated", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('17',false)" %>
         </td>
       </tr>
     </table>
@@ -102,122 +102,21 @@
         mygrid.enableAutoWidth(true);
         mygrid.enableAutoHeight(true);
         mygrid.setSizes();
-
-
-        //mygrid.init();
-        //mygrid.loadXML("/assets/sample_data.xml");
-        /*mygrid.attachEvent("onFilterStart", function (ind, ind2) {
-
-
-         if (ind2.toString().length == 20) {
-
-         var rowsAll = mygrid.getAllRowIds(","); // delimiter to use in the list should be specified
-         for (i = 0; i < rowsAll.split(",").length; i++) {
-         // alert(rowsAll.split(",")[i]);
-
-         mygrid.setRowHidden(rowsAll.split(",")[i], false);
-         }
-         }
-         else {
-
-
-         var cell = new Array();
-         var s = new Array();
-
-
-         if (ind2.toString().indexOf(",") != -1)
-         s = ind2.toString().split(",");
-         else
-         s[0] = ind2.toString();
-
-
-         var tmp = new Array();
-         for (var i = 0; i < s.length; i++) {
-
-         //cell[i] = new Array();
-         if (s[i].length > 0) {
-         //   alert(i);
-         tmp = mygrid.findCell(s[i]).toString().split(",");
-         for (var a = 0; a < tmp.length; a++) {
-         if (a % 2 == 0)
-         cell.push(tmp[a])
-         }
-
-         }
-
-
-         }
-
-
-         //                var final_array = new Array();
-         //                var x = 0;
-         //                if (cell.length > 1) {
-         //                    for (i = 0; i < cell.length - 1; i++) {
-         //                       if (cell[i].length > 0) {
-         //                            for (var k = 0; k < cell[i].length; k++) {
-         //                             //   if (cell[i + 1].length > 0) {
-         //                                 //   for (var j = 0; j < cell[i + 1].length; j++) {
-         //                                   //     if (cell[i][k].toString() == cell[i + 1][j].toString()) {
-         //                                            final_array[x] = cell[i][k];
-         //                                            x++;
-         //                                     //   }
-         //                                  //  }
-         //                           //     }
-         ////                                else {
-         ////                                    final_array[x] = cell[i][k];
-         ////                                    x++;
-         ////                                }
-         //                            }
-         //                        }
-         //                    }
-         //                }
-         //                else
-         //                final_array = cell;
-
-
-         rowsAll = mygrid.getAllRowIds(","); // delimiter to use in the list should be specified
-         //                alert(rowsAll);
-         //                alert(final_array.toString());
-         //                for (i = 0; i < rowsAll.split(",").length; i++) {
-         //                    // alert(rowsAll.split(",")[i]);
-         //                    if (final_array.toString().indexOf(rowsAll.split(",")[i].toString()) == -1) {
-         //                        mygrid.setRowHidden(rowsAll.split(",")[i], true);
-         //                    }
-         //                    else {
-         //                        mygrid.setRowHidden(rowsAll.split(",")[i], false);
-         //                    }
-         //                }
-
-         for (i = 0; i < rowsAll.split(",").length; i++) {
-         // alert(rowsAll.split(",")[i]);
-
-         mygrid.setRowHidden(rowsAll.split(",")[i], true);
-         }
-
-         for (i = 0; i < cell.length; i++) {
-         // alert(cell[i]);
-         mygrid.setRowHidden(cell[i], false);
-         }
-
-         }
-
-         });*/
-
     }
 
 
     $(function () {
         doInitGridtable();
-        mygrid.setColumnHidden(1,true);
-        mygrid.setColumnHidden(4,true);
-        mygrid.setColumnHidden(8,true);
-        mygrid.setColumnHidden(10,true);
-        mygrid.setColumnHidden(11,true);
-        mygrid.setColumnHidden(12,true);
-        mygrid.setColumnHidden(13,true);
-        mygrid.setColumnHidden(14,true);
-        mygrid.setColumnHidden(15,true);
-        mygrid.setColumnHidden(17,true);
+        mygrid.setColumnHidden('1',true);
+        mygrid.setColumnHidden('4',true);
+        mygrid.setColumnHidden('8',true);
+        mygrid.setColumnHidden('10',true);
+        mygrid.setColumnHidden('11',true);
+        mygrid.setColumnHidden('12',true);
+        mygrid.setColumnHidden('13',true);
+        mygrid.setColumnHidden('14',true);
+        mygrid.setColumnHidden('15',true);
+        mygrid.setColumnHidden('17',true);
 
     });
 
