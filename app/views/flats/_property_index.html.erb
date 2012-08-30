@@ -11,16 +11,26 @@
       <tr>
         <td><h1 style="margin-left: 20px">Property Index</h1></td>
         <td>
-          <%= link_to "Flat Name", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('1',false)" %>
-          <%= link_to "Area", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('4',false)" %>
-          <%= link_to "Contacts", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('8',false)" %>
-          <%= link_to "Floor", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('10',false)" %>
-          <%= link_to "Bathroom", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('11',false)" %>
-          <%= link_to "Parking", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('12',false)" %>
-          <%= link_to "Facilities", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('13',false)" %>
-          <%= link_to "Infra", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('14',false)" %>
-          <%= link_to "Restriction", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('15',false)" %>
-          <%= link_to "Updated", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden('17',false)" %>
+          <table>
+            <tr>
+              <td>
+                <%= link_to "Flat Name", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('1',false)" %>
+                <%= link_to "Area", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('4',false)" %>
+                <%= link_to "Contacts", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('8',false)" %>
+                <%= link_to "Floor", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('10',false)" %>
+                <%= link_to "Bathroom", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('11',false)" %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= link_to "Parking", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('12',false)" %>
+                <%= link_to "Facilities", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('13',false)" %>
+                <%= link_to "Infra", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('14',false)" %>
+                <%= link_to "Restriction", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('15',false)" %>
+                <%= link_to "Updated", "#", :class => "btn", :onclick => "mygrid.setColumnHidden('17',false)" %>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
     </table>
@@ -107,17 +117,6 @@
 
     $(function () {
         doInitGridtable();
-        mygrid.setColumnHidden('1',true);
-        mygrid.setColumnHidden('4',true);
-        mygrid.setColumnHidden('8',true);
-        mygrid.setColumnHidden('10',true);
-        mygrid.setColumnHidden('11',true);
-        mygrid.setColumnHidden('12',true);
-        mygrid.setColumnHidden('13',true);
-        mygrid.setColumnHidden('14',true);
-        mygrid.setColumnHidden('15',true);
-        mygrid.setColumnHidden('17',true);
-
     });
 
 
