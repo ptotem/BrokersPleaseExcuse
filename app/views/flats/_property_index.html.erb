@@ -1,10 +1,34 @@
-
 <%= javascript_include_tag "exclusions/dhtmlxcommon" %>
 <%= javascript_include_tag "exclusions/dhtmlxgrid" %>
 <%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
 <%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
 <%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
 <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+
+<div class="content" style="margin-top: 25px;">
+  <div class="row">
+    <table>
+      <tr>
+        <td><h1 style="margin-left: 20px">Property Index</h1></td>
+        <td>
+          <%= link_to "Flat Name", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(1,false)" %>
+          <%= link_to "Area", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(4,false)" %>
+          <%= link_to "Contacts", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(8,false)" %>
+          <%= link_to "Floor", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(10,false)" %>
+          <%= link_to "Bathroom", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(11,false)" %>
+          <%= link_to "Parking", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(12,false)" %>
+          <%= link_to "Facilities", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(13,false)" %>
+          <%= link_to "Infra", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(14,false)" %>
+          <%= link_to "Restriction", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(15,false)" %>
+          <%= link_to "Updated", "#", :class=>"btn", :onclick=>"mygrid.setColumnHidden(17,false)" %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<br>
+
+
 <div class="content">
   <table id="dhtmlxtable">
     <tr>
@@ -34,16 +58,10 @@
 
     <% @flats.each do |flat| %>
 
-        <%
-
-
-           @overall_quality_value = flat.overall_quality
-        %>
-
-
+        <% @overall_quality_value = flat.overall_quality %>
 
         <tr>
-          <td id=<%= flat.id+0 %>><%= link_to flat.flat_key, "property/#{flat.id}",:target => "_blank" %></td>
+          <td id=<%= flat.id+0 %>><%= link_to flat.flat_key, "property/#{flat.id}", :target => "_blank" %></td>
           <td <%= flat.id+1 %>><%= flat.name %></td>
           <td <%= flat.id+2 %>><%= flat.building.name %></td>
           <td <%= flat.id+3 %>><%= flat.building.primary_locality.name+"-"+flat.building.primary_locality.area.name+","+flat.building.localities.map { |l| l.name+"-"+l.area.name }.join(",") %></td>
@@ -52,14 +70,14 @@
           <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
           <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
           <td <%= flat.id+8 %>><%= flat.contacts.map { |c| c.name + (c.phones.first.blank? ? "" : "-" + c.phones.first.name) }.join(",") %></td>
-          <td <%= flat.id+10 %>><%= flat.available_froms.map{|af|af.name.strftime(" %b %y")}.join(",") %></td>
+          <td <%= flat.id+10 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
           <td <%= flat.id+11 %>><%= flat.floor %></td>
           <td <%= flat.id+12 %>><%= flat.bathrooms.sum(:value) %></td>
-          <td <%= flat.id+13 %>><%= flat.parkings.sum(:value)%></td>
-          <td <%= flat.id+14 %>><%= flat.facilities.map {|f|f.name}.join(",") %></td>
-          <td <%= flat.id+15 %>><%= flat.building.facilities.map {|f|f.name}.join(",") %></td>
+          <td <%= flat.id+13 %>><%= flat.parkings.sum(:value) %></td>
+          <td <%= flat.id+14 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
+          <td <%= flat.id+15 %>><%= flat.building.facilities.map { |f| f.name }.join(",") %></td>
 
-          <td <%= flat.id+17 %>><%= flat.restrictions.map{|r| r.name}.join(",") %></td>
+          <td <%= flat.id+17 %>><%= flat.restrictions.map { |r| r.name }.join(",") %></td>
           <!--flat quality-->
           <td <%= flat.id+18 %>><%= @overall_quality_value %></td>
           <td <%= flat.id+19 %>><%= flat.updated_at.strftime(" %e %b %y") %></td>
@@ -190,7 +208,16 @@
 
     $(function () {
         doInitGridtable();
-
+        mygrid.setColumnHidden(1,true);
+        mygrid.setColumnHidden(4,true);
+        mygrid.setColumnHidden(8,true);
+        mygrid.setColumnHidden(10,true);
+        mygrid.setColumnHidden(11,true);
+        mygrid.setColumnHidden(12,true);
+        mygrid.setColumnHidden(13,true);
+        mygrid.setColumnHidden(14,true);
+        mygrid.setColumnHidden(15,true);
+        mygrid.setColumnHidden(17,true);
 
     });
 
