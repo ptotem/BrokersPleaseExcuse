@@ -10,8 +10,8 @@
     <table>
       <tr>
         <td><h1 style="margin-left: 20px">Property Index</h1></td>
-        <td><h1 style="margin-left: 20px"><%= link_to "Aishwarya Rai", quick_property_index_path, :class=>"btn btn-info btn-small disabled" %></h1></td>
-        <td><h1 style="margin-left: 20px"><%= link_to "Aishwarya Bachchan", flats_path, :class=>"btn btn-info btn-large" %></h1></td>
+        <td><%= link_to "Aishwarya Rai", quick_property_index_path, :class=>"btn btn-small disabled" %></td>
+        <td><%= link_to "Aishwarya Bachchan", flats_path, :class=>"btn btn-info btn-large" %></td>
       </tr>
     </table>
   </div>
@@ -66,7 +66,7 @@
         mygrid = new dhtmlXGridFromTable("dhtmlxtable");
 
         mygrid.setSkin("bpe");
-        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#text_filter");
+        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#text_filter,#text_filter");
         mygrid.enableAutoWidth(true);
         mygrid.enableAutoHeight(true);
         mygrid.setSizes();
