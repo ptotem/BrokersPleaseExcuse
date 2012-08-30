@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20120815223506) do
 
   create_table "balconies", :force => true do |t|
     t.integer  "flat_id"
-    t.string   "name"
     t.integer  "value"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
@@ -59,7 +58,6 @@ ActiveRecord::Schema.define(:version => 20120815223506) do
 
   create_table "bathrooms", :force => true do |t|
     t.integer  "flat_id"
-    t.string   "name"
     t.integer  "value"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
@@ -447,7 +445,6 @@ ActiveRecord::Schema.define(:version => 20120815223506) do
 
   create_table "parkings", :force => true do |t|
     t.integer  "flat_id"
-    t.string   "name"
     t.integer  "value"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
