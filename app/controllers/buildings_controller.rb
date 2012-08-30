@@ -312,9 +312,15 @@ class BuildingsController < ApplicationController
         case params[:came_from]
           when nil
             @flat=Flat.last
+            @flat.flat_contacts.each do |flat_contact|
+              flat_contact.contact.labellings<<flat_contact.labelling
+            end
             format.html { redirect_to edit_property_basic_path(@building, @flat), :notice => 'Property was successfully created.' }
           when 'basic'
             @flat=Flat.find(params[:flat_id])
+            @flat.flat_contacts.each do |flat_contact|
+              flat_contact.contact.labellings<<flat_contact.labelling
+            end
             format.html { redirect_to edit_property_location_path(@building, @flat), :notice => 'Basic Property data was successfully updated.' }
           when 'location'
             @flat=Flat.find(params[:flat_id])

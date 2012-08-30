@@ -45,11 +45,11 @@ class Flat < ActiveRecord::Base
   validates_presence_of :name, :message => "Flat name not entered"
   validates_presence_of :bhk_config_id, :message => "Flat Configuration not entered"
 
-  #before_create :create_flat_key
+  before_create :create_flat_key
   after_create :create_basics
 
   def create_flat_key
-    self.flat_key= self.building.name[0..2] + (Flat.all.empty? ? 'BPE10000' : "#{Flat.last.flat_key[-5, 5].to_i+1}")
+    self.flat_key= "BPE" +Building.find(self.building_id).name[3]+ (Flat.last.flat_key.blank? ? '100000' : "#{Flat.last.flat_key[-5, 5].to_i+1}")
   end
 
   def create_basics

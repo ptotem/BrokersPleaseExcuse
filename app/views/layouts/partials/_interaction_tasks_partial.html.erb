@@ -99,10 +99,11 @@
             <% unless flat_contact.labelling.blank? %>
                 <%= flat_contact.labelling.name %>
                 : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class => "property_link" %>
-                ( <span style="font-size: 10px;"><%= flat_contact.flat.name %>, <%= flat_contact.flat.building.name %>
-        , <%= flat_contact.flat.building.main_locality.name %>) <%= flat_contact.name %></span>
+                <%= flat_contact.name %>
+                <%= link_to "Remove", flat_contact, :method => :delete, :class => 'pull-right' %>
                 <br>
             <% end %>
+
         <% end %>
       </div>
 
@@ -122,8 +123,6 @@
   <!---->
 
   <!-- Tasks Panel -->
-<%#= TODO Please include jScrollPane for the scrolling here %>
-<%#= TODO Build the filters using the Select tags above %>
   <div id="task-panel" style="height: 320px;overflow: auto;">
     <% @tasks.each_with_index do |task, index| %>
         <% if task.active %>
@@ -249,7 +248,7 @@
   <div class="info-unit page-sized">
     <% if @contact_page %>
         <h2>Background
-          <%= link_to "Network Map", "#", :class => "btn btn-info pull-right" %>
+          <%= link_to "Network Map", network_map_path(@contact), :class => "btn btn-info pull-right" %>
         </h2>
         <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
         <%= f.submit "Update", :style => "width:20%; height:100px;", :class => "btn btn-inverse" %>

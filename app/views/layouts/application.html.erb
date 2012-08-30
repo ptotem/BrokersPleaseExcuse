@@ -9,12 +9,10 @@
       //$.metadata.setType("attr", "data-validate");
       var parameter = "";
       function create_additional_parameters() {
-
       <% if params[:controller]=="flats" %>
           parameter = "property_id=<%= params[:id] %>";
       <% elsif params[:controller]=="contacts" %>
           parameter = "contact_id=<%= params[:id] %>";
-
       <% end %>
       }
 
@@ -28,7 +26,6 @@
               $.get("/interactions/new/?" + parameter, function (data) {
                   $(target_element).children(".modal-body").html(data);
               });
-
           });
 
 
@@ -51,6 +48,10 @@
 
           $(".navbar .nav>li>a").popover({
               placement:'bottom',
+              html:true
+          });
+          $(".menu-list>li>a").popover({
+              placement:'right',
               html:true
           });
           $(".brand").popover({
@@ -77,12 +78,17 @@
   <div class="navbar navbar-fixed-top" style="z-index: 999999999">
     <div class="navbar-inner" style="z-index: 999999999">
       <div class="container-fluid">
-        <a class="brand" href="/" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%#= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
-          BrokersPleaseExcuse.com</a>
         <% if current_user %>
+            <a class="brand" href="/dashboard" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%#= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
+              BrokersPleaseExcuse.com</a>
+        <% else %>
+            <a class="brand" href="/" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%#= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
+              BrokersPleaseExcuse.com</a>
+        <% end %>
+        <% if current_user && request.fullpath!='/' && request.fullpath!='/dashboard'%>
 
             <ul class="nav">
-              <li><%= link_to image_tag("icons/properties.png"), flats_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
+              <li><%= link_to image_tag("icons/properties.png"), quick_property_index_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
               <li><%= link_to image_tag("icons/new_property.png"), new_property_path, :title => "New Property", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Property.</td></tr></table>" %></li>
               <li><%= link_to image_tag("icons/contacts.png"), contacts_path, :title => "Contact List", :'data-content' => "<table><tr><td><img src='/assets/icons/contacts.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Contacts.</td></tr></table>" %></li>
               <li><%= link_to image_tag("icons/new_contact.png"), new_contact_path, :title => "New Contact", :'data-content' => "<table><tr><td><img src='/assets/icons/new_contact.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Contact.</td></tr></table>" %></li>

@@ -22,7 +22,7 @@
 
 <% end %>
 
-<%= semantic_form_for @contact do |f| %>
+<%= form_for @contact do |f| %>
 
     <div class="row-fluid" style="width:101%;margin-top: -5px;">
 
@@ -33,6 +33,8 @@
           <h3 style="color:white;">
             <%= @contact.name.titlecase %>
           </h3>
+          <%= link_to "(Edit)", edit_contact_path, :class=>"lefty", :style=>"font-size:10px;" %>
+          <br>
           <br>
 
           <div class="blocky">
@@ -67,22 +69,18 @@
               <h3>New Connection</h3>
             </div>
             <div class="modal-body">
-
               <%= f.fields_for :connections do |connection| %>
                   <% if connection.object.new_record? %>
-                      <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Contact"} %>
-                      <%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %>
-                      <%= f.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %>
+                      <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false, :include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Contact"} %>
+                      <%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:-10px;" %>
                   <% end %>
               <% end %>
-
-
             </div>
             <div class="modal-footer">
-              <a href="#" class="btn" data-dismiss="modal">Close</a>
+              <%= f.submit "Add", :class => "btn btn-inverse pull-right" %>
+              <a href="#" class="btn pull-left" data-dismiss="modal">Cancel</a>
             </div>
           </div>
-
 
           <div class="orangey">
             <h3>Add Labels</h3>
@@ -199,13 +197,25 @@
       <div class="modal-body">
         <%= f.fields_for :flat_contacts do |flat_contact| %>
             <% if flat_contact.object.new_record? %>
-                <%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Property"} %>
-                <%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), :class => "input-small", :style => "margin-top:5px;" %>
-                <%= flat_contact.text_field :name %>
-                <br>
-                <%= f.submit "Add", :class => "btn btn-inverse btn-large span1", :style => "margin-top:-4px;" %>
+                <table>
+                  <tr>
+                    <td>Property:</td>
+                    <td><%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false,:include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Property"} %></td>
+                  </tr>
+                  <tr>
+                    <td>Relationship:</td>
+                    <td><%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), {:multiple => false,:include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Relationship with Property", :style => "margin-top:5px;"} %></td>
+                  </tr>
+                  <tr>
+                    <td>Comment:</td>
+                    <td><%= flat_contact.text_field :name %></td>
+                  </tr>
+                </table>
             <% end %>
         <% end %>
+      </div>
+      <div class="modal-footer">
+        <%= f.submit "Add", :class => "btn btn-inverse btn-large" %>
       </div>
     </div>
 

@@ -2,37 +2,69 @@
     body {
         background: black;
     }
+    .menu-list img{
+        width:80px;
+    }
+
 </style>
 <div class="row-fluid" style="width:101%;margin-top: -5px;">
   <div class="span2" style="margin-left: -10px;font-size: 12px;">
     <div class="info-unit page-sized" style="background: black;border:none;">
-      <h2 style="color:white;">Cheers</h2>
-      <span style="font-weight: normal;font-size: 12px;color:white;">When the house is rocking, don't bother knocking...</span>
-      <br>
-      <br>
+      <!--<h2 style="color:white;">Cheers</h2>-->
+      <!--<span style="font-weight: normal;font-size: 12px;color:white;">When the house is rocking, don't bother knocking...</span>-->
+      <!--<br>-->
+      <!--<br>-->
 
-      <div class="blocky"><%= Flat.all.count %> Properties in database</div>
-      <div class="blocky"><%= Flat.all.count %> Properties available</div>
-      <div class="blocky"><%= Flat.all.count %> Properties available</div>
-      <div class="blocky"><%= Flat.all.count %> Properties available</div>
+      <!--<div class="blocky"><%#= Flat.all.count %> Properties in database</div>-->
+      <!--<div class="blocky"><%#= Flat.all.count %> Properties available</div>-->
+      <!--<div class="blocky"><%#= Flat.all.count %> Properties available</div>-->
+      <!--<div class="blocky"><%#= Flat.all.count %> Properties available</div>-->
 
-      <div style="margin-left: -20px;margin-top: 10px">
-        <%= link_to "Property Search", "#", :class => "btn btn-inverse span2 sized" %>
-        <%= link_to "Contact Search", "#", :class => "btn span2 sized" %>
-        <%= link_to "Broker Search", "#", :class => "btn span2 sized" %>
-        <%= link_to "Recently Viewed", "#", :class => "btn span2 sized" %>
-        <%= link_to "Frequently Viewed", "#", :class => "btn span2 sized" %>
-        <%= link_to "Deals", "#", :class => "btn span2 sized" %>
-        <%= link_to "Data and Graphs", "#", :class => "btn span2 sized" %>
-        <%= link_to "Projects", "#", :class => "btn span2 sized" %>
-        <%= link_to "Settings", "#", :class => "btn span2 sized" %>
-        <%= link_to "Got Game?", "#", :class => "btn span2 sized" %>
-        <%= link_to "Intranet", "#", :class => "btn btn-inverse span2 sized" %>
+      <div style="margin-left: 0px;margin-top: 10px">
+        <ul style="list-style:none;" class="menu-list">
+          <li><%= link_to image_tag("icons/properties.png"), quick_property_index_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
+          <li><%= link_to image_tag("icons/new_property.png"), new_property_path, :title => "New Property", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Property.</td></tr></table>" %></li>
+          <li><%= link_to image_tag("icons/contacts.png"), contacts_path, :title => "Contact List", :'data-content' => "<table><tr><td><img src='/assets/icons/contacts.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Contacts.</td></tr></table>" %></li>
+          <li><%= link_to image_tag("icons/new_contact.png"), new_contact_path, :title => "New Contact", :'data-content' => "<table><tr><td><img src='/assets/icons/new_contact.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Contact.</td></tr></table>" %></li>
+
+          <li style="color:white;font-size:18px;line-height:20px;">
+            <% @interaction=Interaction.new %>
+            <% @interaction.taskings.build %>
+
+            <a class="interaction-link" data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
+          <li><%= link_to image_tag("icons/pois.png"), new_poi_path, :title => "Points Of Interest", :'data-content' => "<table><tr><td><img src='/assets/icons/pois.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to populate the map.</td></tr></table>" %></li>
+          <li><%= link_to image_tag("icons/deals.png"), deals_path, :title => "Deals", :'data-content' => "<table><tr><td><img src='/assets/icons/deals.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to capture and analyze deals.</td></tr></table>" %></li>
+
+          <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%;overflow: hidden;">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">×</button>
+              <h1>Add Interaction</h1>
+            </div>
+            <div class="modal-body">
+              <div class="row-fluid">
+                <%#= render 'interactions/form', :locals => {} %>
+              </div>
+            </div>
+          </div>
+          </li>
+          <!--<li style="color:white;font-size:18px;line-height:20px;background: #000000"><a href="#">Intranet</a></li>-->
+        </ul>
+        <%#= link_to "Property Search", "#", :class => "btn btn-inverse span2 sized" %>
+        <%#= link_to "Contact Search", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Broker Search", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Recently Viewed", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Frequently Viewed", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Deals", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Data and Graphs", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Projects", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Settings", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Got Game?", "#", :class => "btn span2 sized" %>
+        <%#= link_to "Intranet", "#", :class => "btn btn-inverse span2 sized" %>
       </div>
     </div>
   </div>
 
-  <div class="span10" style="margin-left: 35px;">
+  <div class="span10" style="margin-left: -40px;">
     <div class="row-fluid">
       <!--Header and Search for Tasks-->
       <%= render 'layouts/partials/interaction_tasks_partial' %>

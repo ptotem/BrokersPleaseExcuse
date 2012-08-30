@@ -15,8 +15,9 @@ BPEv075::Application.routes.draw do
   match 'building/:building_id/flat/:id/detailed_form/moreinfo', :to => "buildings#moreinfo", :as => "edit_property_flat_moreinfo"
   match 'building/:building_id/flat/:id/detailed_form/terms', :to => "buildings#terms", :as => "edit_property_terms"
   match 'property/:id', :to => "flats#show", :as => "show_property"
+  match 'network_map/:id', :to => "contacts#network_map", :as => "network_map"
 
-  match 'property/notes/:building_id/:flat_id',:to=>"flats#notes",:as=>"notes"
+  match 'property/notes/:building_id/:flat_id', :to => "flats#notes", :as => "notes"
 
 
   resources :searchings
@@ -32,11 +33,10 @@ BPEv075::Application.routes.draw do
   resources :photos
   resources :building_services
   resources :pois
+  resources :flat_contacts
 
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-
-  get "welcome/index"
 
   devise_for :users
 
@@ -47,8 +47,9 @@ BPEv075::Application.routes.draw do
   match "delete_all_photos/:flat_id" => "photos#delete_all_photos", :as => "delete_all_photos"
   match "make_showcase_image/:flat_id/:photo_id" => "photos#make_showcase_image", :as => "make_showcase_image"
   match "update_photo_sequence" => "photos#update_photo_sequence", :as => "update_photo_sequence"
-  match "save_photo_positions/:photo_id/:xpos/:ypos"=>"photos#save_photo_positions",:as=>"save_photo_positions"
-  match "make_floor_plan/:flat_id/:photo_id"=>"photos#make_floor_plan",:as=>"make_floor_plan"
+  match "save_photo_positions/:photo_id/:xpos/:ypos" => "photos#save_photo_positions", :as => "save_photo_positions"
+  match "make_floor_plan/:flat_id/:photo_id" => "photos#make_floor_plan", :as => "make_floor_plan"
+  match "dashboard", :to => "welcome#index", :as => "dashboard"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

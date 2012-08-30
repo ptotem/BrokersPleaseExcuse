@@ -26,7 +26,7 @@ class ContactsController < ApplicationController
     # @tasks=Tasking.order("due_date ").all
     @assigned_tasks = Tasking.where('assigned_to=?', @contact.id).all
     @involved_interactions = InteractionContact.where('contact_id=?', @contact.id).all.map { |i| i.interaction }
-    @involved_interactions.concat(Interaction.where("primary_contact_id=?",@contact.id).all).compact
+    @involved_interactions.concat(Interaction.where("primary_contact_id=?", @contact.id).all).compact
     @involved_tasks = @involved_interactions.map { |i| i.taskings.first }.compact
     @tasks=(@assigned_tasks+@involved_tasks).uniq
 
@@ -87,14 +87,11 @@ class ContactsController < ApplicationController
   def update
 
     @contact = Contact.find(params[:id])
-
+    @contact.labellings.delete_all
     if @contact.update_attributes(params[:contact])
-      #  @contact.connections.each do |connection|
-      #    @other=Contact.find(connection.other_id)
-      #    unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank?
-      #      Connection.create!(:contact_id => @other.id, :other_id => @contact.id, :relationship => connection.relationship)
-      #    end
-      # end
+      @contact.flat_contacts.each do |flat_contact|
+        @contact.labellings<<flat_contact.labelling
+      end
       redirect_to @contact, :notice => 'Contact was successfully updated.'
     end
   end
@@ -106,4 +103,10 @@ class ContactsController < ApplicationController
     @contact.destroy
     respond_with @contact, :notice => 'Contact was successfully created.'
   end
+
+  def network_map
+    @contact=Contact.find(params[:id])
+    @relationships=@contact.connections.map{|c| c.relationship}.uniq
+  end
+
 end

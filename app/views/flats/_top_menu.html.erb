@@ -13,6 +13,13 @@
         })
     </script>
 
+    <style type="text/css">
+      .btn-menu{
+          width:100px;
+          margin-bottom: 5px;
+      }
+    </style>
+
 <% end %>
 
 
@@ -40,10 +47,10 @@
       </h2>
     </div>
     <div class="span3 amenu" style="margin-top: 10px;">
-      <%= link_to image_tag("icons/icon_house.png",:size=>"70x70",:style=>"background-color: rgb(254, 191, 4)"), flat_path(@flat), :title => "Flat", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to flat page.</td></tr></table>" %>
-      <%= link_to image_tag("icons/building.png", :size => "70x70"), building_path(@flat.building), :title => "Building", :'data-content' => "<table><tr><td><img src='/assets/icons/building.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the Building Page.</td></tr></table>" %>
-      <%= link_to image_tag("icons/notes.png", :size => "70x70"), notes_path(@flat.building,@flat), :title => "Notes", :'data-content' => "<table><tr><td><img src='/assets/icons/notes.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to see the Notes on the Property.</td></tr></table>" %>
-      <%= link_to image_tag("icons/interactioning.png", :size => "70x70"), flats_path, :title => "Interactions", :'data-content' => "<table><tr><td><img src='/assets/icons/interactioning.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to view the Interactions and Tasks associated with this property.</td></tr></table>" %>
+      <%= link_to "Flat Details", flat_path(@flat), :class => "btn btn-inverse btn-large btn-menu"%>
+      <%= link_to "Building Page", building_path(@flat.building), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Notes Section", notes_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Interactions", flats_path, :class => "btn btn-inverse btn-large btn-menu" %>
     </div>
     <div class="span5 pull-right" style="padding-top: 5px;padding-bottom: 5px;">
       <div class="span2 pull-right">

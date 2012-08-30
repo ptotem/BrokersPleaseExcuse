@@ -1,19 +1,98 @@
 <%= render "top_menu" %>
 
 <div class="content" style="margin-top: 10px;">
-  <div class="row-fluid">
+  <div class="row-fluid" style="position: relative;">
 
-    <div class="span2 blocky">
+    <div class="span3">
+      <% if @flat.photos.where('showcase_image=?', true).first.nil? %>
+          <%= image_tag "missing_photo.jpg" %>
+      <% else %>
+          <%= image_tag @flat.photos.where('showcase_image=?', true).first.image.url(:lightbox) %>
+      <% end %>
+      <br>
+
+      <h2>Description</h2>
+      <b>Building:</b>  <%= raw @flat.building.qknote %>
+      <br>
+      <b>Flat:</b> <%= raw @flat.qknote %>
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <div class="span6">
+
+      <div class="small-head"><%= image_tag "icons/building_features.png" %>Building Facilities</div>
+      <div class="show-block">
+        <% @flat.building.facilities.each do |facility| %>
+            <strong><%= facility.name %>:</strong>
+            <%= @flat.building.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
+            <br>
+        <% end %>
+        <br>
+      </div>
+      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Facilities</div>
+      <strong>
+        <% @flat.bathrooms.where("value>?", 0).each do |b| %>
+            <%= "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" %> |
+        <% end %>
+      </strong>
+      <strong>
+        <% @flat.balconies.where("value>?", 0).each do |b| %>
+            <%= "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" %>  |
+        <% end %>
+      </strong>
+      <strong>
+        <% @flat.parkings.where("value>?", 0).each do |b| %>
+            <%= "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" %>  |
+        <% end %>
+      </strong>
+      <br>
+
+      <div class="show-block">
+        <% @flat.facilities.each do |facility| %>
+            <% unless facility.name=="Parking" or facility.name=="Balconies" %>
+                <strong><%= facility.name %>:</strong>
+                <%= @flat.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
+                <br>
+            <% end %>
+        <% end %>
+
+        <br>
+      </div>
+      <div class="small-head"><%= image_tag "icons/restriction.png" %>Flat Restrictions</div>
+      <div class="show-block">
+        <strong><%= @flat.restrictions.map { |r| r.name }.join(", ") %></strong>
+        <br>
+        <br>
+      </div>
+      <div class="small-head"><%= image_tag "icons/moving.png" %>Moving Prerequisites</div>
+      <div class="show-block">
+        <strong><%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %></strong>
+        <br>
+        <strong>Moving Charges:</strong>
+        <%= @flat.building.moving_charge %>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div class="span2 blocky pull-right" style="position:absolute;right:5px;">
 
       <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
       <div class="show-block">
-        <%= @flat.name %>, <%= @building.name %>,
+        <%= @flat.name[0..10] %>,
         <br>
-        <%= @building.road unless @building.road.nil? %>,
+        <%= @building.name %>,
         <br>
-        <%= @building.main_locality.name unless @building.main_locality.nil? %>, <%= @building.main_locality.area.name %>
+        <% unless @building.road.blank? %>
+            <%= @building.road %>,
+            <br>
+        <% end %>
+        <%= @building.main_locality.name unless @building.main_locality.nil? %>
+        , <%= @building.main_locality.area.name %>
         <br>
-        <%= @building.main_locality.area.city.name unless @building.main_locality.area.city.nil? %> - <%= @building.pincode %>
+        <%= @building.main_locality.area.city.name unless @building.main_locality.area.city.nil? %>
+        - <%= @building.pincode %>
       </div>
       <br>
 
@@ -56,73 +135,6 @@
       <br>
     </div>
 
-    <div class="span3">
-      <%= image_tag @flat.photos.where('showcase_image=?',true).first.image.url(:lightbox) unless @flat.photos.where('showcase_image=?',true).first.nil? %>
-      <br>
-
-      <h2>Description</h2>
-    <b>Building:</b>  <%= raw @flat.building.qknote %>
-      <br>
-      <b>Flat:</b> <%= raw @flat.qknote %>
-      <br>
-      <br>
-      <br>
-    </div>
-
-    <div class="span6">
-
-      <div class="small-head"><%= image_tag "icons/building_features.png" %>Building Facilities</div>
-      <div class="show-block">
-        <% @flat.building.facilities.each do |facility| %>
-            <strong><%= facility.name %>:</strong>
-            <%= @flat.building.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
-            <br>
-        <% end %>
-        <br>
-      </div>
-      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Facilities</div>
-      <strong>
-        <% @flat.bathrooms.where("value>?", 0).each do |b| %>
-            <%= "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" %> |
-        <% end %>
-      </strong>
-      <strong>
-        <% @flat.balconies.where("value>?", 0).each do |b| %>
-            <%= "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" %>  |
-        <% end %>
-      </strong>
-      <strong>
-        <% @flat.parkings.where("value>?", 0).each do |b| %>
-            <%= "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" %>  |
-        <% end %>
-      </strong>
-      <br>
-
-      <div class="show-block">
-        <% @flat.facilities.each do |facility| %>
-            <strong><%= facility.name %>:</strong>
-            <%= @flat.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
-            <br>
-        <% end %>
-
-        <br>
-      </div>
-      <div class="small-head"><%= image_tag "icons/restriction.png" %>Flat Restrictions</div>
-      <div class="show-block">
-        <strong><%= @flat.restrictions.map { |r| r.name }.join(", ") %></strong>
-        <br>
-        <br>
-      </div>
-      <div class="small-head"><%= image_tag "icons/moving.png" %>Moving Prerequisites</div>
-      <div class="show-block">
-        <strong><%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %></strong>
-        <br>
-        <strong>Moving Charges:</strong>
-        <%= @flat.building.moving_charge %>
-        <br>
-        <br>
-      </div>
-    </div>
   </div>
   <br>
   <hr>
@@ -131,8 +143,8 @@
   <div class="row-fluid">
     <h2>Viewing Gallery</h2>
     <br>
-      <% @flat.photos.each do |photo| %>
-          <a href="<%= photo.image.url(:lightbox) %>" class="lightbox"><img src="<%= photo.image.url(:thumbnail) %>" alt="<%= photo.name %>" title="<%= photo.name %>" style="width:200px;"/></a>
-      <% end %>
+    <% @flat.photos.each do |photo| %>
+        <a href="<%= photo.image.url(:lightbox) %>" class="lightbox"><img src="<%= photo.image.url(:thumbnail) %>" alt="<%= photo.name %>" title="<%= photo.name %>" style="width:200px;"/></a>
+    <% end %>
   </div>
 </div>
