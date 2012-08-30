@@ -46,13 +46,13 @@
           <td <%= flat.id+1 %>><%= flat.name %></td>
           <td <%= flat.id+2 %>><%= flat.building.name %></td>
           <td <%= flat.id+3 %>><%= flat.building.primary_locality.name+"-"+flat.building.primary_locality.area.name+","+flat.building.localities.map { |l| l.name+"-"+l.area.name }.join(",") %></td>
-          <td <%= flat.id+5 %>><%= flat.bhk_config.name.split(" ")[0] %></td>
-          <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
-          <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
-          <td <%= flat.id+10 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
-          <td <%= flat.id+14 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
-          <td <%= flat.id+15 %>><%= flat.building.facilities.map { |f| f.name }.join(",") %></td>
-          <td <%= flat.id+18 %>><%= flat.overall_quality %></td>
+          <td <%= flat.id+4 %>><%= flat.bhk_config.name.split(" ")[0] %></td>
+          <td <%= flat.id+5 %>><%= flat.furnstat.name %></td>
+          <td <%= flat.id+6 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
+          <td <%= flat.id+7 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
+          <td <%= flat.id+8 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
+          <td <%= flat.id+9 %>><%= flat.building.facilities.map { |f| f.name }.join(",") %></td>
+          <td <%= flat.id+10 %>><%= flat.overall_quality %></td>
 
         </tr>
     <% end %>
