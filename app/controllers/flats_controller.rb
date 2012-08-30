@@ -13,10 +13,22 @@ class FlatsController < ApplicationController
     end
 
     @facilities=Facility.where("is_building=?", true)
-    @features=Hash.new
-    @facilities.each do |facility|
-      @features[facility.name]=facility.facility_features
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @flats }
     end
+  end
+
+  def quick_index
+    if current_user
+      @flats = Flat.all
+    else
+      @flats = Flat.where('displayed=? and approved=?', true, true).all
+    end
+
+    @facilities=Facility.where("is_building=?", true)
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @flats }

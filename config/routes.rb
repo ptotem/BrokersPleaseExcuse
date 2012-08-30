@@ -5,6 +5,7 @@ BPEv075::Application.routes.draw do
   resources :deal_stages
 
   match 'property/(:building_id)/quick_form', :to => "buildings#quick_form", :as => "new_property"
+  match 'property/index', :to => "flats#quick_index", :as => "quick_property_index"
   match 'building/:building_id/flat/:id/detailed_form/basic', :to => "buildings#detailed_form", :as => "edit_property_basic"
   match 'building/:building_id/flat/:id/detailed_form/location', :to => "buildings#building_location", :as => "edit_property_location"
   match 'building/:building_id/flat/:id/detailed_form/building_features', :to => "buildings#building_features", :as => "edit_property_building_features"

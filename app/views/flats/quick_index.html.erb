@@ -10,13 +10,14 @@
     <table>
       <tr>
         <td><h1 style="margin-left: 20px">Property Index</h1></td>
-        <td><h1 style="margin-left: 20px"><%= link_to "Aishwarya Rai", quick_property_index_path, :class=>"btn btn-info btn-small" %></h1></td>
-        <td><h1 style="margin-left: 20px"><%= link_to "Aishwarya Bachchan", flats_path, :class=>"btn btn-info btn-large disabled" %></h1></td>
+        <td><h1 style="margin-left: 20px"><%= link_to "Aishwarya Rai", quick_property_index_path, :class=>"btn btn-info btn-small disabled" %></h1></td>
+        <td><h1 style="margin-left: 20px"><%= link_to "Aishwarya Bachchan", flats_path, :class=>"btn btn-info btn-large" %></h1></td>
       </tr>
     </table>
   </div>
 </div>
 <br>
+
 
 <div class="content">
   <table id="dhtmlxtable">
@@ -25,21 +26,18 @@
       <td>Flat Name</td>
       <td>Building Name</td>
       <td>Locality</td>
-      <td>Area</td>
-      <td>BHK Config</td>
+      <td>BHK</td>
       <td>Furn Status</td>
       <td>Rent</td>
-      <td>Related People</td>
+
       <td>Available from</td>
-      <td>Floor</td>
-      <td>Bathroom</td>
-      <td>Parking Slots</td>
       <td>Flat Facilities</td>
       <td>Building Facilities</td>
-      <td>Restrictions</td>
-      <td>Flat Quality</td>
-      <td>Last Updated</td>
+      <td>Quality</td>
+
+
     </tr>
+
 
     <% @flats.each do |flat| %>
         <tr>
@@ -47,20 +45,15 @@
           <td <%= flat.id+1 %>><%= flat.name %></td>
           <td <%= flat.id+2 %>><%= flat.building.name %></td>
           <td <%= flat.id+3 %>><%= flat.building.primary_locality.name+"-"+flat.building.primary_locality.area.name+","+flat.building.localities.map { |l| l.name+"-"+l.area.name }.join(",") %></td>
-          <td <%= flat.id+4 %>><%= flat.area %></td>
           <td <%= flat.id+5 %>><%= flat.bhk_config.name.split(" ")[0] %></td>
           <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
           <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
           <td <%= flat.id+8 %>><%= flat.contacts.map { |c| c.name + (c.phones.first.blank? ? "" : "-" + c.phones.first.name) }.join(",") %></td>
           <td <%= flat.id+10 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
-          <td <%= flat.id+11 %>><%= flat.floor %></td>
-          <td <%= flat.id+12 %>><%= flat.bathrooms.sum(:value) %></td>
-          <td <%= flat.id+13 %>><%= flat.parkings.sum(:value) %></td>
           <td <%= flat.id+14 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
           <td <%= flat.id+15 %>><%= flat.building.facilities.map { |f| f.name }.join(",") %></td>
-          <td <%= flat.id+17 %>><%= flat.restrictions.map { |r| r.name }.join(",") %></td>
           <td <%= flat.id+18 %>><%= flat.overall_quality %></td>
-          <td <%= flat.id+19 %>><%= flat.updated_at.strftime(" %e %b %y") %></td>
+
         </tr>
     <% end %>
 
@@ -74,7 +67,7 @@
         mygrid = new dhtmlXGridFromTable("dhtmlxtable");
 
         mygrid.setSkin("bpe");
-        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#numeric_filter,#numeric_filter,#numeric_filter,#text_filter,#text_filter,#text_filter,#numeric_filter");
+        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#text_filter");
         mygrid.enableAutoWidth(true);
         mygrid.enableAutoHeight(true);
         mygrid.setSizes();
