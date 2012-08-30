@@ -4,7 +4,6 @@
 <%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
 <%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
 <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
-<%= javascript_include_tag "exclusions/dhtmlXGrid_srnd" %>
 
 <div class="content" style="margin-top: 25px;">
   <div class="row">
@@ -65,7 +64,6 @@
     var mygrid;
     function doInitGridtable() {
         mygrid = new dhtmlXGridFromTable("dhtmlxtable");
-        mygrid.enableSmartRendering(true);
         mygrid.setSkin("bpe");
         mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#text_filter,#text_filter");
         mygrid.enableAutoWidth(true);
