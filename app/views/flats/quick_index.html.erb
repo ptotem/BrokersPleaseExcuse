@@ -48,7 +48,6 @@
           <td <%= flat.id+5 %>><%= flat.bhk_config.name.split(" ")[0] %></td>
           <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
           <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
-          <td <%= flat.id+8 %>><%= flat.contacts.map { |c| c.name + (c.phones.first.blank? ? "" : "-" + c.phones.first.name) }.join(",") %></td>
           <td <%= flat.id+10 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
           <td <%= flat.id+14 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
           <td <%= flat.id+15 %>><%= flat.building.facilities.map { |f| f.name }.join(",") %></td>
