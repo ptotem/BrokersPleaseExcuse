@@ -108,82 +108,79 @@
         <br>
 
         <div class="content detail-panel" id="basic-panel">
-
-          <% if @building.avatar.blank? %>
-              <h2>Add a Building Photo</h2>
-              <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
-          <% else %>
-              <h2>Change the Building Photo</h2>
-              <%= image_tag @building.avatar.url(:thumbnail), :style => "border-radius:5px" %>
-          <% end %>
-          <br>
-          <%= b.file_field :avatar %>
-
-          <h2>Add Flat Photos
-            <br>
-            <small> You can choose multiple photos to upload
-            </small>
-          </h2>
-
-
-          <%= file_field_tag 'flat[photos_attributes][][image]', :multiple => true %>
-          <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
-
-          <hr>
-
-          <h2>Photo
-            Gallery
-            <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
-            <%= link_to "Sequencify", edit_property_flat_photos_path(@building, @flat), :class => "btn btn-primary" %>
-            <%= link_to "Taggify!", tag_property_flat_photos_path(@building, @flat), :class => "btn btn-inverse" %>
-          </h2>
-
-          <i>
-            Drag and drop Photos in order to re-order sequence <br>
-            Refresh (F5) to generate fresh sequence numbers or press Sequencify<br>
-          </i>
-
-          <div>
-            <ul id="sortable-photos">
-              <% @flat.photos.order("sequence_number").each_with_index do |photo, index| %>
-
-                  <li id="<%= photo.id %>_<%= index %>">
-                    <% @backcolor="black" %>
-                    <% if photo.showcase_image? %>
-                        <% @backcolor="green" %>
-
-                    <% elsif photo.is_floor_plan? %>
-                        <% @backcolor="blue" %>
-
-                    <% end %>
-
-                    <div class="image-wrapper" style="background-color: <%= @backcolor %>">
-                      <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
-
-                      <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
-                      <br>
-                      <%= link_to (image_tag(photo.image.url(:thumbnail), :size => "200x200")), make_showcase_image_path(@flat.id, photo.id) %>
-                      <br>
-
-                      <div>
-                        <%= text_field_tag :caption, photo.name, :class => "input-large", :id => "photo_#{photo.id}" %>
-                        <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
-                        <br>
-                        <%= link_to "Mark as Floor Plan", "#", :class => "btn btn-warning floor_plan", :id => photo.id %>
-                        <br>
-
-                      </div>
-                    </div>
-                  </li>
-
+          <div class="row-fluid">
+            <div class="span3">
+              <% if @building.avatar.blank? %>
+                  <h2>Add a Building Photo</h2>
+                  <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
+              <% else %>
+                  <h2>Change the Building Photo</h2>
+                  <%= image_tag @building.avatar.url(:thumbnail), :style => "border-radius:5px" %>
               <% end %>
-            </ul>
+              <br>
+              <%= b.file_field :avatar %>
+              <br>
+              <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
+            </div>
+            <div class="span9">
+              <h2>Add Flat Photos
+                <br>
+                <small> You can choose multiple photos to upload
+                </small>
+              </h2>
+              <%= file_field_tag 'flat[photos_attributes][][image]', :multiple => true %>
+              <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
+              <hr>
+              <h2>Photo Gallery
+                <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
+                <%= link_to "Sequencify", edit_property_flat_photos_path(@building, @flat), :class => "btn btn-primary" %>
+                <%= link_to "Taggify!", tag_property_flat_photos_path(@building, @flat), :class => "btn btn-inverse" %>
+              </h2>
+              <i>
+                Drag and drop Photos in order to re-order sequence <br>
+                Refresh (F5) to generate fresh sequence numbers or press Sequencify<br>
+              </i>
+
+              <div>
+                <ul id="sortable-photos">
+                  <% @flat.photos.order("sequence_number").each_with_index do |photo, index| %>
+
+                      <li id="<%= photo.id %>_<%= index %>">
+                        <% @backcolor="black" %>
+                        <% if photo.showcase_image? %>
+                            <% @backcolor="green" %>
+
+                        <% elsif photo.is_floor_plan? %>
+                            <% @backcolor="blue" %>
+
+                        <% end %>
+
+                        <div class="image-wrapper" style="background-color: <%= @backcolor %>">
+                          <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
+
+                          <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
+                          <br>
+                          <%= link_to (image_tag(photo.image.url(:thumbnail), :size => "200x200")), make_showcase_image_path(@flat.id, photo.id) %>
+                          <br>
+
+                          <div>
+                            <%= text_field_tag :caption, photo.name, :class => "input-large", :id => "photo_#{photo.id}" %>
+                            <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
+                            <br>
+                            <%= link_to "Mark as Floor Plan", "#", :class => "btn btn-warning floor_plan", :id => photo.id %>
+                            <br>
+
+                          </div>
+                        </div>
+                      </li>
+
+                  <% end %>
+                </ul>
+              </div>
+            </div>
           </div>
           <br>
-          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
           <br>
-          <br>
-
         </div>
     <% end %>
 <% end %>
