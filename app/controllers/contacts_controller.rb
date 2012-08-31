@@ -89,9 +89,6 @@ class ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     @contact.labellings.delete_all
     if @contact.update_attributes(params[:contact])
-      @contact.flat_contacts.each do |flat_contact|
-        @contact.labellings<<flat_contact.labelling
-      end
       redirect_to @contact, :notice => 'Contact was successfully updated.'
     end
   end

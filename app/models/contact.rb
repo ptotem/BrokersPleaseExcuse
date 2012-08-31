@@ -23,10 +23,12 @@ class Contact < ActiveRecord::Base
   accepts_nested_attributes_for :contact_notes
   accepts_nested_attributes_for :flat_contacts, :reject_if => proc { |attrs| reject = %w(flat_id contact_id labelling_id).all? { |a| attrs[a].blank? } }, :allow_destroy => true
 
-  accepts_nested_attributes_for :connections, :reject_if => lambda { |a|  !Connection.find_by_other_id_and_relationship_and_contact_id(a[:other_id], a[:relationship],a[:contact_id]).nil? or a[:other_id].blank? or a[:relationship].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :connections, :reject_if => lambda { |a| !Connection.find_by_other_id_and_relationship_and_contact_id(a[:other_id], a[:relationship], a[:contact_id]).nil? or a[:other_id].blank? or a[:relationship].blank? }, :allow_destroy => true
 
   validates_presence_of :name
   #validate :email_or_phone
+
+  after_save :add_labelling
 
   def email_or_phone
     if emails.size==0 and phones.size==0
@@ -36,12 +38,17 @@ class Contact < ActiveRecord::Base
 
   def display_name
     if self.phones.first
-      [self.name,self.phones.first.name].join("--")
+      [self.name, self.phones.first.name].join("--")
     else
       self.name
     end
 
   end
 
+  def add_labelling
+    self.flat_contacts.each do |flat_contact|
+      self.labellings<<flat_contact.labelling
+    end
+  end
 
 end
