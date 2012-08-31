@@ -13,7 +13,7 @@
         <div class="blabel">
           Flat Key:
         </div>
-        <small><%= @flat.flat_key.upcase %></small>
+        <small><%= link_to @flat.flat_key.upcase, flat_path(@flat) %></small>
       </h3>
     </div>
     <div class="span7 pull-right">
