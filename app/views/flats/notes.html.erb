@@ -10,7 +10,7 @@
               <%= hidden_field_tag :external, false %>
               <br>
 
-              <div class="content detail-panel" id="terms-panel">
+              <div class="content detail-panel" id="terms-panel" style="margin-top: -30px;">
                 <div class="row-fluid">
 
                   <div class="span10">
@@ -22,7 +22,7 @@
                     <br>
 
                     <div class="blabel">Available From:</div>
-                    <%= f.fields_for :available_froms, @available_from do |er| %>
+                    <%= f.fields_for :available_froms do |er| %>
                         <%= er.datepicker :name, :value => @flat.available_froms.first.name.to_s, :dateFormat => "dd/mm/yy" %>
                     <% end %>
 
@@ -81,7 +81,7 @@
                 <br>
                 <br>
 
-                <%= f.fields_for :flat_notes, @flat_note do |fn| %>
+                <%= f.fields_for :flat_notes do |fn| %>
                     <b><%= fn.label "Flat Notes " %></b><br>
                     <%= fn.text_area :name, :class => "span6", :rows => "2", :placeholder => "Enter internal information about the flat here like 'This flat has poor quality interiors' or 'This flat has excellent furniture'" %>
                     <%= fn.link_to_remove "Remove" %>

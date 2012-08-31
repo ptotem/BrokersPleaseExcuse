@@ -1,0 +1,13 @@
+<%= render "flats/top_menu" %>
+
+<%= form_for @flat do |f| %>
+
+    <div class="row-fluid" style="width:101%;margin-top: -5px;">
+      <div class="span10" style="margin-left: 10px;margin-top: -30px;">
+        <div class="row-fluid">
+          <%= render "/layouts/partials/interaction_tasks_partial", :f => f %>
+        </div>
+      </div>
+    </div>
+
+<% end %>

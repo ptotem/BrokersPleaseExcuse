@@ -22,14 +22,14 @@
             mygrid = new dhtmlXGridFromTable("dhtmlx_interactions_table");
 
             mygrid.setSkin("bpe");
-            mygrid.attachHeader("#text_filter,#select_filter,#text_filter,#text_filter");
+            mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter");
             mygrid.enableAutoWidth(true);
             mygrid.enableAutoHeight(false);
             mygrid.setSizes();
 
 
-            mygrid.setColWidth(0, 60);
-            mygrid.setColWidth(1, 60);
+            mygrid.setColWidth(0, 70);
+            mygrid.setColWidth(1, 70);
             mygrid.setColWidth(2, 300);
             mygrid.setColWidth(3, 150);
 
@@ -247,9 +247,7 @@
 <div class="span7" style="margin-left: 10px;">
   <div class="info-unit page-sized">
     <% if @contact_page %>
-        <h2>Background
-          <%= link_to "Network Map", network_map_path(@contact), :class => "btn btn-info pull-right" %>
-        </h2>
+        <h2>Background</h2>
         <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
         <%= f.submit "Update", :style => "width:20%; height:100px;", :class => "btn btn-inverse" %>
     <% end %>

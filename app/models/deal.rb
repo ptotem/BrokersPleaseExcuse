@@ -1,11 +1,11 @@
 class Deal < ActiveRecord::Base
   belongs_to :flat
-  belongs_to :contact
+  belongs_to :deal_stage
 
   has_many :deal_contacts, :dependent => :destroy
-  belongs_to :deal_stage
-  accepts_nested_attributes_for :deal_contacts
+  has_many :contacts, :through => :deal_contacts
 
+  accepts_nested_attributes_for :deal_contacts
 
   before_create :calculate_net_commission
 

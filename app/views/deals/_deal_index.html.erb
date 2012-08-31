@@ -31,7 +31,11 @@
 
     </script>
 
-
+    <style type="text/css">
+      a{
+          color: #00008b;
+      }
+    </style>
 
 
 
@@ -59,8 +63,8 @@
     <th>Net Commission</th>
     <th>Employees</th>
     <th>Comments</th>
-    <th>Edit</th>
-    <th>Destroy</th>
+    <th></th>
+    <th></th>
 
   </tr>
 
@@ -70,7 +74,7 @@
         <td><%= deal.deal_date.strftime("%b %e") %></td>
         <td><%= deal.own_deal? %></td>
         <td><%= deal.deal_stage.name %></td>
-        <td><%= Contact.find(deal.primary_rm_id).name %></td>
+        <td><%= Contact.find(deal.primary_rm_id).name unless deal.primary_rm_id.blank? %></td>
         <td><%= deal.deal_contacts.where("deal_relation_id=?", @tenant_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>
         <td><%= deal.deal_contacts.where("deal_relation_id=?", @landlord_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>
         <td><%= deal.deal_contacts.where("deal_relation_id=?", @broker_relation.id).all.map { |x| Contact.find(x.contact_id).name }.join(",") %></td>

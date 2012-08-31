@@ -1,3 +1,11 @@
+<%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+<%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+<%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+<%= javascript_include_tag "exclusions/dhtmlXGrid_srnd" %>
+
 <script type="text/javascript">
 
     document.onselectstart = new Function("return false;");
@@ -140,7 +148,6 @@
                             plot.move(-1000, -1, 0);
                             text.style.left = "-1000px";
                             expanded = false;
-                            //               alert(this.text.child.text());
                             collapse();
                         }
                     }
@@ -152,24 +159,39 @@
             };
 
             /* ==== expand node ==== */
-            this.expand = function () {
-
+            this.expand = function (initial) {
                 with (this) {
-
                     /* ==== close all other branchs ==== */
-                    if (parent_ini != "")
-                        for (var i = 0; i < parent_ini.children.length; i++) {
-
-                            //  parent_ini.children[i].collapse();
+                    if (!initial) {
+                        if (parent_ini != "")
+                            for (var i = 0; i < parent_ini.children.length; i++) {
+                                parent_ini.children[i].collapse();
+                            }
+                        /* ==== expand ==== */
+                        expanded = true;
+                        text.style.color = m.tS;
+                        plot.fill_color(m.cN);
+                        for (var i = 0; i < children.length; i++) {
+                            children[i].visible = true;
+                            children[i].lex = 0;
                         }
-                    /* ==== expand ==== */
-                    expanded = true;
-                    text.style.color = m.tS;
-                    plot.fill_color(m.cN);
-                    for (var i = 0; i < children.length; i++) {
-                        children[i].visible = true;
-                        children[i].lex = 0;
                     }
+                    else {
+                        /* ==== expand all ==== */
+                        expanded = true;
+                        text.style.color = m.tS;
+                        plot.fill_color(m.cN);
+
+                        for (var i = 0; i < children.length; i++) {
+                            children[i].visible = true;
+                            children[i].lex = 0;
+                            for (var j = 0; j < children[i].children.length; j++) {
+                                children[i].children[j].visible = true;
+                                children[i].children[j].lex = 0;
+                            }
+                        }
+                    }
+
                 }
             }
         },
@@ -316,7 +338,7 @@
             /* ==== expand 1st Node ==== */
             m.Odraged = m.O[0];
             m.O[0].collapse();
-            m.O[0].expand();
+            m.O[0].expand(true);
 
         }
     };
@@ -374,6 +396,10 @@
         font-size: 0.8em;
         margin-left: 10px;
     }
+
+    td, tr, th {
+        border: 1px solid black;
+    }
 </style>
 
 <h1 style="margin-top: 40px;">
@@ -393,3 +419,38 @@
     <% end %>
   </div>
 </div>
+<div class="span5 info-unit page-sized" style="position: relative;height: 500px;margin: 0 auto;margin-top: 10px;">
+  <table id="dhtmlxtable">
+    <tr>
+      <th style="width:100px;" class="blocky">Contact</th>
+      <th style="width:100px;" class="blocky">Relationship</th>
+      <th style="width:100px;"></th>
+    </tr>
+    <% @contact.connections.each do |connection| %>
+        <tr>
+          <td><%= link_to Contact.find(connection.other_id).name, network_map_path(connection.other_id) %></td>
+          <td><%= connection.relationship %></td>
+          <td><%= link_to "Remove ", connection, :method => :delete, :confirm => true %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>
+
+<script type="text/javascript">
+
+    var mygrid;
+    function doInitGridtable() {
+        mygrid = new dhtmlXGridFromTable("dhtmlxtable");
+        mygrid.setSkin("bpe");
+        mygrid.attachHeader("#text_filter,#text_filter");
+        mygrid.enableAutoWidth(true);
+        mygrid.enableAutoHeight(true);
+        mygrid.setSizes();
+    }
+
+    $(function () {
+        doInitGridtable();
+    });
+
+</script>
+

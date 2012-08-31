@@ -15,7 +15,7 @@
 
     <style type="text/css">
       .btn-menu{
-          width:100px;
+          width:50px;
           margin-bottom: 5px;
       }
     </style>
@@ -47,10 +47,11 @@
       </h2>
     </div>
     <div class="span3 amenu" style="margin-top: 10px;">
-      <%= link_to "Flat Details", flat_path(@flat), :class => "btn btn-inverse btn-large btn-menu"%>
-      <%= link_to "Building Page", building_path(@flat.building), :class => "btn btn-inverse btn-large btn-menu" %>
-      <%= link_to "Notes Section", notes_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
-      <%= link_to "Interactions", flats_path, :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Flat", flat_path(@flat), :class => "btn btn-inverse btn-large btn-menu"%>
+      <%= link_to "Building", building_path(@flat.building), :class => "btn btn-inverse btn-large btn-menu" %>
+      <br>
+      <%= link_to "Notes", notes_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Tasks", flatask_path(@flat), :class => "btn btn-inverse btn-large btn-menu" %>
     </div>
     <div class="span5 pull-right" style="padding-top: 5px;padding-bottom: 5px;">
       <div class="span2 pull-right">

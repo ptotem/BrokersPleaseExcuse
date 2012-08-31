@@ -165,7 +165,12 @@ class FlatsController < ApplicationController
     @interiors_quality=Quality.find(@flat.interiors_quality_id)
     @view_quality=Quality.find(@flat.view_quality_id)
     @flat.flat_notes.build
-
+    unless @flat.available_froms
+      @flat.available_froms.build
+    end
+    unless @flat.expected_rents
+      @flat.expected_rents.build
+    end
     @locality_quality=@building.main_locality.quality
     @overall_quality_value = ((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
     @overall_quality_name = Quality.find_by_value(@overall_quality_value).name
@@ -174,4 +179,28 @@ class FlatsController < ApplicationController
       format.json { render json: @flat }
     end
   end
+
+  def flatasks
+
+    @flat_page=true
+
+    @flat = Flat.find(params[:id])
+    @building = @flat.building
+    @building_quality=Quality.find(@building.building_quality_id)
+    @approach_quality=Quality.find(@building.approach_quality_id)
+    @interiors_quality=Quality.find(@flat.interiors_quality_id)
+    @view_quality=Quality.find(@flat.view_quality_id)
+    @locality_quality=@building.main_locality.quality
+    @overall_quality_value = ((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
+    @overall_quality_name = Quality.find_by_value(@overall_quality_value).name
+
+    @involved_interactions = InteractionFlat.where('flat_id=?', @flat.id).all.map { |i| i.interaction }
+    @tasks = @involved_interactions.map { |i| i.taskings.first }.compact.uniq
+
+    @interactions=@involved_interactions
+    @interaction=Interaction.new
+    @interaction.taskings.build
+
+  end
+
 end

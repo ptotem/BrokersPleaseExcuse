@@ -65,7 +65,7 @@ class ContactsController < ApplicationController
       if @contact.save
         @contact.connections.each do |connection|
           @other=Contact.find(connection.other_id)
-          unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank?
+          unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank? and Connection.find_by_contact_id_and_other_id(@other.id,@contact.id).blank?
             @other.connection.create!(:other_id => @contact, :relationship => connection.relationship)
           end
         end

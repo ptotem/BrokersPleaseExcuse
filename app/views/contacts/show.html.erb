@@ -61,6 +61,7 @@
               Property</a>
             <a href="#new_connection" data-toggle="modal" data-backdrop="static" class="btn span2 sized">Link
               Contact</a>
+            <%= link_to "Network Map", network_map_path(@contact), :class=>"btn btn-info span2 sized" %>
           </div>
 
           <div class="modal hide fade" id="new_connection">
@@ -82,7 +83,7 @@
             </div>
           </div>
 
-          <div class="orangey">
+          <div class="orangey" style="margin-top: 40px;">
             <h3>Add Labels</h3>
             <%= select_tag "contact[labelling_ids][]", options_from_collection_for_select(Labelling.all, :id, :name, @contact.labelling_ids), :multiple => true, :class => "chzn-container-multi", :'data-placeholder' => "Select Options", :style => "width:100%;border-radius:5px;" %>
             <%= f.submit "Update", :style => "width:100%; height:40px;", :class => "btn btn-inverse" %>

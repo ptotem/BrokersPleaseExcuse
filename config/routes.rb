@@ -18,7 +18,7 @@ BPEv075::Application.routes.draw do
   match 'network_map/:id', :to => "contacts#network_map", :as => "network_map"
 
   match 'property/notes/:building_id/:flat_id', :to => "flats#notes", :as => "notes"
-
+  match 'flatasks/:id', :to=> "flats#flatasks", :as => "flatask"
 
   resources :searchings
   resources :interaction_entities

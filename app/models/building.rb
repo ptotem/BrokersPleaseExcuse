@@ -24,6 +24,21 @@ class Building < ActiveRecord::Base
   accepts_nested_attributes_for :building_facilities, :reject_if => lambda { |a| a[:facility_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :building_facility_features, :reject_if => lambda { |a| a[:facility_feature_id].blank? }, :allow_destroy => true
 
+  has_attached_file :avatar,
+                    :styles => {
+                        :original => {
+                            :geometry => "640x600<",
+                            #:watermark_path => "#{Rails.root}/app/assets/images/watermark.jpg",
+                            :position => "Center"
+                        },
+                        :lightbox => {
+                            :geometry => "640x600>"
+                        },
+                        :thumbnail => {
+                            :geometry => "300x300!"
+                        }
+                    }
+
   after_save :make_poi
 
   def main_locality
@@ -51,6 +66,7 @@ class Building < ActiveRecord::Base
 
   before_save :insert_qualities
   before_create :insert_qualities
+
   def insert_qualities
     if self.approach_quality_id.blank?
       self.approach_quality_id=2

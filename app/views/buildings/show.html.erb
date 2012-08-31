@@ -1,13 +1,121 @@
 <%= render "flats/top_menu" %>
+<%= nested_form_for(@building) do |b| %>
+    <div class="content" style="margin-top: 10px;">
+      <div class="row-fluid">
+        <%= javascript_include_tag "exclusions/dhtmlxcommon" %>
+        <%= javascript_include_tag "exclusions/dhtmlxgrid" %>
+        <%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+        <%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+        <%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+        <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+        <%= javascript_include_tag "exclusions/dhtmlXGrid_srnd" %>
 
-<div class="content" style="margin-top: 10px;">
-  <div class="row-fluid">
+        <div class="content">
+          <div class="row">
+            <table>
+              <tr>
+                <td><h1 style="margin-left: 20px; margin-right: 40px;"><%= @building.name %></h1></td>
+              </tr>
+            </table>
+          </div>
+          <br>
 
-    <h2>Properties</h2>
-  <%= render "flats/property_index" %>
+          <div class="row-fluid">
+            <div class="span3">
+              <% if !@building.avatar_file_name.blank? %>
+                  <%= image_tag @building.avatar.url(:lightbox), :style => "border-radius:5px" %>
+              <% else %>
+                  <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
+              <% end %>
+              <br>
+            </div>
+            <div class="span9">
+              <div class="small-head"><%= image_tag "icons/building_features.png" %>Building Facilities</div>
+              <%= @building.facilities.map { |f| f.name }.join(", ") %>
+              <hr>
+              <div class="blocky">
+                <b>Building Description:</b>
+
+                <p><%= @building.qknote %></p>
+              </div>
+
+              <br>
+              <%= b.fields_for :building_notes do |fn| %>
+                  <%= fn.text_area :name, :class => "span6", :rows => "2", :placeholder => "Enter internal information about the building here like 'This building has poor infrastructure' or 'This flat has water problems'" %>
+                  <%= fn.link_to_remove "Remove" %>
+              <% end %>
+              <%= b.link_to_add 'Add Note', :building_notes %> <br/>
+              <br>
+            </div>
+          </div>
+        </div>
+
+        <div class="content" style="margin-top: -30px;">
+          <hr>
+          <h2>Available Flats:</h2>
+          <table id="dhtmlxtable">
+            <tr>
+              <td>Flat-Key</td>
+              <td>Flat Name</td>
+              <td>Area</td>
+              <td>BHK Config</td>
+              <td>Furn Status</td>
+              <td>Rent</td>
+              <td>Related People</td>
+              <td>Available from</td>
+              <td>Floor</td>
+              <td>Bathroom</td>
+              <td>Parking Slots</td>
+              <td>Flat Facilities</td>
+              <td>Restrictions</td>
+              <td>Flat Quality</td>
+              <td>Last Updated</td>
+            </tr>
+
+            <% @flats.each do |flat| %>
+                <tr>
+                  <td id=<%= flat.id+0 %>><%= link_to flat.flat_key, "property/#{flat.id}", :target => "_blank" %></td>
+                  <td <%= flat.id+1 %>><%= flat.name %></td>
+                  <td <%= flat.id+4 %>><%= flat.area %></td>
+                  <td <%= flat.id+5 %>><%= flat.bhk_config.name.split(" ")[0] %></td>
+                  <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
+                  <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
+                  <td <%= flat.id+8 %>><%= flat.contacts.map { |c| c.name + (c.phones.first.blank? ? "" : "-" + c.phones.first.name) }.join(",") %></td>
+                  <td <%= flat.id+9 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
+                  <td <%= flat.id+10 %>><%= flat.floor %></td>
+                  <td <%= flat.id+11 %>><%= flat.bathrooms.sum(:value) %></td>
+                  <td <%= flat.id+12 %>><%= flat.parkings.sum(:value) %></td>
+                  <td <%= flat.id+13 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
+                  <td <%= flat.id+15 %>><%= flat.restrictions.map { |r| r.name }.join(",") %></td>
+                  <td <%= flat.id+16 %>><%= flat.overall_quality %></td>
+                  <td <%= flat.id+17 %>><%= flat.updated_at.strftime(" %e %b %y") %></td>
+                </tr>
+            <% end %>
+
+          </table>
+        </div>
+
+        <script type="text/javascript">
+
+            var mygrid;
+            function doInitGridtable() {
+                mygrid = new dhtmlXGridFromTable("dhtmlxtable");
+                mygrid.setSkin("bpe");
+                mygrid.attachHeader("#text_filter,#text_filter,#numeric_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#numeric_filter,#numeric_filter,#numeric_filter,#text_filter,#text_filter,#text_filter,#numeric_filter");
+                mygrid.enableAutoWidth(true);
+                mygrid.enableAutoHeight(true);
+                mygrid.setSizes();
+            }
+
+            $(function () {
+                doInitGridtable();
+            });
+
+        </script>
 
 
-    <h2>Deals</h2>
-<%= render "deals/deal_index" %>
+        <h2>Deals</h2>
+        <%= render "deals/deal_index" %>
       </div>
-      </div>
+    </div>
+<% end %>

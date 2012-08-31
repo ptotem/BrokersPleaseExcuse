@@ -5,9 +5,9 @@
 
     <div class="span3">
       <% if @flat.photos.where('showcase_image=?', true).first.nil? %>
-          <%= image_tag "missing_photo.jpg" %>
+          <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
       <% else %>
-          <%= image_tag @flat.photos.where('showcase_image=?', true).first.image.url(:lightbox) %>
+          <%= image_tag @flat.photos.where('showcase_image=?', true).first.image.url(:lightbox), :style => "border-radius:5px" %>
       <% end %>
       <br>
 

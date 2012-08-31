@@ -53,6 +53,7 @@ class BuildingsController < ApplicationController
     @overall_quality_name = Quality.find_by_value(@overall_quality_value).name
     @flats=@building.flats
     @deals=Deal.all
+    @building.building_notes.build
     @broker_relation=DealRelation.find_by_name("Broker")
     @landlord_relation=DealRelation.find_by_name("Landlord")
     @employee_relation=DealRelation.find_by_name("Employee")
