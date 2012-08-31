@@ -111,10 +111,12 @@
 
           <% if @building.avatar.blank? %>
               <h2>Add a Building Photo</h2>
+              <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
           <% else %>
               <h2>Change the Building Photo</h2>
-              <%= image_tag @building.avatar.url(:lightbox) %>
+              <%= image_tag @building.avatar.url(:thumbnail), :style => "border-radius:5px" %>
           <% end %>
+          <br>
           <%= b.file_field :avatar %>
 
           <h2>Add Flat Photos
