@@ -8,7 +8,7 @@
 
 @contact=Contact.create!(:name => "All")
 
-@client=ContactType.create!(:name => 'Client').id
+@client=ContactType.create!(:name => 'Client')
 ContactType.create!(:name => 'Broker')
 ContactType.create!(:name => 'Vendor')
 ContactType.create!(:name => 'Employee')
