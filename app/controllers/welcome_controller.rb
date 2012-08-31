@@ -5,9 +5,9 @@ class WelcomeController < ApplicationController
   def home
     @searching=Searching.new
 
-    @searching.searching_bhk_configs.build
-    @searching.searching_areas.build
-    @searching.searching_facilities.build
+    @searching_bhk_config=@searching.searching_bhk_configs.build
+    @searching_area=@searching.searching_areas.build
+    @searching_facility=@searching.searching_facilities.build
 
     @bhk_configs=BhkConfig.all
     @areas=Area.all

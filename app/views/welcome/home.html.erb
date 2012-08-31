@@ -92,20 +92,20 @@
           <div id="searching-box" style="font-size: 22px;">
             <div style="text-align: left;margin-left: 110px;">
               Find me a &nbsp;
-              <%= s.fields_for :searching_bhk_configs do |f| %>
+              <%= s.fields_for :searching_bhk_configs, @searching_bhk_config do |f| %>
                   <%= f.select :bhk_config_id, options_from_collection_for_select(@bhk_configs, 'id', 'name'), {}, {:multiple => true, :'data-placeholder' => " ", :style => "color:white;font-size:12px;width:220px;"} %>
               <% end %>
               at a budget of <%= s.text_field :budget, :style => "width:60px", :class => "obfuscate" %> rupees
               <br>
 
               <div style="margin-top: -10px;">in and around&nbsp;
-                <%= s.fields_for :searching_areas do |f| %>
+                <%= s.fields_for :searching_areas, @searching_area do |f| %>
                     <%= f.select :area_id, options_from_collection_for_select(@areas, 'id', 'name'), {}, {:multiple => true, :'data-placeholder' => " ", :class => "raised", :style => "width:470px;"} %>
                 <% end %></div>
               <br>
               <br>
               I would like the house to have the following features:
-              <%= s.fields_for :searching_facilities do |f| %>
+              <%= s.fields_for :searching_facilities, @searching_facility do |f| %>
                   <%= f.select :facility_id, options_from_collection_for_select(@facilities, 'id', 'name'), {}, {:multiple => true, :'data-placeholder' => " ", :style => "width:550px;"} %>
               <% end %>
               <%= s.submit "Go", :class => "btn btn-large", :style => "font-size:20px;width:60px; margin-left:565px;margin-top:-70px;" %>

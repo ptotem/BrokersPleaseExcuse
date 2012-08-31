@@ -5,7 +5,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.all
+    Contact.where("name!=?","All").all
   end
 
   # GET /contacts/1
@@ -16,7 +16,7 @@ class ContactsController < ApplicationController
     @new_contact=Contact.new
     @phones=@new_contact.phones.build
     @emails=@new_contact.emails.build
-    @contacts = Contact.where("id!=?", @contact.id).all
+    @contacts = Contact.where("id!=? and name!=?", @contact.id, "All").all
     @connections = @contact.connections
     @connection = @contact.connections.build
     @flat_contact = @contact.flat_contacts.build
