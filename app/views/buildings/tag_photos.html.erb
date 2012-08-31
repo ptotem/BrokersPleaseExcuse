@@ -119,7 +119,7 @@
       <%= link_to "Switch On Tagging", "#",:class=>"btn btn-primary btn-large", :id => "enable_editing" %>
 
     </div>
-    <div class="floor_plan" style="width:500px;height: 500px;background-image: url(<%= @floor_plan.image.url(:original) %>) ">
+    <div class="floor_plan" style="width:566px;height: 340px;background-image: url(<%= @floor_plan.image.url(:original) %>) ">
       <% @flat.photos.where("tagging_allowed=? and is_floor_plan=?", true, false).each_with_index do |existing_photo, index| %>
           <%= link_to image_tag("camera.png", :style => "position:absolute;left:#{existing_photo.xpos}px;top:#{existing_photo.ypos}px"), existing_photo.image.url, :class => "existing_icons", :target => "_blank" %>
           <%= link_to image_tag("delete.png", :style => "position:absolute;left:#{existing_photo.xpos+32}px;top:#{existing_photo.ypos}px"), "#", :class => "existing_delete_icon", :id => existing_photo.id %>
