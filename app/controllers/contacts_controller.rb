@@ -5,7 +5,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    Contact.where("name!=?","All").all
+    @contacts=Contact.where("name!=?","All").all
   end
 
   # GET /contacts/1
