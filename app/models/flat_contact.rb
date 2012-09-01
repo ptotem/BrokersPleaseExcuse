@@ -4,10 +4,11 @@ class FlatContact < ActiveRecord::Base
   belongs_to :labelling
   belongs_to :rent_year
 
+  after_create :add_labelling
   after_save :add_labelling
 
   def add_labelling
-    self.contact.labellings<<self.labelling
+    self.contact.labellings<<self.labelling unless self.contact.nil?
   end
 
 end
