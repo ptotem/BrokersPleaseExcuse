@@ -45,7 +45,7 @@ class Flat < ActiveRecord::Base
   validates_presence_of :name, :message => "Flat name not entered"
   validates_presence_of :bhk_config_id, :message => "Flat Configuration not entered"
 
-  before_create :create_flat_key
+  #before_create :create_flat_key
   after_create :create_basics
 
   def create_flat_key
