@@ -1,0 +1,23 @@
+<div style="margin-top: 40px;">
+  <% @sorted_score.each_with_index do |flat_score, index| %>
+      <% flat=Flat.find(flat_score[0]) %>
+      <div style="background: white;margin-bottom: 5px;border: 2px solid black;border-radius:10px;width:500px;padding: 20px;">
+        <div class="row-fluid">
+          <div class="span8">
+            <%= flat.name %>,
+            <br>
+            <%= flat.building.name %>,
+            <br>
+            <%= flat.building.main_locality.name %>,
+            <br>
+            <%= flat.building.main_locality.area.name %>
+            <br>
+          </div>
+          <div class="span4">
+            <h1>Score: <%= @flat_score[flat.id] %>%</h1>
+            <br>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>

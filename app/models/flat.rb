@@ -45,11 +45,11 @@ class Flat < ActiveRecord::Base
   validates_presence_of :name, :message => "Flat name not entered"
   validates_presence_of :bhk_config_id, :message => "Flat Configuration not entered"
 
-  #before_create :create_flat_key
+  before_create :create_flat_key
   after_create :create_basics
 
   def create_flat_key
-    self.flat_key= "BPE" +Building.find(self.building_id).name[3]+ (Flat.last.flat_key.blank? ? '100000' : "#{Flat.last.flat_key[-5, 5].to_i+1}")
+    self.flat_key= "BPE" +Building.find(self.building_id).name[3]+ (Flat.last.flat_key.blank? ? '10000' : "#{Flat.last.flat_key[-5, 5].to_i+1}")
   end
 
   def create_basics
@@ -82,6 +82,16 @@ class Flat < ActiveRecord::Base
     @locality_quality=self.building.main_locality.quality
     @overall_quality=((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
     Quality.find_by_value(@overall_quality).name
+    end
+
+  def overall_quality_score
+    @building_quality=Quality.find(self.building.building_quality_id)
+    @approach_quality=Quality.find(self.building.approach_quality_id)
+    @interiors_quality=Quality.find(self.interiors_quality_id)
+    @view_quality=Quality.find(self.view_quality_id)
+
+    @locality_quality=self.building.main_locality.quality
+    (((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0)*10).round(0)
   end
 
 end

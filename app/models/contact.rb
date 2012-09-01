@@ -28,7 +28,6 @@ class Contact < ActiveRecord::Base
   validates_presence_of :name
   #validate :email_or_phone
 
-  after_save :add_labelling
 
   def email_or_phone
     if emails.size==0 and phones.size==0
@@ -45,10 +44,5 @@ class Contact < ActiveRecord::Base
 
   end
 
-  def add_labelling
-    self.flat_contacts.each do |flat_contact|
-      self.labellings<<flat_contact.labelling
-    end
-  end
 
 end

@@ -5,13 +5,15 @@ class WelcomeController < ApplicationController
   def home
     @searching=Searching.new
 
-    @searching_bhk_config=@searching.searching_bhk_configs.build
-    @searching_area=@searching.searching_areas.build
-    @searching_facility=@searching.searching_facilities.build
+    @searching.searching_bhk_configs.build
+    @searching.searching_areas.build
+    @searching.searching_facilities.build
 
     @bhk_configs=BhkConfig.all
     @areas=Area.all
     @facilities=Facility.all
+
+    @budget_options=[[20000,20000],[25000,25000],[28000,28000],[30000,30000],[35000,35000],[40000,40000],[42000,42000],[45000,45000],[50000,50000]]
 
   end
 
