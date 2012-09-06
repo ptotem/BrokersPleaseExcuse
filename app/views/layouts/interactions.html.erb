@@ -1,151 +1,60 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Brokers Please Excuse</title>
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  <script type="text/javascript">
-      //$.metadata.setType("attr", "data-validate");
-      var parameter = "";
-      function create_additional_parameters() {
-      <% if params[:controller]=="flats" %>
-          parameter = "property_id=<%= params[:id] %>";
-      <% elsif params[:controller]=="contacts" %>
-          parameter = "contact_id=<%= params[:id] %>";
-      <% end %>
-      }
+<%= javascript_include_tag 'jquery' %>
+<%= javascript_include_tag 'jquery-ui' %>
+<%= javascript_include_tag 'jquery-ui-timepicker-addon' %>
+<script type="text/javascript">
+    var parameter = "";
+    function create_additional_parameters() {
+    <% if params[:controller]=="flats" %>
+        parameter = "property_id=<%= params[:id] %>";
+    <% elsif params[:controller]=="contacts" %>
+        parameter = "contact_id=<%= params[:id] %>";
+    <% end %>
+    }
 
-      //$.validator.setDefaults({ignore:[]});
-      $(function () {
-          //var validator=$('form').validate();
+    //$.validator.setDefaults({ignore:[]});
+    $(function () {
+        //var validator=$('form').validate();
 
-          $(".interaction-link").click(function () {
-              var target_element = $(this).attr("href");
-              create_additional_parameters();
-              $.get("/interactions/new/?" + parameter, function (data) {
-                  $(target_element).children(".modal-body").html(data);
-              });
-          });
+        $(".interaction-link").click(function () {
+            var target_element = $(this).attr("href");
+            create_additional_parameters();
+            $.get("/interactions/new/?" + parameter, function (data) {
+                $(target_element).children(".modal-body").html(data);
+            });
+        });
 
 
 //          $('select.chzn-container-multi').chosen();
 
 
-          $("form").live("nested:fieldAdded", function () {
-              $(this).find("select").chosen();
-          });
+        $("form").live("nested:fieldAdded", function () {
+            $(this).find("select").chosen();
+        });
 
-          $("form.submit_on_change").each(function (idx, form) {
-              $(form).find("select.autosubmit").each(function (idx, element) {
-                  $(element).change(function () {
-                      $(form).submit();
-                      return false;
-                  });
-              });
-              return true;
-          });
+        $("form.submit_on_change").each(function (idx, form) {
+            $(form).find("select.autosubmit").each(function (idx, element) {
+                $(element).change(function () {
+                    $(form).submit();
+                    return false;
+                });
+            });
+            return true;
+        });
 
-          $(".navbar .nav>li>a").popover({
-              placement:'bottom',
-              html:true
-          });
-          $(".menu-list>li>a").popover({
-              placement:'right',
-              html:true
-          });
-          $(".brand").popover({
-              placement:'bottom',
-              html:true
-          });
+        $(".navbar .nav>li>a").popover({
+            placement:'bottom',
+            html:true
+        });
+        $(".menu-list>li>a").popover({
+            placement:'right',
+            html:true
+        });
+        $(".brand").popover({
+            placement:'bottom',
+            html:true
+        });
 
-      });
-      //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
-  </script>
-  <style type="text/css">
-      .navbar .nav > li > a {
-          padding-top: 5px;
-          padding-bottom: 0px;
-          padding-right: 0px;
-          background: transparent;
-      }
-  </style>
-
-  <%= yield(:head) %>
-</head>
-<body>
-<div id="wrapper">
-  <div class="navbar navbar-fixed-top" style="z-index: 999999999">
-    <div class="navbar-inner" style="z-index: 999999999">
-      <div class="container-fluid">
-        <% if current_user %>
-            <a class="brand" href="/dashboard" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%#= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
-              BrokersPleaseExcuse.com</a>
-        <% else %>
-            <a class="brand" href="/" title="Dashboard" data-content="<table><tr><td><img src='/assets/logo.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to your Dashboard.</td></tr></table>"><%#= image_tag "logo.png", :size => "32x32", :style => "vertical-align:middle" %>
-              BrokersPleaseExcuse.com</a>
-        <% end %>
-        <% if current_user && request.fullpath!='/' && request.fullpath!='/dashboard'%>
-
-            <ul class="nav">
-              <li><%= link_to image_tag("icons/properties.png"), quick_property_index_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
-              <li><%= link_to image_tag("icons/new_property.png"), new_property_path, :title => "New Property", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Property.</td></tr></table>" %></li>
-              <li><%= link_to image_tag("icons/contacts.png"), contacts_path, :title => "Contact List", :'data-content' => "<table><tr><td><img src='/assets/icons/contacts.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Contacts.</td></tr></table>" %></li>
-              <li><%= link_to image_tag("icons/new_contact.png"), new_contact_path, :title => "New Contact", :'data-content' => "<table><tr><td><img src='/assets/icons/new_contact.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Contact.</td></tr></table>" %></li>
-
-              <li style="color:white;font-size:18px;line-height:20px;">
-                <% @interaction=Interaction.new %>
-                <% @interaction.taskings.build %>
-
-                <a class="interaction-link" data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
-              <li><%= link_to image_tag("icons/pois.png"), new_poi_path, :title => "Points Of Interest", :'data-content' => "<table><tr><td><img src='/assets/icons/pois.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to populate the map.</td></tr></table>" %></li>
-              <li><%= link_to image_tag("icons/deals.png"), deals_path, :title => "Deals", :'data-content' => "<table><tr><td><img src='/assets/icons/deals.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to capture and analyze deals.</td></tr></table>" %></li>
-
-              <div class="modal hide fade" id="new_interaction_form" style="width:840px;height:500px;margin-left: -25%;overflow: hidden;">
-                <div class="modal-header">
-                  <button class="close" data-dismiss="modal">×</button>
-                  <h1>Add Interaction</h1>
-                </div>
-                <div class="modal-body">
-                  <div class="row-fluid">
-                    <%#= render 'interactions/form', :locals => {} %>
-                  </div>
-                </div>
-              </div>
-              </li>
-              <!--<li style="color:white;font-size:18px;line-height:20px;background: #000000"><a href="#">Intranet</a></li>-->
-            </ul>
-        <% end %>
-
-
-        <% if !user_signed_in? %>
-            <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "pull-right navbar-form"}) do |f| %>
-                <%= f.email_field :email, :class => "input-small span3", :placeholder => "Email" %>
-                <%= f.password_field :password, :class => "input-small", :placeholder => "Password" %>
-                <%= f.submit "Sign In", :class => "btn-warning btn" %>
-            <% end %>
-        <% else %>
-            <div class="pull-right" style="margin-top: 15px;color:white;font-size: 18px;">
-              <%= current_user.email %>
-              <span class="nav_link">
-              | <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :style => "color:white;" %>
-            </span>
-            </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div class="container-fluid">
-    <%= js extend_gritter :position => :bottom_right %>
-    <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
-    <%= js add_gritter(flash[:alert], :image => :error, :title => "Alert!", :sticky => true) %>
-    <%= yield %>
-  </div>
-</div>
-
-
-</body>
-</html>
-
-
+    });
+    //  $.datepicker.parseDate('mm-dd-yyyy', '01-26-2007');
+</script>
 
