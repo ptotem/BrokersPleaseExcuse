@@ -1,13 +1,6 @@
 <%= javascript_include_tag 'exclusions/interaction' %>
 <script type="text/javascript">
     $(function () {
-        $(".interaction-link").click(function () {
-            var target_element = $(this).attr("href");
-            create_additional_parameters();
-            $.get("/interactions/new/?" + parameter, function (data) {
-                $(target_element).children(".modal-body").html(data);
-            });
-        });
         $('select').chosen();
     });
 </script>
