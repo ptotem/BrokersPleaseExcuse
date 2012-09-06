@@ -26,9 +26,9 @@ module ContactsHelper
       #'<td style="color:#{col}">#{interaction.name}</td>'
 
       return raw("<span style='color:#{col}'>#{interaction.interaction_date.strftime('%b %e %y')}</span>")
+    else
+      return raw("<span style='color:#000000'>No Interaction</span>")
     end
-  else
-    return raw("<span style='color:#000000'>No Interaction</span>")
 
   end
 
