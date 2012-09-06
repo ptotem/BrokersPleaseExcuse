@@ -15,6 +15,7 @@ BPEv075::Application.routes.draw do
   match 'building/:building_id/flat/:id/detailed_form/tag_photos', :to => "buildings#tag_photos", :as => "tag_property_flat_photos"
   match 'building/:building_id/flat/:id/detailed_form/moreinfo', :to => "buildings#moreinfo", :as => "edit_property_flat_moreinfo"
   match 'building/:building_id/flat/:id/detailed_form/terms', :to => "buildings#terms", :as => "edit_property_terms"
+  match 'building/:id/:flat_id', :to => "buildings#show", :as => "show_building"
   match 'property/:id', :to => "flats#show", :as => "show_property"
   match 'network_map/:id', :to => "contacts#network_map", :as => "network_map"
 

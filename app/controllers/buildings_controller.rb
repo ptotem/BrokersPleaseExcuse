@@ -43,7 +43,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/1.json
   def show
     @building = Building.find(params[:id])
-    @flat=@building.flats.first
+    @flat=Flat.find(params[:flat_id])
     @approach_quality=Quality.find(@building.approach_quality_id)
     @interiors_quality=Quality.find(@flat.interiors_quality_id)
     @view_quality=Quality.find(@flat.view_quality_id)
@@ -240,12 +240,6 @@ class BuildingsController < ApplicationController
   def terms
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
-
-    if @flat.available_froms.first.blank?
-      @available_from=@flat.available_froms.build
-    else
-      @available_from=@flat.available_froms.first
-    end
 
     if @flat.expected_rents.first.blank?
       @expected_rent=@flat.expected_rents.build

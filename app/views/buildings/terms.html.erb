@@ -3,7 +3,7 @@
 
         <%= hidden_field_tag :came_from, "terms" %>
         <%= hidden_field_tag :flat_id, @flat.id %>
-        <%= hidden_field_tag :external, false%>
+        <%= hidden_field_tag :external, false %>
 
         <%= render :partial => 'form_menu' %>
         <br>
@@ -17,6 +17,14 @@
               <%= f.hidden_field :name, :value => @flat.name %>
               <%= f.hidden_field :bhk_config_id, :value => @flat.bhk_config.id %>
 
+              <%
+                 if @flat.available_froms.first.blank?
+                   @available_from=@flat.available_froms.build
+                 else
+                   @available_from=@flat.available_froms.first
+                 end
+              %>
+
               <div class="blabel">Available From:</div>
               <%= f.fields_for :available_froms, @available_from do |er| %>
                   <%= er.datepicker :name, :value => @flat.available_froms.first.name.to_s, :dateFormat => "dd/mm/yy" %>
@@ -25,7 +33,7 @@
               <%= f.fields_for :expected_rents, @expected_rent do |er| %>
                   <div class="blabel">Expected Rent:</div>
                   <%= er.text_field :name %>
-                  <%= er.hidden_field :rent_year,:value=>1 %>
+                  <%= er.hidden_field :rent_year, :value => 1 %>
                   <br>
 
                   <div class="blabel">Minimum Rent:</div>
@@ -35,22 +43,23 @@
               <%= f.fields_for :rental_terms, @rental_term do |er| %>
 
                   <div class="blabel">Estimated Brokerage:</div>
-                  <%= er.number_field :estimated_brokerage%>
+                  <%= er.number_field :estimated_brokerage %>
                   <br>
+
                   <div class="blabel">Package Details:</div>
-                  <%= er.text_area :package_details, :class=>"span6", :rows=>"2",:placeholder=>"Enter details of the package that the landlord wants or prefers. Details like 'HIGHER DEPOSIT','NO DEPOSIT','50k Rent minimum' should be captured here" %>
+                  <%= er.text_area :package_details, :class => "span6", :rows => "2", :placeholder => "Enter details of the package that the landlord wants or prefers. Details like 'HIGHER DEPOSIT','NO DEPOSIT','50k Rent minimum' should be captured here" %>
                   <br>
 
                   <div class="blabel">Landlord Conditions:</div>
-                  <%= er.text_area :landlord_conditions, :class=>"span6", :rows=>"2",:placeholder=>"All conditions that the landlord may have specified apart from the standard conditions should be entered here. Specially private stuff like religion/caste preferences or biases against particular profiles should be captured here" %>
+                  <%= er.text_area :landlord_conditions, :class => "span6", :rows => "2", :placeholder => "All conditions that the landlord may have specified apart from the standard conditions should be entered here. Specially private stuff like religion/caste preferences or biases against particular profiles should be captured here" %>
                   <br>
 
                   <div class="blabel">Brokerage Details:</div>
-                  <%= er.text_area :brokerage_details, :class=>"span6", :rows=>"2",:placeholder=>"When Brokerage is discussed formally and agreed to, capture the terms of the brokerage deal here. Include who has spoken and when for easy reference later" %>
+                  <%= er.text_area :brokerage_details, :class => "span6", :rows => "2", :placeholder => "When Brokerage is discussed formally and agreed to, capture the terms of the brokerage deal here. Include who has spoken and when for easy reference later" %>
                   <br>
 
                   <div class="blabel">Showing Details:</div>
-                  <%= er.text_area :showing_details, :class=>"span6", :rows=>"2",:placeholder=>"Capture details on how to access the key and show this property. Whether there is a broker or some place to pick up keys or someone to co-ordinate with" %>
+                  <%= er.text_area :showing_details, :class => "span6", :rows => "2", :placeholder => "Capture details on how to access the key and show this property. Whether there is a broker or some place to pick up keys or someone to co-ordinate with" %>
                   <br>
               <% end %>
 
