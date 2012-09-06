@@ -49,7 +49,7 @@
         <% @interaction.interaction_contacts.build %>
 
         <%= hidden_field_tag 'interaction[flat_ids][]', nil %>
-        <%= select_tag 'interaction[flat_ids][]', options_from_collection_for_select(Flat.all, 'id', 'name', @default_flats), :multiple => true, :class => 'chzn-container-multi' %>
+        <%= select_tag 'interaction[flat_ids][]', options_from_collection_for_select(Flat.all, 'id', 'flat_key', @default_flats), :multiple => true, :class => 'chzn-container-multi' %>
 
 
         <%= hidden_field_tag 'interaction[contact_ids][]', nil %>
