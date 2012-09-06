@@ -48,7 +48,7 @@
     </div>
     <div class="span3 amenu" style="margin-top: 10px;">
       <%= link_to "Flat", show_property_path(@flat), :class => "btn btn-inverse btn-large btn-menu"%>
-      <%= link_to "Building", building_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Building", show_building_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
       <br>
       <%= link_to "Notes", notes_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
       <%= link_to "Tasks", flatask_path(@flat), :class => "btn btn-inverse btn-large btn-menu" %>
