@@ -10,10 +10,9 @@ module ContactsHelper
       #'<td style="color:#{col}">#{interaction.name}</td>'
 
       return raw("<span style='color:#{col}'>#{interaction.name}</span>")
+    else
+      return raw("<span style='color:#000000'>No Interaction</span>")
     end
-  else
-    return raw("<span style='color:#000000'>No Interaction</span>")
-
   end
 
   def get_interaction_date(contact)
@@ -37,21 +36,21 @@ module ContactsHelper
   def due_overdue_task_count(contact)
 
     if Interaction.where("primary_contact_id=? ", contact.id).all.count>0
-    overdue_tasks=Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction|
-      if interaction.taskings.count>0 then
-        interaction.taskings.where("due_date<?", Date.today).count
-      else
-        0
-      end }.sum
-    due_tasks=Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction|
-      if interaction.taskings.count>0 then
-        interaction.taskings.where("due_date>?", Date.today).count
-      else
-        0
-      end }.sum
+      overdue_tasks=Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction|
+        if interaction.taskings.count>0 then
+          interaction.taskings.where("due_date<?", Date.today).count
+        else
+          0
+        end }.sum
+      due_tasks=Interaction.where("primary_contact_id=? ", contact.id).all.map { |interaction|
+        if interaction.taskings.count>0 then
+          interaction.taskings.where("due_date>?", Date.today).count
+        else
+          0
+        end }.sum
 
 
-    raw("<span>OverDue=#{overdue_tasks} | Due:#{due_tasks}</span>")
+      raw("<span>OverDue=#{overdue_tasks} | Due:#{due_tasks}</span>")
     end
 
 
