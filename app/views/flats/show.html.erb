@@ -3,7 +3,7 @@
 <div class="content" style="margin-top: 10px;">
   <div class="row-fluid" style="position: relative;">
 
-    <div class="span3">
+    <div class="span4">
       <% if @flat.photos.where('showcase_image=?', true).first.nil? %>
           <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
       <% else %>
@@ -12,66 +12,46 @@
       <br>
 
       <h2>Description</h2>
-      <b>Building:</b>  <%= raw @flat.building.qknote %>
-      <br>
       <b>Flat:</b> <%= raw @flat.qknote %>
       <br>
+      <b>Building:</b>  <%= raw @flat.building.qknote %>
+      <br>
+      <b>Locality:</b> <%= @flat.building.primary_locality.area.name %>
+      <br>
+      <%= raw @flat.building.primary_locality.area.comment %>
       <br>
       <br>
     </div>
 
     <div class="span6">
-
-      <div class="small-head"><%= image_tag "icons/building_features.png" %>Building Facilities</div>
-      <div class="show-block">
-        <% @flat.building.facilities.each do |facility| %>
-            <strong><%= facility.name %>:</strong>
-            <%= @flat.building.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
-            <br>
-        <% end %>
-        <br>
-      </div>
-      <div class="small-head"><%= image_tag "icons/flat_features.png" %>Flat Facilities</div>
-      <strong>
-        <% @flat.bathrooms.where("value>?", 0).each do |b| %>
-            <%= "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" %> |
-        <% end %>
-      </strong>
-      <strong>
-        <% @flat.balconies.where("value>?", 0).each do |b| %>
-            <%= "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" %>  |
-        <% end %>
-      </strong>
-      <strong>
-        <% @flat.parkings.where("value>?", 0).each do |b| %>
-            <%= "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" %>  |
-        <% end %>
-      </strong>
-      <br>
-
-      <div class="show-block">
-        <% @flat.facilities.each do |facility| %>
-            <% unless facility.name=="Parking" or facility.name=="Balconies" %>
-                <strong><%= facility.name %>:</strong>
-                <%= @flat.facility_features.where('facility_id=?', facility).map { |n| n.name }.join(", ") %>
-                <br>
+      <div class="show-block row" style="text-align: center">
+        <% Facility.all.each do |facility| %>
+            <% if @flat.building.facilities.include?(facility) or @flat.facilities.include?(facility) %>
+                <%= link_to facility.name, "#", :class => "btn btn-tbyellow span2 facility_blocks", :title => facility.name, :'data-content' => (@flat.building.facility_features.where('facility_id=?', facility)+@flat.facility_features.where('facility_id=?', facility)).map { |fi| fi.name }.join(", ") %>
+            <% else %>
+                <%= link_to facility.name, "#", :class => "btn span2", :style => "color:lightgray;" %>
             <% end %>
         <% end %>
+      </div>
+      <br>
 
+      <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
+        <%= @flat.bathrooms.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" }.join(", ") %>
+        <br>
+        <%= @flat.balconies.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" }.join(", ") %>
+        <br>
+        <%= @flat.parkings.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" }.join(", ") %>
+        <br>
         <br>
       </div>
-      <div class="small-head"><%= image_tag "icons/restriction.png" %>Flat Restrictions</div>
-      <div class="show-block">
-        <strong><%= @flat.restrictions.map { |r| r.name }.join(", ") %></strong>
-        <br>
+      <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;color: darkred">
+        <%= @flat.restrictions.map { |r| r.name }.join(", ") %>
         <br>
       </div>
-      <div class="small-head"><%= image_tag "icons/moving.png" %>Moving Prerequisites</div>
-      <div class="show-block">
-        <strong><%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %></strong>
+      <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
+        <%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %>
         <br>
-        <strong>Moving Charges:</strong>
-        <%= @flat.building.moving_charge %>
+        <%= "Moving Charges: #{@flat.building.moving_charge}" unless @flat.building.moving_charge.blank? %>
         <br>
         <br>
       </div>
@@ -80,7 +60,7 @@
 
       <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
       <div class="show-block">
-        <%= @flat.name[0..10] %>,
+        <%= @flat.name[0..20] %>,
         <br>
         <%= @building.name %>,
         <br>
@@ -89,7 +69,9 @@
             <br>
         <% end %>
         <%= @building.main_locality.name unless @building.main_locality.nil? %>
-        , <%= @building.main_locality.area.name %>
+        ,
+        <br/>
+        <%= @building.main_locality.area.name %>
         <br>
         <%= @building.main_locality.area.city.name unless @building.main_locality.area.city.nil? %>
         - <%= @building.pincode %>

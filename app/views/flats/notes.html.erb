@@ -18,13 +18,29 @@
                     <%= f.hidden_field :name, :value => @flat.name %>
                     <%= f.hidden_field :bhk_config_id, :value => @flat.bhk_config.id %>
 
+                    <%
+                       if @flat.available_froms.first.blank?
+                         @available_from=@flat.available_froms.build
+                       else
+                         @available_from=@flat.available_froms.first
+                       end
+                    %>
+
                     <h2>Terms and Conditions</h2>
                     <br>
 
                     <div class="blabel">Available From:</div>
-                    <%= f.fields_for :available_froms do |er| %>
+                    <%= f.fields_for :available_froms, @available_from do |er| %>
                         <%= er.datepicker :name, :value => @flat.available_froms.first.name.to_s, :dateFormat => "dd/mm/yy" %>
                     <% end %>
+
+                    <%
+                       if @flat.expected_rents.first.blank?
+                         @expected_rent=@flat.expected_rents.build
+                       else
+                         @expected_rent=@flat.expected_rents.first
+                       end
+                    %>
 
 
                     <%= f.fields_for :expected_rents, @expected_rent do |er| %>

@@ -8,7 +8,11 @@ class FlatContact < ActiveRecord::Base
   after_save :add_labelling
 
   def add_labelling
-    self.contact.labellings<<self.labelling unless self.contact.nil?
+    unless self.contact.nil?
+      unless self.contact.labellings.include?(self.labelling)
+        self.contact.labellings<<self.labelling
+      end
+    end
   end
 
 end

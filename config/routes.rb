@@ -51,6 +51,7 @@ BPEv075::Application.routes.draw do
   match "update_photo_sequence" => "photos#update_photo_sequence", :as => "update_photo_sequence"
   match "save_photo_positions/:photo_id/:xpos/:ypos" => "photos#save_photo_positions", :as => "save_photo_positions"
   match "make_floor_plan/:flat_id/:photo_id" => "photos#make_floor_plan", :as => "make_floor_plan"
+  match "/create_floor_plan"  => "photos#create_floor_plan" , :as => "create_floor_plan"
   match "dashboard", :to => "welcome#index", :as => "dashboard"
 
   # The priority is based upon order of creation:

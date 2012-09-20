@@ -3,7 +3,7 @@
     <%= javascript_include_tag "exclusions/jquery.lightbox-0.5.min" %>
     <%= stylesheet_link_tag "exclusions/jquery.lightbox-0.5" %>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $('div.amenu a').popover({
                 placement:'bottom',
                 html:true
@@ -14,10 +14,10 @@
     </script>
 
     <style type="text/css">
-      .btn-menu{
-          width:50px;
-          margin-bottom: 5px;
-      }
+        .btn-menu {
+            width: 50px;
+            margin-bottom: 5px;
+        }
     </style>
 
 <% end %>
@@ -41,16 +41,20 @@
           <div style="margin-top: -10px;">
             <%= @flat.furnstat.name unless @flat.furnstat.nil? %> |
             Rs <%= @flat.expected_rents.first.name unless @flat.expected_rents.first.nil? %> |
-            <%= @flat.available_froms.first.name.strftime('%b %Y') unless @flat.available_froms.first.nil? %>
+            <% unless @flat.available_froms.first.nil? %>
+                <% unless @flat.available_froms.first.name.blank? %>
+                    <%= @flat.available_froms.first.name.strftime('%b %Y') %>
+                <% end %>
+            <% end %>
           </div>
         </small>
       </h2>
     </div>
     <div class="span3 amenu" style="margin-top: 10px;">
-      <%= link_to "Flat", show_property_path(@flat), :class => "btn btn-inverse btn-large btn-menu"%>
-      <%= link_to "Building", show_building_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Flat", show_property_path(@flat), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Building", show_building_path(@flat.building, @flat), :class => "btn btn-inverse btn-large btn-menu" %>
       <br>
-      <%= link_to "Notes", notes_path(@flat.building,@flat), :class => "btn btn-inverse btn-large btn-menu" %>
+      <%= link_to "Notes", notes_path(@flat.building, @flat), :class => "btn btn-inverse btn-large btn-menu" %>
       <%= link_to "Tasks", flatask_path(@flat), :class => "btn btn-inverse btn-large btn-menu" %>
     </div>
     <div class="span5 pull-right" style="padding-top: 5px;padding-bottom: 5px;">

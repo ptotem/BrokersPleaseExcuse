@@ -12,9 +12,9 @@
 <script type="text/javascript">
     $(function () {
 //        $('select').chosen();
-        $(".add_building_link").click(function(){
-             $(".required").removeClass("required");
-        })  ;
+        $(".add_building_link").click(function () {
+            $(".required").removeClass("required");
+        });
 
 
     })
@@ -24,19 +24,14 @@
 
   <%= nested_form_for(@building, :html => {:class => "submit_on_change "}) do |b| %>
       <%= b.fields_for :flats, @flat do |f| %>
-
-
           <div class="row-fluid ">
-
             <div class="span5">
-
               <div class="row-fluid">
                 <% if @building_selected %>
                     <h3>
                       <div class="blabel" style="height: 36px">Building Name:</div>
                       <div>
                         <%= @building.name %>,
-                        <br>
                         <%= @building.main_locality.name %>
                         <% @required_class="required" %>
                       </div>
@@ -48,7 +43,8 @@
                     <%= select_tag :selected_building, options_from_collection_for_select(@buildings, 'id', 'full_name'), {:include_blank => '', :class => 'autosubmit ', :'data-placeholder' => "Select the building"} %>
                     <br>
                     <span style="font-style: italic;">Can't find the building you are looking for?</span>
-                    <a data-backdrop="static" data-toggle="modal" href="#add_building" class="add_building_link">Add it!</a>
+                    <a data-backdrop="static" data-toggle="modal" href="#add_building" class="add_building_link">Add
+                      it!</a>
                     <br>
                     <br>
 
@@ -75,12 +71,12 @@
                 Flat Name*:
               </div>
 
-              <%= f.text_field :name, :value => @flat.name ,:class=>@required_class %>
+              <%= f.text_field :name, :value => @flat.name, :class => @required_class %>
               <br>
               <br>
 
               <div class="blabel">Configuration*:</div>
-              <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''} ,:class=>@required_class %>
+              <%= f.select :bhk_config_id, options_from_collection_for_select(@bhks, 'id', 'name', @flat.bhk_config_id), {:include_blank => ''}, :class => @required_class %>
               <br>
 
 
@@ -104,30 +100,7 @@
               <% end %>
               <br>
             </div>
-
-            <div class="span7">
-              <h1>Related Parties:</h1>
-              <span style="font-style: italic;">Can't find the person you are looking for?</span>
-              <a data-backdrop="static" data-toggle="modal" href="#add_contact" >Add contact!</a>
-              <br>
-              <br>
-              <br>
-
-              <% @flat.flat_contacts.each do |flat_contact| %>
-                  <%= f.fields_for :flat_contacts, flat_contact do |fc| %>
-                      <%= render 'buildings/partials/select_tag_partial', {:fc => fc, :flat_contact => flat_contact} %>
-                      <%= fc.text_field :name, :value => flat_contact.name, :style => "margin-top:-9px" %>
-                      <%= fc.hidden_field :rent_year_id, :value => @rent_year.id %>
-                  <% end %>
-              <% end %>
-              <%= f.link_to_add 'Add another', :flat_contacts %>
-
-              <br>
-
-
-            </div>
           </div>
-
       <% end %>
       <br>
       <br>
@@ -145,10 +118,10 @@
     <h3>Add a Contact</h3>
   </div>
   <div class="modal-body">
-    <%= render 'contacts/form',:locals=>{} %>
+    <%= render 'contacts/form', :locals => {} %>
   </div>
   <div class="modal-footer">
     <%#= b.submit "Save Changes", :class => "btn btn-primary" %>
-    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+    <!--<a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>-->
   </div>
 </div>

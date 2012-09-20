@@ -1,6 +1,15 @@
 <%#=TODO: when the list is sorted the changes in sequence number should be reflected without making a page refresh  %>
+<script type="text/javascript" src="/assets/jquery.Jcrop.js"></script>
+<script type="text/javascript" src="/assets/jquery.color.js"></script>
 
+<link rel="stylesheet" type="text/css" href="/assets/jquery.Jcrop.css">
 <script type="text/javascript">
+    var loaded;
+
+    jQuery(function ($) {
+        $('#target').Jcrop();
+    });
+
 
     function rename_picture(this_photo) {
         var photo_id = this_photo;
@@ -45,7 +54,9 @@
         return final_data;
     }
 
+
     $(function () {
+
 
         $("#sortable-photos").sortable({
             create:function (event, ui) {
@@ -80,6 +91,7 @@
             }
         });
 
+
         $(".floor_plan").click(function () {
             var current_image = $(this);
             $.get("/make_floor_plan/" + "<%= @flat.id %>" + "/" + $(this).attr("id"), function (data) {
@@ -95,8 +107,7 @@
 
 </script>
 
-
-<%= nested_form_for @building, :html => {:multipart => true} do |b| %>
+<%= nested_form_for @building, :id => "kk", :html => {:multipart => true} do |b| %>
     <%= b.fields_for :flats, @flat, :html => {:multipart => true} do |f| %>
 
         <%= hidden_field_tag :came_from, "photos" %>
@@ -109,7 +120,7 @@
 
         <div class="content detail-panel" id="basic-panel">
           <div class="row-fluid">
-            <div class="span3">
+            <div class="span4">
               <% if @building.avatar.blank? %>
                   <h2>Add a Building Photo</h2>
                   <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
@@ -122,7 +133,19 @@
               <br>
               <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
             </div>
-            <div class="span9">
+
+            <div class="span8">
+              <h2>Add Floor Plan
+                <br>
+                <small> Pick your floor plan
+                </small>
+              </h2>
+              <%= form_for @floor_plan, :url => "/create_floor_plan", :method => "post" do |fx| %>
+                  <%= fx.file_field :image %>
+                  <%= fx.hidden_field :flat_id, :value => @flat.id %>
+                  <%= fx.hidden_field :is_floor_plan, :value => true %>
+                  <%= fx.submit "Upload", :class => "btn btn-warning floor_plan" %>
+              <% end %>
               <h2>Add Flat Photos
                 <br>
                 <small> You can choose multiple photos to upload
@@ -131,58 +154,74 @@
               <%= file_field_tag 'flat[photos_attributes][][image]', :multiple => true %>
               <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
               <hr>
-              <h2>Photo Gallery
-                <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
-                <%= link_to "Sequencify", edit_property_flat_photos_path(@building, @flat), :class => "btn btn-primary" %>
-                <%= link_to "Taggify!", tag_property_flat_photos_path(@building, @flat), :class => "btn btn-inverse" %>
-              </h2>
-              <i>
-                Drag and drop Photos in order to re-order sequence <br>
-                Refresh (F5) to generate fresh sequence numbers or press Sequencify<br>
-              </i>
 
-              <div>
-                <ul id="sortable-photos">
-                  <% @flat.photos.order("sequence_number").each_with_index do |photo, index| %>
-
-                      <li id="<%= photo.id %>_<%= index %>">
-                        <% @backcolor="black" %>
-                        <% if photo.showcase_image? %>
-                            <% @backcolor="green" %>
-
-                        <% elsif photo.is_floor_plan? %>
-                            <% @backcolor="blue" %>
-
-                        <% end %>
-
-                        <div class="image-wrapper" style="background-color: <%= @backcolor %>">
-                          <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
-
-                          <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
-                          <br>
-                          <%= link_to (image_tag(photo.image.url(:thumbnail), :size => "200x200")), make_showcase_image_path(@flat.id, photo.id) %>
-                          <br>
-
-                          <div>
-                            <%= text_field_tag :caption, photo.name, :class => "input-large", :id => "photo_#{photo.id}" %>
-                            <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
-                            <br>
-                            <%= link_to "Mark as Floor Plan", "#", :class => "btn btn-warning floor_plan", :id => photo.id %>
-                            <br>
-
-                          </div>
-                        </div>
-                      </li>
-
-                  <% end %>
-                </ul>
-              </div>
             </div>
           </div>
           <br>
           <br>
+
+          <h2>Photo Gallery
+            <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
+            <%= link_to "Sequencify", edit_property_flat_photos_path(@building, @flat), :class => "btn btn-primary" %>
+            <%= link_to "Taggify!", tag_property_flat_photos_path(@building, @flat), :class => "btn btn-inverse" %>
+          </h2>
+          <i>
+            Drag and drop Photos in order to re-order sequence <br>
+            Refresh (F5) to generate fresh sequence numbers or press Sequencify<br>
+          </i>
+
+          <div>
+            <ul id="sortable-photos">
+              <% @flat.photos.order("sequence_number").each_with_index do |photo, index| %>
+
+                  <li id="<%= photo.id %>_<%= index %>">
+                    <% @backcolor="black" %>
+                    <% if photo.showcase_image? %>
+                        <% @backcolor="green" %>
+
+                    <% elsif photo.is_floor_plan? %>
+                        <% @backcolor="blue" %>
+
+                    <% end %>
+
+                    <div class="image-wrapper" style="background-color: <%= @backcolor %>">
+                      <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= photo.sequence_number %></span>
+
+                      <span style="color: white;font-size: 18px;position:relative;top: -10px"><%= link_to "x", photo, :method => :delete, :confirm => "Are you sure ??" %></span>
+                      <br>
+                      <%= link_to (image_tag(photo.image.url(:thumbnail), :size => "200x200", :id => photo.is_floor_plan? ? "target" :"")), make_showcase_image_path(@flat.id, photo.id) %>
+                      <br>
+
+                      <div>
+
+                        <br>
+                        <%= text_field_tag :caption, photo.name, :class => "input-large", :id => "photo_#{photo.id}" %>
+                        <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
+                        <br>
+                        <% if photo.is_floor_plan==true %>
+                            <%= link_to "Crop", "tag_photos", :class => "btn btn-info pull-right", :onclick => "crop_picture('#{photo.id}')" %>
+                        <% end %>
+                        <!--<%#= file_field_tag 'flat[photos_attributes][][image]' %>-->
+                        <%#= link_to "Mark as Floor Plan", "#", :class => "btn btn-warning floor_plan", :id => photo.id %>
+                        <br>
+
+                      </div>
+                    </div>
+                  </li>
+
+              <% end %>
+            </ul>
+          </div>
+
         </div>
+
+
+
     <% end %>
 <% end %>
+
+
+
+
 
 

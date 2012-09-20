@@ -219,6 +219,13 @@ class BuildingsController < ApplicationController
   def photos
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
+    #@floor_plan=@flat.photos.where("is_floor_plan=?",true).first||=Photo.new(:flat_id=>@flat.id,:is_floor_plan=>true)
+    @floor_plan=Photo.new
+    @floor_plan.flat_id=@flat.id
+    @floor_plan.is_floor_plan=true
+    if @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
+      @floor_plan=@prev_floor_plan
+    end
     @photos = Photo.all
     @photo = Photo.new
   end
@@ -260,7 +267,7 @@ class BuildingsController < ApplicationController
     @flat = Flat.find(params[:id])
     @photos = Photo.all
     @photo = Photo.new
-    @floor_plan=Photo.where("flat_id=? and is_floor_plan=?", @flat.id, true).first
+    @floor_plan=@flat.photos.where("is_floor_plan=?", true).first
   end
 
 

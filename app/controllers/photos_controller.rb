@@ -49,6 +49,7 @@ class PhotosController < ApplicationController
 
     @flat=Flat.find(params[:photo][:flat_id])
     @building=@flat.building
+    render :text =>params.inspect
     params[:photo][:image].count.times do |i|
       @photo=Photo.create!(:image => params[:photo][:image][i], :flat_id => params[:photo][:flat_id], :tagging_allowed => false)
     end
@@ -143,17 +144,49 @@ class PhotosController < ApplicationController
 
 
   def make_floor_plan
-    @photo=Photo.find(params[:photo_id])
-    @flat=Flat.find(params[:flat_id])
-    if @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
-    @prev_floor_plan.is_floor_plan=false
-    @prev_floor_plan.save!
+    #@photo=Photo.find(params[:photo_id])
+    #@flat=Flat.find(params[:flat_id])
+    #if @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
+    #@prev_floor_plan.is_floor_plan=false
+    #@prev_floor_plan.save!
+    #end
+    #
+    #@photo.is_floor_plan=true
+    #@photo.save!
+    #render :text=>@prev_floor_plan.id||="Changes Saved..."
+
+  end
+
+
+  def create_floor_plan
+    @flat=Flat.find(params[:photo][:flat_id])
+    @building=@flat.building
+    if @flat.photos.where("is_floor_plan=?",true).count==0
+      @photo=Photo.create!(:image => params[:photo][:image], :flat_id => params[:photo][:flat_id], :tagging_allowed => false,:is_floor_plan=>params[:photo][:is_floor_plan])
+    else
+      @photo=@flat.photos.where("is_floor_plan=?",true).first
+      @photo.image=params[:photo][:image]
     end
 
-    @photo.is_floor_plan=true
-    @photo.save!
-    render :text=>@prev_floor_plan.id||="Changes Saved..."
+    ##@photo=Photo.find(params[:photo_id])
+    ##@flat=Flat.find(params[:flat_id])
+    #if @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
+    #@prev_floor_plan.is_floor_plan=false
+    #@prev_floor_plan.save!
+    #end
 
+      #@photo.is_floor_plan=true
+      #@photo.save!
+
+    respond_to do |format|
+      if @photo.save
+        format.html { redirect_to edit_property_flat_photos_path(@building, @flat), notice: 'Photo was successfully created.' }
+        format.json { render json: @photo, status: :created, location: @photo }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @photo.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
 end

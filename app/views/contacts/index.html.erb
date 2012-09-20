@@ -29,9 +29,6 @@
         <td><%= contact.flats.map { |flat| flat.name }[0..3].join(",") %></td>
         <%#These methods are defined in contact helpers  %>
         <td><%= get_interaction_td_for_contact(contact) %></td>
-
-
-
             <td><%= due_overdue_task_count(contact) %></td>
             <td><%= contact.contact_types.first.name %></td>
         <td><%= get_interaction_date(contact) %></td>
