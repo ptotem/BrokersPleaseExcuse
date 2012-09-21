@@ -7,8 +7,41 @@
     var loaded;
 
     jQuery(function ($) {
-        $('#target').Jcrop();
+        $('#target').Jcrop({
+           onSelect:crop_picture
+
+        });
     });
+
+    function crop_picture(Coords,flat_id)
+    {
+        var rx = Coords.x;
+        //alert(rx);
+        var ry = Coords.y;
+        var rw = Coords.w;
+        var rh = Coords.h;
+        var data = {arx:[],ary:[],arw:[],arh:[],flat:[]};
+
+        data["arx"].push(rx);
+        data["ary"].push(ry);
+        data["arw"].push(rw);
+        data["arh"].push(rh);
+        data["flat"].push(<%= @flat.id %>);
+
+
+        $.ajax({
+
+            type:'POST',
+            url:"/crop_floorplan",
+            data:JSON.stringify(data),
+            contentType: "application/json",
+            success:function (data){
+                alert(data);
+            }
+            //dataType: dataType
+        });
+    }
+
 
 
     function rename_picture(this_photo) {
@@ -95,7 +128,6 @@
         $(".floor_plan").click(function () {
             var current_image = $(this);
             $.get("/make_floor_plan/" + "<%= @flat.id %>" + "/" + $(this).attr("id"), function (data) {
-                //alert("Changes Done");
                 current_image.parent().parent().css("background-color", "blue");
                 $("#" + data).parent().parent().css("background-color", "black");
             })
@@ -114,51 +146,24 @@
         <%= hidden_field_tag :flat_id, @flat.id %>
         <%= hidden_field_tag :external, false %>
 
+        <%= f.hidden_field :name, :value => @flat.name %>
+        <%= f.hidden_field :bhk_config_id, :value => @flat.bhk_config_id %>
+
 
         <%= render :partial => 'form_menu' %>
         <br>
 
         <div class="content detail-panel" id="basic-panel">
-          <div class="row-fluid">
-            <div class="span4">
-              <% if @building.avatar.blank? %>
-                  <h2>Add a Building Photo</h2>
-                  <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
-              <% else %>
-                  <h2>Change the Building Photo</h2>
-                  <%= image_tag @building.avatar.url(:thumbnail), :style => "border-radius:5px" %>
-              <% end %>
-              <br>
-              <%= b.file_field :avatar %>
-              <br>
-              <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
-            </div>
 
-            <div class="span8">
-              <h2>Add Floor Plan
-                <br>
-                <small> Pick your floor plan
-                </small>
-              </h2>
-              <%= form_for @floor_plan, :url => "/create_floor_plan", :method => "post" do |fx| %>
-                  <%= fx.file_field :image %>
-                  <%= fx.hidden_field :flat_id, :value => @flat.id %>
-                  <%= fx.hidden_field :is_floor_plan, :value => true %>
-                  <%= fx.submit "Upload", :class => "btn btn-warning floor_plan" %>
-              <% end %>
-              <h2>Add Flat Photos
-                <br>
-                <small> You can choose multiple photos to upload
-                </small>
-              </h2>
-              <%= file_field_tag 'flat[photos_attributes][][image]', :multiple => true %>
-              <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
-              <hr>
+          <h2>Add Flat Photos
+            <br>
+            <small> You can choose multiple photos to upload
+            </small>
+          </h2>
+          <%= file_field_tag 'flat[photos_attributes][][image]', :multiple => true %>
+          <%= b.submit "Upload Photos", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
+          <hr>
 
-            </div>
-          </div>
-          <br>
-          <br>
 
           <h2>Photo Gallery
             <%= link_to "Delete All", delete_all_photos_path(@flat.id), :class => "btn btn-danger", :confirm => "Are you sure ??" %>
@@ -199,6 +204,7 @@
                         <%= link_to "UPDATE", "#", :class => "btn btn-info pull-right", :onclick => "rename_picture('#{photo.id}')" %>
                         <br>
                         <% if photo.is_floor_plan==true %>
+
                             <%= link_to "Crop", "tag_photos", :class => "btn btn-info pull-right", :onclick => "crop_picture('#{photo.id}')" %>
                         <% end %>
                         <!--<%#= file_field_tag 'flat[photos_attributes][][image]' %>-->
@@ -212,7 +218,54 @@
               <% end %>
             </ul>
           </div>
+          <br>
+          <br>
+          <hr>
+          <div class="row-fluid">
+            <div class="span6">
+              <% if @building.avatar.blank? %>
+                  <h2>Add a Building Photo</h2>
+                  <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
+              <% else %>
+                  <h2>Change the Building Photo</h2>
+                  <br>
+                  <%= image_tag @building.avatar.url(:thumbnail), :style => "border-radius:5px" %>
+              <% end %>
+              <br>
+              <%= b.file_field :avatar %>
+              <br>
+              <%= b.submit "Upload Building Photo", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
+              <br>
 
+            </div>
+
+            <div class="span6">
+              <% if @flat.floorplan.blank? %>
+                  <h2>Add Floor Plan
+                    <br>
+                    <small> Pick your floor plan
+                    </small>
+                  </h2>
+                  <%= image_tag "missing_photo.jpg", :style => "border-radius:5px" %>
+              <% else %>
+                  <h2>Change the Floor Plan</h2>
+                  <br>
+                  <%= image_tag @flat.floorplan.url(:thumbnail),:style => "border-radius:5px" %>
+              <% end %>
+              <br>
+              <%= f.file_field :floorplan  %>
+
+              <br>
+              <%= f.submit "Upload Floor Plan", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
+
+              <%= link_to "Crop", "tag_photos", :class=>"btn btn-danger fp_cropper", :style => "margin-top:-8px;", :onclick=> "crop_picture('#{@flat.id}')" %>
+
+            </div>
+          </div>
+          <br>
+          <br>
+          <hr>
+          <%= b.submit "Save and Continue", :class => "submitter btn btn-primary btn-large", :onclick => "$('#external').val('true')" %>
         </div>
 
 

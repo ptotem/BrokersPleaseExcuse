@@ -219,15 +219,23 @@ class BuildingsController < ApplicationController
   def photos
     @building = Building.find(params[:building_id])
     @flat = Flat.find(params[:id])
-    #@floor_plan=@flat.photos.where("is_floor_plan=?",true).first||=Photo.new(:flat_id=>@flat.id,:is_floor_plan=>true)
-    @floor_plan=Photo.new
-    @floor_plan.flat_id=@flat.id
-    @floor_plan.is_floor_plan=true
-    if @prev_floor_plan=@flat.photos.where("is_floor_plan=?",true).first
-      @floor_plan=@prev_floor_plan
-    end
     @photos = Photo.all
     @photo = Photo.new
+
+  end
+
+  def crop_floorplan
+    render :text => params
+    return
+    #@flat = Flat.find(params[:id])
+    #@floorplan=@flat.floorplan
+    #@flat.floorplan_file_name=@flat.photos.name
+    #p @flat.floorplan_file_name
+
+
+    # @floorplan.save
+
+
   end
 
   def moreinfo
@@ -299,7 +307,6 @@ class BuildingsController < ApplicationController
   # PUT /buildings/1.json
   def update
 
-
     @building = Building.find(params[:id])
 
     @contact = Contact.new(params[:contact])
@@ -367,16 +374,23 @@ class BuildingsController < ApplicationController
           when 'photos'
             @flat=Flat.find(params[:flat_id])
             @building=@flat.building
-
             if params[:flat]
               params[:flat][:photos_attributes].count.times do |i|
                 Photo.create!(:image => params[:flat][:photos_attributes][i][:image], :flat_id => params[:flat_id], :tagging_allowed => false)
               end
             end
-            if params[:external]=="true"
-              format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), :notice => 'Photos were successfully updated.' }
+
+
+             if !params[:building][:flats_attributes]["0"][:floorplan].blank?
+
+              render :action => "crop"
+              return
             else
-              format.html { redirect_to edit_property_flat_photos_path(@building, @flat), :notice => 'Photos were successfully uploaded.' }
+              if params[:external]=="true"
+                format.html { redirect_to edit_property_flat_moreinfo_path(@building, @flat), :notice => 'Photos were successfully updated.' }
+              else
+                format.html { redirect_to edit_property_flat_photos_path(@building, @flat), :notice => 'Photos were successfully uploaded.' }
+              end
             end
           when 'moreinfo'
             @flat=Flat.find(params[:flat_id])
@@ -422,6 +436,12 @@ class BuildingsController < ApplicationController
     render :text => contact_option
 
     #TODO: send only the contacts not included previously so the data processing becomes lighter
+
+  end
+
+  def crop
+    render :text=>params
+    return
 
   end
 

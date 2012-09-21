@@ -18,6 +18,7 @@ BPEv075::Application.routes.draw do
   match 'building/:id/:flat_id', :to => "buildings#show", :as => "show_building"
   match 'property/:id', :to => "flats#show", :as => "show_property"
   match 'network_map/:id', :to => "contacts#network_map", :as => "network_map"
+  match "building/crop", :to =>  "buildings#crop"
 
   match 'property/notes/:building_id/:flat_id', :to => "flats#notes", :as => "notes"
   match 'flatasks/:id', :to=> "flats#flatasks", :as => "flatask"
@@ -53,7 +54,7 @@ BPEv075::Application.routes.draw do
   match "make_floor_plan/:flat_id/:photo_id" => "photos#make_floor_plan", :as => "make_floor_plan"
   match "/create_floor_plan"  => "photos#create_floor_plan" , :as => "create_floor_plan"
   match "dashboard", :to => "welcome#index", :as => "dashboard"
-
+  match "/crop_floorplan", :to => "buildings#crop_floorplan", :as => "crop_floorplan"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

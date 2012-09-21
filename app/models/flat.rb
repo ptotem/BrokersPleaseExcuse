@@ -45,6 +45,37 @@ class Flat < ActiveRecord::Base
   validates_presence_of :name, :message => "Flat name not entered"
   validates_presence_of :bhk_config_id, :message => "Flat Configuration not entered"
 
+  has_attached_file :floorplan,
+                    :styles => {
+                        :original => {
+                            :geometry => "640x600>"
+                        },
+                        :lightbox => {
+                            :geometry => "640x600>"
+                        },
+                        :thumb => {
+                            :geometry => "300x300!"
+                        }
+                    } , :processors => [:cropper]
+
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  after_update :reprocess_floorplan, :if =>:cropping?
+
+  def cropping?
+    !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
+  end
+
+  def floorplan_geometry(style = :original)
+    @geometry ||= {}
+    @geometry[style] ||= Paperclip::Geometry.from_file(floorplan.path(style))
+  end
+
+  private
+
+  def reprocess_floorplan
+    floorplan.reprocess!
+  end
+
   before_create :create_flat_key
   after_create :create_basics
 

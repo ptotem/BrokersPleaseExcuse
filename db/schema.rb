@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120831083602) do
+ActiveRecord::Schema.define(:version => 20120921085419) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -202,7 +202,7 @@ ActiveRecord::Schema.define(:version => 20120831083602) do
 
   create_table "contact_types_contacts", :id => false, :force => true do |t|
     t.integer "contact_id"
-    t.integer "contact_type_id"
+    t.integer "contact_type_id", :default => 1
   end
 
   create_table "contacts", :force => true do |t|
@@ -348,19 +348,23 @@ ActiveRecord::Schema.define(:version => 20120831083602) do
     t.integer  "building_id"
     t.integer  "bhk_config_id"
     t.integer  "direction_id"
-    t.integer  "interiors_quality_id", :default => 2
-    t.integer  "view_quality_id",      :default => 2
+    t.integer  "interiors_quality_id",   :default => 2
+    t.integer  "view_quality_id",        :default => 2
     t.string   "name"
     t.string   "flat_key"
     t.integer  "area"
     t.integer  "floor"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.integer  "furnstat_id"
     t.integer  "flatype_id"
     t.text     "qknote"
-    t.boolean  "displayed",            :default => false
-    t.boolean  "approved",             :default => false
+    t.boolean  "displayed",              :default => false
+    t.boolean  "approved",               :default => false
+    t.string   "floorplan_file_name"
+    t.string   "floorplan_content_type"
+    t.integer  "floorplan_file_size"
+    t.datetime "floorplan_updated_at"
   end
 
   create_table "flatypes", :force => true do |t|
