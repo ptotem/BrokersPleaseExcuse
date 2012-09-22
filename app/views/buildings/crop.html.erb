@@ -1,12 +1,12 @@
 <% content_for(:head) do %>
     <%= stylesheet_link_tag "jquery.Jcrop" %>
-    <%= javascript_include_tag "jquery.Jcrop.min" %>
+    <%= javascript_include_tag "jquery.Jcrop" %>
     <script type="text/javascript" charset="utf-8">
         $(function() {
             $('#cropbox').Jcrop({
                 onChange: update_crop,
                 onSelect: update_crop,
-                setSelect: [0, 0, 500, 500],
+                setSelect: [0, 0, 566, 340],
                 aspectRatio: 1
             });
         });
@@ -20,7 +20,7 @@
                 marginLeft: '-' + Math.round(rx * coords.x) + 'px',
                 marginTop: '-' + Math.round(ry * coords.y) + 'px'
             });
-            var ratio = <%= @flat.floorplan_geometry(:thumb).width %> / <%= @flat.floorplan_geometry(:original).width %>;
+            var ratio = <%= @flat.floorplan_geometry(:thumbnail).width %> / <%= @flat.floorplan_geometry(:original).width %>;
             $("#crop_x").val(Math.round(coords.x * ratio));
             $("#crop_y").val(Math.round(coords.y * ratio));
             $("#crop_w").val(Math.round(coords.w * ratio));
@@ -32,11 +32,15 @@
 <%= image_tag @flat.floorplan.url(:original), :id => "cropbox" %>
 
 <h4>Preview:</h4>
-<div style="width:100px; height:100px; overflow:hidden">
+<div style="width:566px; height:340px; overflow:hidden">
   <%= image_tag @flat.floorplan.url(:original), :id => "preview" %>
 </div>
 
-<% form_for @flat do |f| %>
+<%= form_for @flat do |f| %>
+
+    <%= f.hidden_field :name, :value => @flat.name %>
+    <%= f.hidden_field :bhk_config_id, :value => @flat.bhk_config_id %>
+
     <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
         <%= f.hidden_field attribute, :id => attribute %>
     <% end %>

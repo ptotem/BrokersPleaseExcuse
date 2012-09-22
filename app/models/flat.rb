@@ -45,6 +45,37 @@ class Flat < ActiveRecord::Base
   validates_presence_of :name, :message => "Flat name not entered"
   validates_presence_of :bhk_config_id, :message => "Flat Configuration not entered"
 
+  def furnstat
+    if super.nil?
+      e=ErrorObject.get_error_object(:name, "-")
+      e
+    else
+      super
+    end
+  end
+
+  def overall_quality
+    @building_quality=Quality.find(self.building.building_quality_id)
+    @approach_quality=Quality.find(self.building.approach_quality_id)
+    @interiors_quality=Quality.find(self.interiors_quality_id)
+    @view_quality=Quality.find(self.view_quality_id)
+
+    @locality_quality=self.building.main_locality.quality
+    @overall_quality=((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
+    Quality.find_by_value(@overall_quality).name
+  end
+
+  def overall_quality_score
+    @building_quality=Quality.find(self.building.building_quality_id)
+    @approach_quality=Quality.find(self.building.approach_quality_id)
+    @interiors_quality=Quality.find(self.interiors_quality_id)
+    @view_quality=Quality.find(self.view_quality_id)
+
+    @locality_quality=self.building.main_locality.quality
+    (((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0)*10).round(0)
+  end
+
+
   has_attached_file :floorplan,
                     :styles => {
                         :original => {
@@ -53,13 +84,13 @@ class Flat < ActiveRecord::Base
                         :lightbox => {
                             :geometry => "640x600>"
                         },
-                        :thumb => {
-                            :geometry => "300x300!"
+                        :thumbnail => {
+                            :geometry => "566x340#"
                         }
-                    } , :processors => [:cropper]
+                    }, :processors => [:cropper]
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_update :reprocess_floorplan, :if =>:cropping?
+  after_update :reprocess_floorplan, :if => :cropping?
 
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
@@ -85,44 +116,15 @@ class Flat < ActiveRecord::Base
 
   def create_basics
     BathroomType.all.each do |type|
-      Bathroom.create!(:flat_id => self.id, :bathroom_type_id => type.id, :value=>0)
+      Bathroom.create!(:flat_id => self.id, :bathroom_type_id => type.id, :value => 0)
     end
     BalconyType.all.each do |type|
-      Balcony.create!(:flat_id => self.id, :balcony_type_id => type.id, :value=>0)
+      Balcony.create!(:flat_id => self.id, :balcony_type_id => type.id, :value => 0)
     end
     ParkingType.all.each do |type|
-      Parking.create!(:flat_id => self.id, :parking_type_id => type.id, :value=>0)
+      Parking.create!(:flat_id => self.id, :parking_type_id => type.id, :value => 0)
     end
   end
 
-  def furnstat
-    if super.nil?
-      e=ErrorObject.get_error_object(:name,"-")
-      e
-    else
-      super
-    end
-  end
-
-  def overall_quality
-    @building_quality=Quality.find(self.building.building_quality_id)
-    @approach_quality=Quality.find(self.building.approach_quality_id)
-    @interiors_quality=Quality.find(self.interiors_quality_id)
-    @view_quality=Quality.find(self.view_quality_id)
-
-    @locality_quality=self.building.main_locality.quality
-    @overall_quality=((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0).round(0)
-    Quality.find_by_value(@overall_quality).name
-    end
-
-  def overall_quality_score
-    @building_quality=Quality.find(self.building.building_quality_id)
-    @approach_quality=Quality.find(self.building.approach_quality_id)
-    @interiors_quality=Quality.find(self.interiors_quality_id)
-    @view_quality=Quality.find(self.view_quality_id)
-
-    @locality_quality=self.building.main_locality.quality
-    (((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0)*10).round(0)
-  end
 
 end
