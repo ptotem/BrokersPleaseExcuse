@@ -101,8 +101,6 @@ class Flat < ActiveRecord::Base
     @geometry[style] ||= Paperclip::Geometry.from_file(floorplan.path(style))
   end
 
-  private
-
   def reprocess_floorplan
     floorplan.reprocess!
   end
