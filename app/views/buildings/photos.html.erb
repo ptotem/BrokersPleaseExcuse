@@ -250,7 +250,7 @@
               <% else %>
                   <h2>Change the Floor Plan</h2>
                   <br>
-                  <%= image_tag @flat.floorplan.url(:thumb),:style => "border-radius:5px" %>
+                  <%= image_tag @flat.floorplan.url(:thumbnail),:style => "border-radius:5px" %>
               <% end %>
               <br>
               <%= f.file_field :floorplan  %>
