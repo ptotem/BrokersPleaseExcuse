@@ -286,6 +286,7 @@ class BuildingsController < ApplicationController
     @building = Building.new(params[:building])
     @contact=Contact.new(params[:contact])
 
+
     respond_to do |format|
       if !@contact.name.blank? && @contact.save!
         format.html { redirect_to new_property_path(:contact => params[:contact_id]), :notice => 'Contact was successfully created.' }
@@ -380,10 +381,8 @@ class BuildingsController < ApplicationController
               end
             end
 
-
-             if !params[:building][:flats_attributes]["0"][:floorplan].blank?
-
-              render :action => "crop"
+            if !params[:building][:flats_attributes]["0"][:floorplan].blank?
+                 render :action => "crop"
               return
             else
               if params[:external]=="true"
@@ -440,8 +439,6 @@ class BuildingsController < ApplicationController
   end
 
   def crop
-    render :text=>params
-    return
 
   end
 

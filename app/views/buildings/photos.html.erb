@@ -4,44 +4,45 @@
 
 <link rel="stylesheet" type="text/css" href="/assets/jquery.Jcrop.css">
 <script type="text/javascript">
-    var loaded;
-
-    jQuery(function ($) {
-        $('#target').Jcrop({
-           onSelect:crop_picture
-
-        });
-    });
-
-    function crop_picture(Coords,flat_id)
-    {
-        var rx = Coords.x;
-        //alert(rx);
-        var ry = Coords.y;
-        var rw = Coords.w;
-        var rh = Coords.h;
-        var data = {arx:[],ary:[],arw:[],arh:[],flat:[]};
-
-        data["arx"].push(rx);
-        data["ary"].push(ry);
-        data["arw"].push(rw);
-        data["arh"].push(rh);
-        data["flat"].push(<%= @flat.id %>);
-
-
-        $.ajax({
-
-            type:'POST',
-            url:"/crop_floorplan",
-            data:JSON.stringify(data),
-            contentType: "application/json",
-            success:function (data){
-                alert(data);
-            }
-            //dataType: dataType
-        });
-    }
-
+//    $(function() {
+//        $('#target').Jcrop({
+//            onChange: crop_picture,
+//            onSelect: crop_picture,
+//            setSelect: [0, 0, 500, 500],
+//            aspectRatio: 1
+//        });
+//    });
+//
+//    function crop_picture(Coords,flat_id)
+//    {
+//
+//        var rx = Coords.x;
+//        //alert(rx);
+//        var ry = Coords.y;
+//        var rw = Coords.w;
+//        var rh = Coords.h;
+//        var data = {arx:[],ary:[],arw:[],arh:[],flat:[]};
+//
+//        data["arx"].push(rx);
+//        data["ary"].push(ry);
+//        data["arw"].push(rw);
+//        data["arh"].push(rh);
+//        data["flat"].push(<%#= @flat.id %>);
+//
+//
+//        $.ajax({
+//
+//            type:'POST',
+//            url:"/crop_floorplan",
+//            data:JSON.stringify(data),
+//            contentType: "application/json",
+//            success:function (data){
+//               // alert(data);
+//            }
+//            //dataType: dataType
+//        });
+//    }
+//
 
 
     function rename_picture(this_photo) {
@@ -250,7 +251,7 @@
               <% else %>
                   <h2>Change the Floor Plan</h2>
                   <br>
-                  <%= image_tag @flat.floorplan.url(:thumbnail),:style => "border-radius:5px" %>
+                  <%= image_tag @flat.floorplan.url(:thumb),:id => "target", :style => "border-radius:5px" %>
               <% end %>
               <br>
               <%= f.file_field :floorplan  %>
@@ -258,7 +259,7 @@
               <br>
               <%= f.submit "Upload Floor Plan", :class => "btn btn-inverse", :style => "margin-top:-8px;" %>
 
-              <%= link_to "Crop", "tag_photos", :class=>"btn btn-danger fp_cropper", :style => "margin-top:-8px;", :onclick=> "crop_picture('#{@flat.id}')" %>
+                 <%= link_to "Crop", "tag_photos", :class=>"btn btn-danger fp_cropper", :style => "margin-top:-8px;", :onclick=> "crop_picture('#{@flat.id}')" %>
 
             </div>
           </div>

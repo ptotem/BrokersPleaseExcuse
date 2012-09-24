@@ -1,5 +1,8 @@
 class Flat < ActiveRecord::Base
 
+
+
+
   belongs_to :flatype
   belongs_to :furnstat
   belongs_to :building
@@ -56,7 +59,7 @@ class Flat < ActiveRecord::Base
                         :thumb => {
                             :geometry => "300x300!"
                         }
-                    } , :processors => [:cropper]
+                    }, :processors => [:cropper]
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   after_update :reprocess_floorplan, :if =>:cropping?
@@ -70,7 +73,7 @@ class Flat < ActiveRecord::Base
     @geometry[style] ||= Paperclip::Geometry.from_file(floorplan.path(style))
   end
 
-  private
+
 
   def reprocess_floorplan
     floorplan.reprocess!
@@ -124,5 +127,6 @@ class Flat < ActiveRecord::Base
     @locality_quality=self.building.main_locality.quality
     (((@building_quality.value*2+@interiors_quality.value*2+@locality_quality.value*2+@approach_quality.value+@view_quality.value).to_f/8.0)*10).round(0)
   end
+
 
 end

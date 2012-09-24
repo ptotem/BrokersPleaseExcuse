@@ -133,7 +133,7 @@ class FlatsController < ApplicationController
   # PUT /flats/1.json
   def update
     @flat = Flat.find(params[:id])
-
+    @flat.save
     respond_to do |format|
       if @flat.update_attributes(params[:flat])
         format.html { redirect_to @flat, notice: 'Flat was successfully updated.' }
@@ -202,5 +202,7 @@ class FlatsController < ApplicationController
     @interaction.taskings.build
 
   end
+
+
 
 end
