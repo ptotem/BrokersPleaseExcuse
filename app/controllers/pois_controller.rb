@@ -1,8 +1,22 @@
 class PoisController < ApplicationController
 
+  layout false, :only=>[:surveyor]
+
   # GET /pois/new
   # GET /pois/new.json
   def new
+    @poi = Poi.new
+    @pois = Poi.all
+    @localities = Locality.all
+    @poi_type_ids = PoiType.all
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @poi }
+    end
+  end
+
+  def surveyor
     @poi = Poi.new
     @pois = Poi.all
     @localities = Locality.all
@@ -26,7 +40,7 @@ class PoisController < ApplicationController
 
     respond_to do |format|
       if @poi.save
-        format.html { redirect_to new_poi_path, notice: 'Poi was successfully created.' }
+        format.html { redirect_to :back, notice: 'Poi was successfully created.' }
       end
     end
   end
