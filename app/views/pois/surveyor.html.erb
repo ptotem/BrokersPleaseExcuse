@@ -37,6 +37,23 @@
           marker_<%= poi.id %>.setIcon("<%= poi.poi_type.avatar.url %>");
       <% end %>
 
+          google.maps.event.addDomListener(marker, 'click', function () {
+              map.setZoom(map.getZoom() * 2);
+              map.setCenter(marker.getPosition());
+          });
+
+          //this is the code to allow user to click anywhere on the map and it returns latitude and logitude and moves the marker there
+
+          //we first add the event listener
+          google.maps.event.addListener(map, 'click', function (event) {
+              placeMarker(event.latLng);
+          });
+
+          google.maps.event.addListener(marker, 'drag', function (event) {
+              placeMarker(event.latLng);
+          });
+
+
       }
 
       function detectBrowser() {
@@ -80,21 +97,6 @@
               detectBrowser();
               Newinitialize(52.636161, -1.133065);
           }
-          google.maps.event.addDomListener(marker, 'click', function () {
-              map.setZoom(map.getZoom() * 2);
-              map.setCenter(marker.getPosition());
-          });
-
-          //this is the code to allow user to click anywhere on the map and it returns latitude and logitude and moves the marker there
-
-          //we first add the event listener
-          google.maps.event.addListener(map, 'click', function (event) {
-              placeMarker(event.latLng);
-          });
-
-          google.maps.event.addListener(marker, 'drag', function (event) {
-              placeMarker(event.latLng);
-          });
       });
 
 
