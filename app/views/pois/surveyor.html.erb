@@ -35,7 +35,7 @@
               title:"<%= poi.name %>"
           });
 
-          marker_<%= poi.id %>.setIcon("<%= poi.poi_type.avatar.url %>");
+          marker_<%= poi.id %>.setIcon("/assets/mapicons/building.png");
       <% end %>
 
           google.maps.event.addDomListener(marker, 'click', function () {
