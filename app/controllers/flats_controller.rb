@@ -136,8 +136,7 @@ class FlatsController < ApplicationController
     @flat.save
     respond_to do |format|
       if @flat.update_attributes(params[:flat])
-        format.html { redirect_to @flat, notice: 'Flat was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to edit_property_flat_photos_path(@flat.building, @flat), :notice => 'Photos were successfully uploaded.' }
       else
         format.html { render action: "edit" }
         format.json { render json: @flat.errors, status: :unprocessable_entity }
