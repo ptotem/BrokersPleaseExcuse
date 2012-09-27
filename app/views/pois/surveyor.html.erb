@@ -28,7 +28,7 @@
       <% @pois.each do |poi| %>
           var latlng_<%= poi.id %> = new google.maps.LatLng(<%= poi.latitude %>, <%= poi.longitude %>);
           var marker_<%= poi.id %> = new google.maps.Marker({
-              draggable:true,
+              draggable:false,
               position:latlng_<%= poi.id %>,
               map:map,
               title:"<%= poi.name %>"
@@ -47,10 +47,28 @@
 //              mapdivMap.style.width = '100%';
 //              mapdivMap.style.height = '100%';
 //          } else {
-              mapdivMap.style.width = '300px';
-              mapdivMap.style.height = '400px';
+          mapdivMap.style.width = '300px';
+          mapdivMap.style.height = '400px';
 //          }
-      };
+      }
+      ;
+
+      function placeMarker(location) {
+          if (marker) { //on vérifie si le marqueur existe
+              marker.setPosition(location); //on change sa position
+          } else {
+              marker = new google.maps.Marker({ //on créé le marqueur
+                  position:location,
+                  map:map
+              });
+          }
+
+          document.getElementById('poi_address_latitude').value = location.lat();
+          document.getElementById('poi_address_longitude').value = location.lng();
+          document.getElementById('lat_hidden_field').value = location.lat();
+          document.getElementById('lon_hidden_field').value = location.lng();
+          getAddress(location);
+      }
 
       $(function () {
           if (navigator.geolocation) {
@@ -62,9 +80,22 @@
               detectBrowser();
               Newinitialize(52.636161, -1.133065);
           }
+          google.maps.event.addDomListener(marker, 'click', function () {
+              map.setZoom(map.getZoom() * 2);
+              map.setCenter(marker.getPosition());
+          });
+
+          //this is the code to allow user to click anywhere on the map and it returns latitude and logitude and moves the marker there
+
+          //we first add the event listener
+          google.maps.event.addListener(map, 'click', function (event) {
+              placeMarker(event.latLng);
+          });
+
+          google.maps.event.addListener(marker, 'drag', function (event) {
+              placeMarker(event.latLng);
+          });
       });
-
-
 
 
   </script>
