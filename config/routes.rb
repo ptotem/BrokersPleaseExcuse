@@ -45,7 +45,8 @@ BPEv075::Application.routes.draw do
 
   match "get_contact_list" => "buildings#get_contact_list"
 
-
+  match "select_label" => "contacts#select_label" , :as => "select_label"
+  #match "update" => "contacts#update" , :as => "update"
   match "rename_photo/:photo_id" => "photos#rename_photo", :as => "rename_photo"
   match "delete_all_photos/:flat_id" => "photos#delete_all_photos", :as => "delete_all_photos"
   match "make_showcase_image/:flat_id/:photo_id" => "photos#make_showcase_image", :as => "make_showcase_image"

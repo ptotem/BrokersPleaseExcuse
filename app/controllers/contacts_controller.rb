@@ -5,7 +5,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts=Contact.where("name!=?","All").all
+    @contacts=Contact.where("name!=?", "All").all
   end
 
   # GET /contacts/1
@@ -60,12 +60,13 @@ class ContactsController < ApplicationController
   def create
     #render :text=>params
     #return
-    @contact = Contact.new(params[:contact])
+    @contact = Contact.new(:id => params[:contact])
+
     respond_to do |format|
       if @contact.save
         @contact.connections.each do |connection|
           @other=Contact.find(connection.other_id)
-          unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank? and Connection.find_by_contact_id_and_other_id(@other.id,@contact.id).blank?
+          unless Connection.find_by_contact_id_and_other_id(@contact.id, @other.id).blank? and Connection.find_by_contact_id_and_other_id(@other.id, @contact.id).blank?
             @other.connection.create!(:other_id => @contact, :relationship => connection.relationship)
           end
         end
@@ -85,10 +86,14 @@ class ContactsController < ApplicationController
   # PUT /contacts/1
   # PUT /contacts/1.json
   def update
+    #render :text=>params
+    #return
 
     @contact = Contact.find(params[:id])
     @contact.labellings.delete_all
+
     if @contact.update_attributes(params[:contact])
+
       redirect_to @contact, :notice => 'Contact was successfully updated.'
     end
   end
@@ -103,7 +108,68 @@ class ContactsController < ApplicationController
 
   def network_map
     @contact=Contact.find(params[:id])
-    @relationships=@contact.connections.map{|c| c.relationship}.uniq
+    @relationships=@contact.connections.map { |c| c.relationship }.uniq
+  end
+
+  def select_label
+
+    @array_length=params[:labellings].count
+    render :text => params
+    return
+
+    @labelling = Labelling.find_by_name(params[:labelling][0])
+    @contact=Contact.find(params[:contact][0])
+
+    unless @contact.labellings.include?(@labelling)
+      @contact.labellings<<@labelling.id
+    end
+
+
+    #@label= params[:labelling][0]
+    #@label_id=Labelling.find_by_name(params[:labelling][0])
+    #@flat_contact=@flat_contact
+    #@contact=Contact.find(params[:contact][0])
+    #render :text => @contact.labellings.count
+    #return
+    #@contact.labellings.destroy_all
+    #@contact.labellings.each do |e|
+    #  #e.create({:labelling_id=>1})
+    #  @contact.labellings << @label_id.id
+    #end
+    # @labellings=
+    # @labelling=ContactsLabellings.new
+    # if @contact.update_attributes(params[:contact][0])
+    #
+    #   redirect_to @contact, :notice => 'Contact was successfully updated.'
+    # end
+
+
+    #@contact = Contact.find(params[:id])
+    ##@labellings=Labelling.find(params[:id])
+    ##@flat_contact=@contact.flat_contacts.create(params[:flat_contact])
+    #@labellings=Labelling.find(params[:id])
+    #@labellings=Labelling.where("is_flat_contact_label=?", true)
+    #
+    #redirect_to @contact, :notice => 'Contact was successfully updated.'
+    #
+    #
+    #@labellings=@contact.labellings.create
+    #
+    #@contact.labellings.save
+    #if @contact.update_attributes(params[:contact])
+    #
+    #  redirect_to @contact, :notice => 'Contact was successfully updated.'
+    #end
+    #render :text=>params
+    #return
+    #@contact = Contact.find(params[:id])
+    #@flat_contact=@contact.labellings.update_attributes(params[:contact])
+    #@flat_contact= FlatContact.find(params[:id])
+    #@contact=@flat_contact.contact.find(params[:@flat_contact])
+    #@labellings=@flat_contact.labelling_id.find(params[:@flat_contact])
+    #@flat_contact = @contact.flat_contacts.create(:contact)
+
+
   end
 
 end
