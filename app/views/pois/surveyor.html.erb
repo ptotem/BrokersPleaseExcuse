@@ -104,7 +104,8 @@
               msg += "POSITION_UNAVAILABLE";
           msg += ", msg = " + error.message;
 
-          $('body').append(msg);
+          alert(msg);
+
       }
 
       function errorCallback_lowAccuracy(position) {
@@ -117,7 +118,7 @@
               msg += "TIMEOUT";
           msg += ", msg = " + error.message;
 
-          $('body').append(msg);
+          alert(msg);
       }
 
 
