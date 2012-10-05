@@ -90,7 +90,7 @@
               // Attempt to get GPS loc timed out after 5 seconds,
               // try low accuracy location
               $('body').append("attempting to get low accuracy location");
-              navigator.geolocation.getCurrentPosition(
+              navigator.geolocation.watchPosition(
                       successCallback,
                       errorCallback_lowAccuracy,
                       {maximumAge:600000, timeout:10000, enableHighAccuracy:false});
