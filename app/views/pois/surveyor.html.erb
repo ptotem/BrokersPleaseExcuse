@@ -92,7 +92,12 @@
               detectBrowser();
               navigator.geolocation.getCurrentPosition(function (position) {
                   Newinitialize(position.coords.latitude, position.coords.longitude);
+                  $('#accuracy').html('Accuracy: '+position.coords.accuracy+' metres');
+              }, {
+                  enableHighAccuracy:true,
+                  maximumAge:60000
               });
+
           } else {
               detectBrowser();
               Newinitialize(52.636161, -1.133065);
@@ -126,8 +131,7 @@
 
       <div class="row-fluid">
         <div class="span12">
-          <!--TODO Search should have value input when revisited-->
-
+          <div id="accuracy"></div>
           <div id="Gmap" style="height: 70%;width:90%;"></div>
           <br>
         </div>
