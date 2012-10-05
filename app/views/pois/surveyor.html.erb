@@ -89,8 +89,8 @@
           if (navigator.geolocation) {
               detectBrowser();
               navigator.geolocation.getCurrentPosition(function (position) {
-                  Newinitialize(position.coords.latitude, position.coords.longitude);
                   $('#accuracy').html('Accuracy: '+position.coords.accuracy+' metres');
+                  Newinitialize(position.coords.latitude, position.coords.longitude);
               }, {
                   enableHighAccuracy:true,
                   maximumAge:60000
