@@ -88,6 +88,7 @@
       $(function () {
           if (navigator.geolocation) {
               detectBrowser();
+              alert("GeoLocation enabled");
               navigator.geolocation.getCurrentPosition(function (position) {
                   $('#accuracy').html('Accuracy: '+position.coords.accuracy+' metres');
                   Newinitialize(position.coords.latitude, position.coords.longitude);
@@ -97,7 +98,7 @@
               });
 
           } else {
-              alert("No GeoLocation enabled")
+              alert("No GeoLocation enabled");
               detectBrowser();
               Newinitialize(52.636161, -1.133065);
           }
