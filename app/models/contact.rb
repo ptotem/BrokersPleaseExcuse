@@ -26,7 +26,7 @@ class Contact < ActiveRecord::Base
   accepts_nested_attributes_for :connections, :reject_if => lambda { |a| !Connection.find_by_other_id_and_relationship_and_contact_id(a[:other_id], a[:relationship], a[:contact_id]).nil? or a[:other_id].blank? or a[:relationship].blank? }, :allow_destroy => true
 
   validates_presence_of :name
-  validate :email_or_phone
+  #validate :email_or_phone
 
 
   def email_or_phone
