@@ -83,7 +83,7 @@ class Flat < ActiveRecord::Base
   after_create :create_basics
 
   def create_flat_key
-    self.flat_key= "BPE" +Building.find(self.building_id).name[3]+ (Flat.last.flat_key.blank? ? '10000' : "#{Flat.last.flat_key[-5, 5].to_i+1}")
+    self.flat_key= "BPE" +Building.find(self.building_id).name[3]+ (Flat.last.blank? ? '10000' : "#{Flat.last.flat_key[-5, 5].to_i+1}")
   end
 
   def create_basics
