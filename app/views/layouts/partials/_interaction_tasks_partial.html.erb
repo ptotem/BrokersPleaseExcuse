@@ -7,6 +7,10 @@
     <%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
 
     <script type="text/javascript">
+        $(function () {
+            $(".timepicker123").datetimepicker({dateFormat:'yy-mm-dd ', ampm:true});
+            $('.reschedule').hide();
+        });
         function clickmodal_link(data, element, task_id) {
 
             $("#new_interaction_form").children(".modal-body").html("");
@@ -89,7 +93,7 @@
     </style>
 
 <% end %>
-<div class="span5 info-unit page-sized" style="margin-left: -20px">
+<div class="span5 info-unit page-sized" style="margin-left: -20px;height: 250px;overflow: auto;">
   <% if @contact_page %>
       <h2>Properties Linked</h2>
 
@@ -210,14 +214,23 @@
 
                         <span style="font-size: 10px;font-weight: normal;">Created By: <%= Contact.find(task.interaction.created_by).name %></span>
                       </div>
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('COMPLETE',this,<%= task.id %>);" class="modal-link">Mark
+                      <a href="markup_as_complete/<%= task.id %>" class="modal-link">Mark
                         as
                         Complete</a> |
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('RESCHEDULE',this,<%= task.id %>); " class="modal-link">Re-Schedule</a>
+                      <a data-toggle="modal" href="#" onclick="$('#reschedule<%=task.id%>').show();" class="modal-link">Re-Schedule</a>
                       |
-                      <a data-toggle="modal" href="#task_modal<%= index %>" onclick="clickmodal_link('CANCEL',this,<%= task.id %>);" class="modal-link">Cancel</a>
+                      <a href="markup_as_cancle/<%= task.id %>" class="modal-link">Cancel</a>
 
                       <a class="collapser pull-right" href="#">Collapse</a>
+
+                      <div id="reschedule<%= task.id%>" class="reschedule" style="position:relative;height: 40px;width: 400px;" >
+
+                        <%= form_tag :controller => 'taskings', :action => 'reschedule' do%>
+                            <%= hidden_field_tag :id, task.id %>
+                            <%= label_tag 'due_date: '%><%= text_field_tag :due_date,Date.today+1,:class=>"timepicker123", :onclick=>"$('.ui-datepicker').css('z-index','999999999')" %>
+                            <%= submit_tag 'Submit' %>
+                        <%end%>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -244,8 +257,8 @@
   <!---->
 
 </div>
-<div class="span7" style="margin-left: 10px;">
-  <div class="info-unit page-sized">
+<div class="span7" style="margin-left: 10px;position: absolute;height: 272px;top: 340px;left:136px;width:470px;overflow: auto;">
+  <div class="info-unit" style="position:relative;margin-top: 0px;;">
     <% if @contact_page %>
         <h2>Background</h2>
         <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
@@ -345,4 +358,5 @@
 
   </div>
 </div>
+<div class="span2" style="background-color: #ffffff;position:absolute;height: 515px;left: 590px;top: 57px;width: 620px;padding: 20px;;"><h2>Add New Interaction</h2><%= render 'interactions/form', :locals => {} %></div>
 

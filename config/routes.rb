@@ -44,10 +44,10 @@ BPEv075::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   devise_for :users
-
+  match "reschedule" => "taskings#reschedule"
   match "get_contact_list" => "buildings#get_contact_list"
-
-
+  match "markup_as_cancle/:id"=>"taskings#markup_as_cancle"
+  match "markup_as_complete/:id"=>"taskings#markup_as_complete"
   match "rename_photo/:photo_id" => "photos#rename_photo", :as => "rename_photo"
   match "delete_all_photos/:flat_id" => "photos#delete_all_photos", :as => "delete_all_photos"
   match "make_showcase_image/:flat_id/:photo_id" => "photos#make_showcase_image", :as => "make_showcase_image"

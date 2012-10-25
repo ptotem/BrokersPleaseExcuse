@@ -80,4 +80,42 @@ class TaskingsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def markup_as_complete
+    @tasking = Tasking.find(params[:id])
+    @interaction=Interaction.find(@tasking.interaction_id)
+    @interaction.name=@interaction.name.gsub("Completed:","")
+    @interaction.name=@interaction.name.gsub("Cancled:","")
+    @interaction.name="Completed:"+@interaction.name
+    @interaction.save
+    @tasking.save
+    respond_to do |format|
+      format.html { redirect_to dashboard_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def markup_as_cancle
+    @tasking = Tasking.find(params[:id])
+    @interaction=Interaction.find(@tasking.interaction_id)
+    @interaction.name=@interaction.name.gsub("Completed:","")
+    @interaction.name=@interaction.name.gsub("Cancled:","")
+    @interaction.name="Cancled:"+@interaction.name
+    @interaction.save
+    @tasking.save
+    respond_to do |format|
+      format.html { redirect_to dashboard_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def reschedule
+    @tasking = Tasking.find(params[:id])
+    @tasking.due_date=params[:due_date]
+    @tasking.save
+    respond_to do |format|
+      format.html { redirect_to dashboard_url }
+      format.json { head :no_content }
+    end
+  end
 end
