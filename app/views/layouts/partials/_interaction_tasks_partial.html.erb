@@ -95,7 +95,7 @@
     </style>
 
 <% end %>
-<div class="span5 info-unit page-sized" style="margin-left: -20px;height: 250px;overflow: auto;">
+<div class="span8 info-unit " style="margin-left: -20px;">
   <% if @contact_page %>
       <h2>Properties Linked</h2>
 
@@ -129,7 +129,7 @@
   <!---->
 
   <!-- Tasks Panel -->
-  <div id="task-panel" style="height: 320px;overflow: auto;">
+  <div id="task-panel">
     <% @tasks.each_with_index do |task, index| %>
         <% if task.active %>
             <div id="task_<%= task.id %>" class="task-item <%= (Time.now>task.due_date) ? "overdue" :"due" %> <%= if (task.assigned_to==current_user.contact.id) then
@@ -255,124 +255,101 @@
 
         <% end %>
     <% end %>
+    <% @interactions.each do |interaction| %>
+
+                 <div id="interaction_<%= interaction.id %>" class="task-item">
+                   <div class="row-fluid" style="margin-bottom: 5px;">
+                     <div>
+                       <div class="summary-interaction " style="border:2px solid;border-radius:5px;padding:5px">
+                         <% @primary_contact = Contact.find(interaction.primary_contact_id) %>
+                         <%= @primary_contact.name %> |
+                         <%= @primary_contact.phones.first.name unless @primary_contact.phones.count.zero? %>  |
+                         <%= @primary_contact.emails.first.name unless @primary_contact.emails.count.zero? %>
+                         <div class="pull-right" style="text-align: right;">
+                           Due: <%= interaction.interaction_date.strftime("%e %b") %>
+                           <br>
+                           <span style="font-size: 10px;font-weight: normal;">Last Contact:<%= interaction.interaction_date.strftime("%e %b") %></span>
+                         </div>
+                         <br>
+                         <br>
+
+                         <div style="font-weight: normal"><%= "#{raw interaction.name[0..60]} ...." %></div>
+                       </div>
+                       <div class="detailed-interaction" style="display: none;border:2px solid;border-radius:5px;padding:5px">
+                         <div class="row-fluid">
+                           <div class="span9">
+                             <%= raw interaction.name %>
+                             <br/>
+                             <br/>
+                           </div>
+                           <div class="span3" style="text-align: right;">
+                             <h2><%= interaction.interaction_date.strftime("%e %b") %></h2>
+
+                             <span style="font-size: 10px;font-weight: normal;">Last contact:<%= interaction.interaction_date.strftime("%e %b") %></span>
+                           </div>
+                         </div>
+                         <div class="row-fluid ">
+                           <div class="span12" style="margin-left: -4px;padding-left: 5px;">
+
+                           <span style="font-weight: bold">To: <%= Contact.find(interaction.primary_contact_id).name.humanize %>
+                             | </span>
+                             For:
+                             <a target="_blank" href="<%= contact_path(@primary_contact) %>" id="cnt_<%= @primary_contact.id %>_<%= interaction.id %>"> <%= @primary_contact.display_name %>
+                               |</a>
+                             <br>
+                             Involved:
+                             <% interaction.contacts.each do |contact| %>
+                                 <%#this is to handle exception in relationships
+                                   in case of any exceptions raised due to this relationship,
+                                   the default value of @col is set at #ff00ff in the rescue block.
+
+                                 %>
+                                 <% begin %>
+                                     <% case contact.contact_types.first.name %>
+                             <% when "Vendor" %>
+                                         <% @col="#ff0000" %>
+                                     <% when "Client" %>
+                                         <% @col="#0088CC" %>
+                                     <% when "Employee" %>
+                                         <% @col="#338833" %>
+                                     <% when "Partner" %>
+                                         <% @col="#ff00ff" %>
+                                     <% else %>
+                                         <% @col="#ff00ff" %>
+                                     <% end %>
+                                 <% rescue Exception => e %>
+                                     <% @col = "#000000" %>
+
+                                 <% end %>
+
+                                 <style type="text/css">
+                                     #cnt_<%= contact.id %>_ <%= interaction.id %> {
+                                         color: <%= @col %>;
+                                     }
+                                 </style>
+
+                                 <a target="_blank" href="<%= contact_path(contact) %>" id="cnt_<%= contact.id %>_<%= interaction.id %>"><%= contact.name %> </a>
+                                 |
+                             <% end %>
+                             <br>
+
+                             <span style="font-size: 10px;font-weight: normal;">Created By: <%= Contact.find(interaction.created_by).name %></span>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+
+
+                 </div>
+
+
+         <% end %>
   </div>
   <!---->
 
 </div>
-<div class="span7" style="margin-left: 10px;position: absolute;height: 272px;top: 340px;left:136px;width:470px;overflow: auto;">
-  <div class="info-unit" style="position:relative;margin-top: 0px;;">
-    <% if @contact_page %>
-        <h2>Background</h2>
-        <%= f.text_area :qknote, :value => @contact.qknote, :style => "width:75%;height:90px;padding:5px;font-size:10px;font-weight:normal" %>
-        <%= f.submit "Update", :style => "width:20%; height:100px;", :class => "btn btn-inverse" %>
-    <% end %>
-    <!--Header and Search for Interactions-->
-    <h2>
-      Interactions
-    </h2>
 
-    <br>
-    <br>
-    <!---->
-
-    <!-- Tasks Panel -->
-    <div id="interaction-panel" style="">
-      <% @interactions.each do |interaction| %>
-
-              <div id="interaction_<%= interaction.id %>" class="task-item">
-                <div class="row-fluid" style="margin-bottom: 5px;">
-                  <div>
-                    <div class="summary-interaction " style="border:2px solid;border-radius:5px;padding:5px">
-                      <% @primary_contact = Contact.find(interaction.primary_contact_id) %>
-                      <%= @primary_contact.name %> |
-                      <%= @primary_contact.phones.first.name unless @primary_contact.phones.count.zero? %>  |
-                      <%= @primary_contact.emails.first.name unless @primary_contact.emails.count.zero? %>
-                      <div class="pull-right" style="text-align: right;">
-                        Due: <%= interaction.interaction_date.strftime("%e %b") %>
-                        <br>
-                        <span style="font-size: 10px;font-weight: normal;">Last Contact:<%= interaction.interaction_date.strftime("%e %b") %></span>
-                      </div>
-                      <br>
-                      <br>
-
-                      <div style="font-weight: normal"><%= "#{raw interaction.name[0..60]} ...." %></div>
-                    </div>
-                    <div class="detailed-interaction" style="display: none;border:2px solid;border-radius:5px;padding:5px">
-                      <div class="row-fluid">
-                        <div class="span9">
-                          <%= raw interaction.name %>
-                          <br/>
-                          <br/>
-                        </div>
-                        <div class="span3" style="text-align: right;">
-                          <h2><%= interaction.interaction_date.strftime("%e %b") %></h2>
-
-                          <span style="font-size: 10px;font-weight: normal;">Last contact:<%= interaction.interaction_date.strftime("%e %b") %></span>
-                        </div>
-                      </div>
-                      <div class="row-fluid ">
-                        <div class="span12" style="margin-left: -4px;padding-left: 5px;">
-
-                        <span style="font-weight: bold">To: <%= Contact.find(interaction.primary_contact_id).name.humanize %>
-                          | </span>
-                          For:
-                          <a target="_blank" href="<%= contact_path(@primary_contact) %>" id="cnt_<%= @primary_contact.id %>_<%= interaction.id %>"> <%= @primary_contact.display_name %>
-                            |</a>
-                          <br>
-                          Involved:
-                          <% interaction.contacts.each do |contact| %>
-                              <%#this is to handle exception in relationships
-                                in case of any exceptions raised due to this relationship,
-                                the default value of @col is set at #ff00ff in the rescue block.
-
-                              %>
-                              <% begin %>
-                                  <% case contact.contact_types.first.name %>
-                          <% when "Vendor" %>
-                                      <% @col="#ff0000" %>
-                                  <% when "Client" %>
-                                      <% @col="#0088CC" %>
-                                  <% when "Employee" %>
-                                      <% @col="#338833" %>
-                                  <% when "Partner" %>
-                                      <% @col="#ff00ff" %>
-                                  <% else %>
-                                      <% @col="#ff00ff" %>
-                                  <% end %>
-                              <% rescue Exception => e %>
-                                  <% @col = "#000000" %>
-
-                              <% end %>
-
-                              <style type="text/css">
-                                  #cnt_<%= contact.id %>_ <%= interaction.id %> {
-                                      color: <%= @col %>;
-                                  }
-                              </style>
-
-                              <a target="_blank" href="<%= contact_path(contact) %>" id="cnt_<%= contact.id %>_<%= interaction.id %>"><%= contact.name %> </a>
-                              |
-                          <% end %>
-                          <br>
-
-                          <span style="font-size: 10px;font-weight: normal;">Created By: <%= Contact.find(interaction.created_by).name %></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-              </div>
-
-
-      <% end %>
-    </div>
-    <br>
-    <br>
-
-  </div>
-</div>
 <div class="span2" style="background-color: #ffffff;position:absolute;height: 515px;left: 590px;top: 57px;width: 620px;padding: 20px;;"><h2>Add New Interaction</h2><%= render 'interactions/form', :locals => {} %></div>
 
