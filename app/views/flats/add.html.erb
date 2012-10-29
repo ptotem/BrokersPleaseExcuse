@@ -1,0 +1,221 @@
+
+<script type="text/javascript">
+    $(function () {
+        $(".timepicker123").datetimepicker({dateFormat:'yy-mm-dd ', ampm:true});
+    });
+
+
+</script>
+<style type="text/css">
+    .field{
+        position: absolute;
+        width: 550px;
+
+
+    }
+
+    .oddRow {
+        background-color: #E8EEF7;
+        text-align: left;
+        vertical-align: top;
+    }
+
+
+    .evenRow {
+        background-color: white;
+        text-align: left;
+        vertical-align: top;
+    }
+</style>
+<%= form_for @flat do |f| %>
+    <h1 style="position:absolute;top: 60px;left: 200px;">Add New Flat</h1>
+    <table width="65%" cellspacing="0" cellpadding="3" class="tableWithBorder" style="position:absolute;top:100px;left:200px;border-color: #A7BEDF;
+            border-style: solid;
+            border-width: 1px;
+            padding: 2px;">
+
+
+
+
+      <tbody>
+      <tr class="evenRow" id="row_attrString6273008">
+
+        <td width="30%" align="right" class="required"><%= f.label :building_id %></td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.select :building_id, options_from_collection_for_select(Building.all, "id", "name"), :class => 'span5 pull-right multi-select-chosen0', :id => "pc_select" %>
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273008_desc">Name of the complex or building in the system</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273008_error">None</span>
+        <!-- <div id="type_6279012_form_attrString6273008_help_info" style="display:none;">Required String value.</div> -->
+
+
+      </td></tr>
+      <tr class="oddRow" id="row_attrString6273004">
+
+        <td width="30%" align="right" class="required"><%= f.label :name %> </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%= f.text_field :name,:class=>"name",:style=>"width:600px;" %>
+        <span class="desc" style="display:inline" id="type_6279011_form_attrString6273004_desc">The name of the flat (or flat number) that we use to identify it e.g. John's Flat, John's 1st floor flat, 101, A-101</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrString6273004_error">None</span>
+
+      </td></tr>
+      <tr class="evenRow" id="row_attrString6273025">
+
+        <td width="30%" align="right"><%= f.label :flat_key %> </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.text_field :flat_key %>
+
+        <span class="desc" style="display:inline" id="type_6279011_form_attrString6273025_desc">Flat ID in the public display system</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrString6273025_error">None</span>
+
+      </td></tr>
+
+      <tr class="oddRow" id="row_attrInteger6273003">
+
+        <td width="30%" align="right">Area (Sq. Ft) </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.text_field :area %>
+
+        <span class="desc" style="display:inline" id="type_6279011_form_attrInteger6273003_desc">The built-up area of a flat (usually this is 20% to 40% greater than actual carpet area)</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrInteger6273003_error">None</span>
+
+      </td></tr>
+      <tr class="evenRow">
+
+        <td width="30%" align="right" class="required"><%= f.label :bhk_config_id %></td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.select :bhk_config_id, options_from_collection_for_select(BhkConfig.all, "id", "name"), :class => 'span5 pull-right multi-select-chosen0', :id => "pc_select" %>
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273008_desc">Number of Bedrooms a property has</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273008_error">None</span>
+        <!-- <div id="type_6279012_form_attrString6273008_help_info" style="display:none;">Required String value.</div> -->
+
+
+      </td></tr>
+      <tr class="oddRow" id="row_attrListOfString6273018">
+
+        <td width="30%" align="right">Type </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%= f.select :flatype_id, options_from_collection_for_select(Flatype.all, "id", "name"), :class => 'span5 pull-right multi-select-chosen0', :id => "pc_select" %>
+        <span class="desc" style="display:inline" id="type_6279011_form_attrListOfString6273018_desc">Is the landlord a direct client of ours</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrListOfString6273018_error">None</span>
+
+      </td></tr>
+      <tr class="evenRow">
+
+        <td width="30%" align="right" class="required">Furnishing</td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.select :furnstat_id, options_from_collection_for_select(Furnstat.all, "id", "name"), :class => 'span5 pull-right multi-select-chosen0', :id => "pc_select" %>
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273008_desc">Furnishing status of flat</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273008_error">None</span>
+        <!-- <div id="type_6279012_form_attrString6273008_help_info" style="display:none;">Required String value.</div> -->
+
+
+      </td></tr>
+      <tr class="oddRow">
+
+        <td width="30%" align="right" class="required"><%= f.label :direction_id %></td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.select :direction_id, options_from_collection_for_select(Direction.all, "id", "name"), :class => 'span5 pull-right multi-select-chosen0', :id => "pc_select" %>
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273008_desc">Direction of building in the system</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273008_error">None</span>
+        <!-- <div id="type_6279012_form_attrString6273008_help_info" style="display:none;">Required String value.</div> -->
+
+
+      </td></tr>
+
+      <tr class="evenRow">
+
+        <td width="30%" align="right" class="required"><%= f.label :interiors_quality_id %></td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%#= f.fields_for :interiors_qualities do |builder| %>
+            <%= f.select :interiors_quality_id, options_from_collection_for_select(Quality.all, "id", "name"), {}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+        <%# end %>
+
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273008_desc">Interior qualities of the flat</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273008_error">None</span>
+        <!-- <div id="type_6279012_form_attrString6273008_help_info" style="display:none;">Required String value.</div> -->
+
+
+      </td></tr>
+      <tr class="oddRow">
+
+        <td width="30%" align="right" class="required"><%= f.label :view_quality_id %></td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%#= f.fields_for :view_qualities do |builder| %>
+            <%= f.select :view_quality_id, options_from_collection_for_select(Quality.all, "id", "name"), {}, {:class => "chzn-select span3", :'data-placeholder' => "Select Quality"} %>
+        <%# end %>
+
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273008_desc">Interior qualities of the flat</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273008_error">None</span>
+        <!-- <div id="type_6279012_form_attrString6273008_help_info" style="display:none;">Required String value.</div> -->
+
+
+      </td></tr>
+      <tr class="evenRow" id="row_attrInteger6273023">
+
+        <td width="30%" align="right">Floor Number </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+
+        <%= f.text_field :floor %>
+
+        <span class="desc" style="display:inline" id="type_6279011_form_attrInteger6273023_desc">Floor on which flat is located.Usually 0=Ground floor in India and then 1st floor and so on</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrInteger6273023_error">None</span>
+
+      </td></tr>
+      <tr class="oddRow">
+
+        <td width="30%" align="right">Displayed </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%= f.select :displayed, options_for_select(["true", "false"],"false") %>
+        <span class="desc" style="display:inline" id="type_6279011_form_attrListOfString6273018_desc">Is the landlord a direct client of ours</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrListOfString6273018_error">None</span>
+
+      </td></tr>
+      <tr class="evenRow">
+
+        <td width="30%" align="right">Approved </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%= f.select :approved, options_for_select(["true", "false"],"false") %>
+        <span class="desc" style="display:inline" id="type_6279011_form_attrListOfString6273018_desc">Is the landlord a direct client of ours</span>
+        <span class="error" style="display:none;" id="type_6279011_form_attrListOfString6273018_error">None</span>
+
+      </td></tr>
+      <tr class="oddRow" id="row_notes">
+        <td width="30%" align="right"><%= f.label :qknote %> </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%= f.text_area :qknote,:id=>'qknote',:cols=>50,:rows=>2,:style=>"height: auto;overflow: hidden;" %>
+        <!--<textarea cols="50" rows="2" name="notes" id="notes" style="height: auto; overflow: hidden;"></textarea>-->
+        <span class="desc" style="display:inline" id="type_6279012_form_notes_desc"></span>
+        <span class="error" style="display:none;" id="type_6279012_form_notes_error">None</span>
+        <!-- <div id="type_6279012_form_notes_help_info" style="display:none;">Optional Text value.</div> -->
+
+      </td></tr>
+      <tr class="evenRow" id="row_attrString6273020">
+
+        <td width="30%" align="right"><%= f.label :floorplan %> </td><td style="padding-left:0; padding-right:0;">:
+      </td><td>
+        <%= f.file_field :floorplan %>
+        <span class="desc" style="display:inline" id="type_6279012_form_attrString6273020_desc">Folder of pictures of the building</span>
+        <span class="error" style="display:none;" id="type_6279012_form_attrString6273020_error">None</span>
+      </td></tr>
+
+      <tr class="oddRow">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>
+          <%= f.submit " Submit" %>
+          <!--<input type="submit" value="Save" id="submit">
+       <input type="submit" value="Save &amp; Add Next" name="SaveAndAddNext" id="submit">
+       <input type="button" onclick="history.back()" value="Cancel" id="cancel">
+       <input type="reset" value="Reset" id="reset">-->
+        </td></tr>
+
+
+      </tbody>
+    </table>
+<%end%>

@@ -282,7 +282,8 @@ class BuildingsController < ApplicationController
   # POST /buildings
   # POST /buildings.json
   def create
-
+    #render :text=>params
+    #return
     @building = Building.new(params[:building])
     @contact=Contact.new(params[:contact])
 
@@ -441,6 +442,16 @@ class BuildingsController < ApplicationController
   def crop
 
   end
+
+  def new
+    @building = Building.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @building }
+    end
+  end
+
 
 
 end

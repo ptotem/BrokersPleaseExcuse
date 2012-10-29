@@ -1,4 +1,9 @@
 class Building < ActiveRecord::Base
+  geocoded_by :landmark   # can also be an IP address
+  after_validation :geocode
+
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :reverse_geocode  # auto-fetch address
 
   has_many :flats, :dependent => :destroy
   has_many :building_localities

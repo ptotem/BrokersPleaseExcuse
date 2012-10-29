@@ -79,7 +79,7 @@ class Flat < ActiveRecord::Base
     floorplan.reprocess!
   end
 
-  before_create :create_flat_key
+  #before_create :create_flat_key
   after_create :create_basics
 
   def create_flat_key

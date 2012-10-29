@@ -65,6 +65,19 @@
                 var status = $('#status').val();
                 var role = $('#role').val();
                 var player = $('#players').val();
+
+                if (status=="all_tasks")
+                {
+                    $('.interaction-item').hide();
+                    $('.task-item').show();
+                    return
+                }
+                if (status=="all_interactions")
+                {
+                    $('.task-item').hide();
+                    $('.interaction-item').show();
+                    return
+                }
                 if (status == "all") {
                     status = "due overdue";
                 }
@@ -86,6 +99,14 @@
 
                 return false;
             });
+
+            $('select.filtration1').change(function(){
+                var interactiontype = $('#interactiontype').val();
+                //alert(interactiontype);
+                $('.task-item').hide();
+                $('.interaction-item').hide();
+                $('.'+interactiontype).show();
+            });
         });
 
     </script>
@@ -95,7 +116,7 @@
     </style>
 
 <% end %>
-<div class="span8 info-unit " style="margin-left: -20px;">
+<div class="span7 info-unit " style="margin-left: -20px;">
   <% if @contact_page %>
       <h2>Properties Linked</h2>
 
@@ -119,9 +140,10 @@
     Tasks
     <div class="pull-right">
       <%= hidden_field_tag :task_job, "new" %>
-      <%= select_tag :status, options_for_select([["All", "all"], ["Due", "due"], ["Overdue", "overdue"]]), {:style => "width:80px", :class => 'filtration'} %>
+      <%= select_tag :status, options_for_select([["All", "all"], ["All Interactions", "all_interactions"], ["All Tasks", "all_tasks"], ["Due", "due"], ["Overdue", "overdue"]]), {:style => "width:auto", :class => 'filtration'} %>
       <%= select_tag :role, options_for_select([["All", "all"], ["Assigned", "assigned"], ["Involved", "involved"]]), {:style => "width:80px", :class => 'filtration'} %>
       <%= select_tag :players, options_from_collection_for_select(Contact.all, 'name', 'name'), {:class => "span3 chosen-select filtration"} %>
+      <%= select_tag :interactiontype, options_from_collection_for_select(InteractionType.all,'name','name'), {:style => "width:80px;", :class => 'span2 filtration1'} %>
     </div>
   </h2>
   <br>
@@ -257,7 +279,7 @@
     <% end %>
     <% @interactions.each do |interaction| %>
 
-                 <div id="interaction_<%= interaction.id %>" class="task-item">
+                 <div id="interaction_<%= interaction.id %>" class="interaction-item <%= InteractionType.find(interaction.interaction_type_id).name %>">
                    <div class="row-fluid" style="margin-bottom: 5px;">
                      <div>
                        <div class="summary-interaction " style="border:2px solid;border-radius:5px;padding:5px">
@@ -351,5 +373,5 @@
 
 </div>
 
-<div class="span2" style="background-color: #ffffff;position:absolute;height: 515px;left: 590px;top: 57px;width: 620px;padding: 20px;;"><h2>Add New Interaction</h2><%= render 'interactions/form', :locals => {} %></div>
+<div class="span2" style="background-color: #ffffff;position:absolute;height: 430px;left: 780px;top: 57px;width:500px;padding: 20px;;"><h2>Add New Interaction</h2><%= render 'interactions/form', :locals => {} %></div>
 

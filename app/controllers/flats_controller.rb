@@ -116,6 +116,8 @@ class FlatsController < ApplicationController
   # POST /flats
   # POST /flats.json
   def create
+    #render :text=>params
+    #return
     @flat = Flat.new(params[:flat])
 
     respond_to do |format|
@@ -202,6 +204,31 @@ class FlatsController < ApplicationController
 
   end
 
+  def add
+    @flat = Flat.new
+=begin
+    @bhk_configs = BhkConfig.all
+    @flatypes= Flatype.all
+    @furnstat= Furnstat.all
+    @directions= Direction.all
+=end
+    #@qualities= Quality.all
 
+    #@intq=@flat.interiors_qualities.build
+    #@vq=@flat.view_qualities.build
+
+    @facilities=Facility.where("is_building=?", true)
+
+    @features=Hash.new
+    @facilities.each do |facility|
+      @features[facility.name]=facility.facility_features
+    end
+
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @flat }
+    end
+  end
 
 end
