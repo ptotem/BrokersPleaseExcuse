@@ -1,6 +1,6 @@
 <%= render "top_menu" %>
 
-<div class="content" style="margin-top: 10px;">
+<div class="content" style="margin-top: 10px;" xmlns="http://www.w3.org/1999/html">
   <div class="row-fluid" style="position: relative;">
 
     <div class="span4">
@@ -34,6 +34,22 @@
         <% end %>
       </div>
       <br>
+      <%if (@flat.displayed==false and @flat.approved==false) %>
+
+          <%= form_for @flat do |f| %>
+              <div style="background: #add8e6;width: 40%;padding: 5px;">
+                <h3>Approved and Displayed</h3>
+                <%= f.label :displayed %>
+                <br><%= f.select :displayed, options_for_select(["true", "false"],"false")  %>
+                <br><%= f.label :approved %>
+                <br><%= f.select :approved, options_for_select(["true", "false"],"false") %>
+                <br><%= f.submit "Update" %>
+              </div>
+          <%end%>
+
+      <%end%>
+
+      </br>
 
       <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
         <%= @flat.bathrooms.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" }.join(", ") %>

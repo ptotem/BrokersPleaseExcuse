@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120921085419) do
+ActiveRecord::Schema.define(:version => 20121030114050) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -500,6 +500,28 @@ ActiveRecord::Schema.define(:version => 20120921085419) do
     t.datetime "updated_at",  :null => false
     t.float    "latitude"
     t.float    "longitude"
+  end
+
+  create_table "property_masters", :force => true do |t|
+    t.string   "flat_key"
+    t.string   "flat_name"
+    t.string   "building_name"
+    t.string   "locality"
+    t.string   "area"
+    t.string   "bhk_config"
+    t.string   "furn_status"
+    t.string   "rent"
+    t.string   "related_people"
+    t.string   "available_from"
+    t.string   "floor"
+    t.string   "bathroom"
+    t.string   "parking"
+    t.string   "flat_facilities"
+    t.string   "building_facilities"
+    t.string   "restriction"
+    t.string   "flat_quality"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "qualities", :force => true do |t|

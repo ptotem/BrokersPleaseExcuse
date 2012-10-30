@@ -118,21 +118,7 @@
 <% end %>
 <div class="span7 info-unit " style="margin-left: -20px;">
   <% if @contact_page %>
-      <h2>Properties Linked</h2>
 
-      <div class="orangey" style="height: 85px;overflow: auto;">
-
-        <% @contact.flat_contacts.each do |flat_contact| %>
-            <% unless flat_contact.labelling.blank? %>
-                <%= flat_contact.labelling.name %>
-                : <%= link_to flat_contact.flat.flat_key, show_property_path(flat_contact.flat), :class => "property_link" %>
-                <%= flat_contact.name %>
-                <%= link_to "Remove", flat_contact, :method => :delete, :class => 'pull-right' %>
-                <br>
-            <% end %>
-
-        <% end %>
-      </div>
 
       <br>
   <% end %>
@@ -152,7 +138,7 @@
 
   <!-- Tasks Panel -->
   <div id="task-panel">
-    <% @tasks.each_with_index do |task, index| %>
+      <% @tasks.each_with_index do |task, index| %>
         <% if task.active %>
             <div id="task_<%= task.id %>" class="task-item <%= (Time.now>task.due_date) ? "overdue" :"due" %> <%= if (task.assigned_to==current_user.contact.id) then
                                                                                                                     "assigned"
@@ -277,7 +263,7 @@
 
         <% end %>
     <% end %>
-    <% @interactions.each do |interaction| %>
+      <% @interactions.each do |interaction| %>
 
                  <div id="interaction_<%= interaction.id %>" class="interaction-item <%= InteractionType.find(interaction.interaction_type_id).name %>">
                    <div class="row-fluid" style="margin-bottom: 5px;">
@@ -372,6 +358,8 @@
   <!---->
 
 </div>
-
-<div class="span2" style="background-color: #ffffff;position:absolute;height: 430px;left: 780px;top: 57px;width:500px;padding: 20px;;"><h2>Add New Interaction</h2><%= render 'interactions/form', :locals => {} %></div>
-
+<%if @contact_page %>
+    <div class="span2" style="background-color: #ffffff;position:absolute;height: 280px;left: 660px;top: 40px;width:490px;padding: 5px;;"><h3>Add New Interaction</h3><%= render 'interactions/form', :locals => {} %></div>
+<%else%>
+    <div class="span2" style="background-color: #ffffff;position:absolute;height: 340px;left: 780px;top: 57px;width:500px;padding: 20px;;"><h2>Add New Interaction</h2><%= render 'interactions/form', :locals => {} %></div>
+<%end %>

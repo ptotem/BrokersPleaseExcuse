@@ -22,7 +22,18 @@ class ContactsController < ApplicationController
     @flat_contact = @contact.flat_contacts.build
     @flat_contacts = @contact.flat_contacts
     @labellings=Labelling.where("is_flat_contact_label=?", true)
+    @assigned_tasks = Tasking.where('assigned_to=?',current_user.contact_id).all
+    @involved_interactions = InteractionContact.where('contact_id=?',current_user.contact.id).all.map{|i| i.interaction}
+    @involved_tasks = @involved_interactions.map{|i| if i.taskings.count>0 then i.taskings.first end}.compact
+    if current_user.admin
+      @tasks=Tasking.all
+    else
+      @tasks=(@assigned_tasks+@involved_tasks).uniq ||=[]
+    end
 
+    @interactions=Interaction.order("interaction_date DESC")
+    @interaction=Interaction.new
+    @interaction.taskings.build
     # @tasks=Tasking.order("due_date ").all
     @assigned_tasks = Tasking.where('assigned_to=?', @contact.id).all
     @involved_interactions = InteractionContact.where('contact_id=?', @contact.id).all.map { |i| i.interaction }

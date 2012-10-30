@@ -96,6 +96,24 @@ class Flat < ActiveRecord::Base
     ParkingType.all.each do |type|
       Parking.create!(:flat_id => self.id, :parking_type_id => type.id, :value=>0)
     end
+    PropertyMaster.create(:flat_key=>self.flat_key,
+                          :flat_name=>self.name,
+                          :building_name=>self.building.name,
+                          :locality=>self.building.primary_locality.name+"-"+self.building.primary_locality.area.name+","+self.building.localities.map { |l| l.name+"-"+l.area.name }.join(","),
+                          :area=>self.area,
+                          :bhk_config=>self.bhk_config.name,
+                          :furn_status=>self.furnstat.name,
+                          :rent=>self.expected_rents.map { |k| k.name }.join(","),
+                          :related_people=>self.contacts.map { |c| c.name + (c.phones.first.blank? ? "" : "-" + c.phones.first.name) }.join(","),
+                          :available_from=>self.available_froms.map { |af| af.name.blank? ? " " : af.name.strftime(" %b %y") }.join(","),
+                          :floor=>self.floor,
+                          :bathroom=>self.bathrooms.sum(:value),
+                          :parking=>self.parkings.sum(:value),
+                          :flat_facilities=>self.facilities.map { |f| f.name }.join(","),
+                          :building_facilities=>self.building.facilities.map { |f| f.name }.join(","),
+                          :restriction=>self.restrictions.map { |r| r.name }.join(","),
+                          :flat_quality=>self.overall_quality
+                          )
   end
 
   def furnstat
