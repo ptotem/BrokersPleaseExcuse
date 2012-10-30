@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  flat_key: MyString
+  flat_name: MyString
+  building_name: MyString
+  locality: MyString
+  area: MyString
+  bhk_config: MyString
+  furn_status: MyString
+  rent: MyString
+  related_people: MyString
+  available_from: MyString
+  floor: MyString
+  bathroom: MyString
+  parking: 
+  flat_facilities: MyString
+  building_facilities: MyString
+  restriction: MyString
+  flat_quality: MyString
+
+two:
+  flat_key: MyString
+  flat_name: MyString
+  building_name: MyString
+  locality: MyString
+  area: MyString
+  bhk_config: MyString
+  furn_status: MyString
+  rent: MyString
+  related_people: MyString
+  available_from: MyString
+  floor: MyString
+  bathroom: MyString
+  parking: 
+  flat_facilities: MyString
+  building_facilities: MyString
+  restriction: MyString
+  flat_quality: MyString
