@@ -1,4 +1,115 @@
-<div style="margin-top: 40px;">
+
+
+<div class="span4" style="margin-top:60px;position: relative; height: 120px;">
+  <% @flats.each_with_index do |f, index| %>
+      <% if index==1 %>
+          <% if f.photos.where('showcase_image=?', true).first.nil? %>
+              <%= image_tag "missing_photo.jpg", :style => "border-radius:5px;" %>
+          <% else %>
+              <%= image_tag f.photos.where('showcase_image=?', true).first.image.url(:lightbox), :style => "border-radius:5px" %>
+          <% end %>
+
+
+<div class="span6">
+  <div class="show-block row" style="text-align: center; margin-left: -40px; position: relative;">
+    <% Facility.all.each do |facility| %>
+        <% if f.building.facilities.include?(facility) or f.facilities.include?(facility) %>
+            <%= link_to facility.name, "#", :class => "btn btn-tbyellow span2 facility_blocks", :title => facility.name, :'data-content' => (f.building.facility_features.where('facility_id=?', facility)+f.facility_features.where('facility_id=?', facility)).map { |fi| fi.name }.join(", ") %>
+        <% else %>
+            <%= link_to facility.name, "#", :class => "btn span2", :style => "color:lightgray;" %>
+        <% end %>
+    <% end %>
+  </div>
+  <br>
+
+  <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
+    <%= f.bathrooms.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" }.join(", ") %>
+    <br>
+    <%= f.balconies.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" }.join(", ") %>
+    <br>
+    <%= f.parkings.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" }.join(", ") %>
+    <br>
+    <br>
+  </div>
+  <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;color: darkred">
+    <%= f.restrictions.map { |r| r.name }.join(", ") %>
+    <br>
+  </div>
+  <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
+    <%= f.building.moving_requirements.map { |r| r.name }.join(", ") %>
+    <br>
+    <%= "Moving Charges: #{f.building.moving_charge}" unless f.building.moving_charge.blank? %>
+    <br>
+    <br>
+  </div>
+</div>
+
+          <div class="span2 blocky pull-right" style="position:relative;width: 100%; margin-top: -590px; left: 600px;">
+
+            <div class="small-head"><%= image_tag "icons/address.png" %>Address</div>
+            <div class="show-block">
+              <%= f.name[0..20] %>,
+              <br>
+              <%= f.name %>,
+              <br>
+              <% unless f.building.road.blank? %>
+                  <%= f.building.road %>,
+                  <br>
+              <% end %>
+              <%= f.building.main_locality.name unless f.building.main_locality.nil? %>
+              ,
+              <br/>
+              <%= f.building.main_locality.area.name %>
+              <br>
+              <%= f.building.main_locality.area.city.name unless f.building.main_locality.area.city.nil? %>
+              - <%= f.building.pincode %>
+            </div>
+            <br>
+
+            <div class="slabel">Area</div>
+            <%= f.area unless f.area.nil? %> sq.ft.
+            <br>
+
+            <div class="slabel">Floor</div>
+            <%= f.floor unless f.direction.nil? %>
+            <br>
+
+            <div class="slabel">Facing</div>
+            <%= f.direction.name unless f.direction.nil? %>
+            <br>
+
+            <div class="slabel">Bathrooms</div>
+            <%= f.bathrooms.sum { |b| b.value } %>
+            <br>
+
+            <div class="slabel">Balconies</div>
+            <%= f.balconies.sum { |b| b.value } %>
+            <br>
+
+            <div class="slabel">Parking</div>
+            <%= f.parkings.sum { |b| b.value } %>
+            <br>
+            <br>
+
+
+            <% f.flat_contacts.each do |flat_contact| %>
+
+                <div class="slabel"><%= flat_contact.labelling.name unless flat_contact.labelling_id.nil? %></div>
+                <br>
+                <%= link_to flat_contact.contact.name+(flat_contact.contact.phones.first.blank? ? "" : "-" + flat_contact.contact.phones.first.name), flat_contact.contact %>
+                <br>
+                <span style="font-size:10px;font-style: italic; "><%= flat_contact.name %></span>
+                <br>
+            <% end %>
+
+            <br>
+          </div>
+
+      <% end %>
+  <% end %>
+  <% %>
+</div>
+<div class="result_box" style="margin: 60px 0 0 960px; width: 550px; position: relative;">
   <% @sorted_score.each_with_index do |flat_score, index| %>
       <% flat=Flat.find(flat_score[0]) %>
       <div style="background: white;margin-bottom: 5px;border: 2px solid black;border-radius:10px;width:500px;padding: 20px;">
@@ -21,3 +132,7 @@
       </div>
   <% end %>
 </div>
+
+
+
+

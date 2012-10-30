@@ -1,10 +1,16 @@
-<%= javascript_include_tag "exclusions/dhtmlxcommon" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
-<%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
-<%= javascript_include_tag "exclusions/dhtmlXGrid_srnd" %>
+<%#= javascript_include_tag "exclusions/dhtmlxcommon" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+<%#= javascript_include_tag "exclusions/dhtmlXGrid_srnd" %>
+
+<%= javascript_include_tag "exclusions/jquery.dataTables" %>
+<%= stylesheet_link_tag "exclusions/jquery.dataTables" %>
+
+<%= javascript_include_tag "exclusions/ColVis" %>
+<%= stylesheet_link_tag "exclusions/ColVis" %>
 
 <div class="content" style="margin-top: 25px;">
   <div class="row">
@@ -20,7 +26,9 @@
 <br>
 
 <div class="content">
-  <table id="dhtmlxtable">
+  <!--<table id="dhtmlxtable">-->
+  <table id="datatable">
+    <thead>
     <tr>
       <td>Flat-Key</td>
       <td>Flat Name</td>
@@ -41,7 +49,8 @@
       <td>Flat Quality</td>
       <td>Last Updated</td>
     </tr>
-
+    </thead>
+    <tbody>
     <% @flats.each do |flat| %>
         <tr>
           <td id=<%= flat.id+0 %>><%= link_to flat.flat_key, "property/#{flat.id}", :target => "_blank" %></td>
@@ -53,7 +62,7 @@
           <td <%= flat.id+6 %>><%= flat.furnstat.name %></td>
           <td <%= flat.id+7 %>><%= flat.expected_rents.map { |k| k.name }.join(",") %></td>
           <td <%= flat.id+8 %>><%= flat.contacts.map { |c| c.name + (c.phones.first.blank? ? "" : "-" + c.phones.first.name) }.join(",") %></td>
-          <td <%= flat.id+9 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") }.join(",") %></td>
+          <td <%= flat.id+9 %>><%= flat.available_froms.map { |af| af.name.blank? ? " " : af.name.strftime(" %b %y") }.join(",") %></td>
           <td <%= flat.id+10 %>><%= flat.floor %></td>
           <td <%= flat.id+11 %>><%= flat.bathrooms.sum(:value) %></td>
           <td <%= flat.id+12 %>><%= flat.parkings.sum(:value) %></td>
@@ -64,25 +73,23 @@
           <td <%= flat.id+17 %>><%= flat.updated_at.strftime(" %e %b %y") %></td>
         </tr>
     <% end %>
-
+    </tbody>
   </table>
 </div>
 
 <script type="text/javascript">
 
-    var mygrid;
-    function doInitGridtable() {
-        mygrid = new dhtmlXGridFromTable("dhtmlxtable");
-        mygrid.enableSmartRendering(true);
-        mygrid.setSkin("bpe");
-        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#numeric_filter,#numeric_filter,#text_filter,#numeric_filter,#text_filter,#text_filter,#numeric_filter,#numeric_filter,#numeric_filter,#text_filter,#text_filter,#text_filter,#numeric_filter");
-        mygrid.enableAutoWidth(true);
-        mygrid.enableAutoHeight(true);
-        mygrid.setSizes();
-    }
-
-    $(function () {
-        doInitGridtable();
-    });
+    $(document).ready(function() {
+        $('#datatable').dataTable( {
+            "bPaginate": true,
+            "sPaginationType":"full_numbers",
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "oSearch": {"sSearch": ""},
+            "sDom": 'C<"clear">lfrtip',
+            "bAutoWidth": false } );
+    } );
 
 </script>

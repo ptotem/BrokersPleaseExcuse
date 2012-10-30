@@ -1,14 +1,22 @@
-<%= javascript_include_tag "exclusions/dhtmlxcommon" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
-<%= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
-<%= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+<%#= javascript_include_tag "exclusions/dhtmlxcommon" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid_filter" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid_srnd" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgrid_start" %>
+<%#= javascript_include_tag "exclusions/dhtmlxgridcell" %>
+
+<%= javascript_include_tag "exclusions/jquery.dataTables" %>
+<%= stylesheet_link_tag "exclusions/jquery.dataTables" %>
+
+<%= javascript_include_tag "exclusions/ColVis" %>
+<%= stylesheet_link_tag "exclusions/ColVis" %>
 
 
 <h1>Listing contacts</h1>
 
-<table id="dhtmlx_contacts_table">
+<!--<table id="dhtmlx_contacts_table">-->
+<table id="datatable_contacts_table">
+  <thead>
   <tr>
     <th>Name</th>
     <th>Phone</th>
@@ -20,6 +28,8 @@
     <th>Client Type</th>
     <th>Last Interaction Date</th>
   </tr>
+  </thead>
+  <tbody>
   <% @contacts.each do |contact| %>
       <tr>
         <td><%= link_to contact.name, contact_path(contact), :target => "_blank" %></td>
@@ -34,6 +44,7 @@
         <td><%= get_interaction_date(contact) %></td>
             </tr>
         <% end %>
+  </tbody>
 </table>
 
 <br/>
@@ -41,37 +52,17 @@
 
 <script type="text/javascript">
 
-
-    var mygrid;
-    function doInitGrid() {
-        mygrid = new dhtmlXGridFromTable("dhtmlx_contacts_table");
-
-        mygrid.setSkin("bpe");
-        mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
-        mygrid.enableAutoWidth(true);
-        mygrid.enableAutoHeight(true);
-
-        mygrid.setSizes();
-
-
-        mygrid.setColWidth(0, 120);
-        mygrid.setColWidth(1, 60);
-        mygrid.setColWidth(2, 140);
-        mygrid.setColWidth(3, 100);
-        mygrid.setColWidth(4, 100);
-        mygrid.setColWidth(5, 300);
-        mygrid.setColWidth(6, 200);
-    }
-
-    $(function () {
-        doInitGrid();
-        $(".interaction_link").click(function () {
-
-            //alert("index");
-            $('#modal_' + $(this).attr("id") + "_index").modal('show');
-        });
-
-
-    });
+    $(document).ready(function() {
+    	$('#datatable_contacts_table').dataTable( {
+    		"bPaginate": true,
+            "sPaginationType":"full_numbers",
+    		"bLengthChange": true,
+    		"bFilter": true,
+    		"bSort": true,
+    		"bInfo": true,
+            "oSearch": {"sSearch": ""},
+            "sDom": 'C<"clear">lfrtip',
+    		"bAutoWidth": false } );
+    } );
 
 </script>
