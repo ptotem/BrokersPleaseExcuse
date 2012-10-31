@@ -80,11 +80,30 @@ class SearchingsController < ApplicationController
   # PUT /searchings/1
   # PUT /searchings/1.json
   def update
-    @searching = Searching.find(params[:id])
+    #render :text=>params
+    #return
+   @searching = Searching.find(params[:id])
+   #render :text=>searching
+   @searching.searching_bhk_configs.destroy_all
+   @searching.searching_areas.destroy_all
+   @searching.searching_facilities.destroy_all
+   #return
+    params[:bhk_config][:bhk_config_id].each_with_index do |id,index|
+      SearchingBhkConfig.create(:searching_id => @searching.id, :bhk_config_id => id) unless id.blank?
+    end
+
+    params[:area][:area_id].each do |id|
+      SearchingArea.create!(:searching_id => @searching.id, :area_id => id) unless id.blank?
+    end
+    params[:facility][:facility_id].each do |id|
+      SearchingFacility.create!(:searching_id => @searching.id, :facility_id => id) unless id.blank?
+    end
+
+
 
     respond_to do |format|
       if @searching.update_attributes(params[:searching])
-        format.html { redirect_to @searching, notice: 'Searching was successfully updated.' }
+        format.html { redirect_to search_result_path(@searching), notice: 'Here are your results...' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -112,9 +131,23 @@ class SearchingsController < ApplicationController
 
     @areas=@search.searching_areas
     @bhks=@search.searching_bhk_configs.map{|b| b.bhk_config_id}
+    @bhk_configs=Array.new
+    @bhks.each do |a|
+      @bhk_configs<<BhkConfig.find(a)
+    end
+
+    @search_areas=Array.new
+    @areas.each do |a|
+      @search_areas<<Area.find(a.area_id)
+    end
+    @budget_options=[[20000,20000],[25000,25000],[28000,28000],[30000,30000],[35000,35000],[40000,40000],[42000,42000],[45000,45000],[50000,50000]]
+    #render :text=>@search_areas.first.name
+    #return
     @facilities=@search.searching_facilities.map{|f| f.facility_id}
     @budget=@search.budget
 
+    #render :text=>@budget
+    #return
     @localities=@areas.map { |sa| sa.area }.map { |a| a.localities }.flatten.map { |l| l.id }
     @buildings=Building.where(:primary_locality_id => @localities).all
     @flats=@buildings.map{|b| b.flats}.flatten.select{|f| @bhks.include?(f.bhk_config_id) }
@@ -146,6 +179,13 @@ class SearchingsController < ApplicationController
 
     #render :text => @sorted_score
     #return
+
+  end
+
+  def res_data
+    #render :text=>params
+    #return
+    @flat = Flat.find(params[:id])
 
   end
 

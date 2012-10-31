@@ -1,0 +1,116 @@
+<style type="text/css">
+.slabel{
+padding-left: 10px;
+line-height: 0.8;
+}
+
+.sval{
+line-height: 0.8;
+}
+</style>
+
+<div class="span4" style="margin-top:60px;position: relative; height: 120px;">
+
+      <% if @flat.photos.where('showcase_image=?', true).first.nil? %>
+          <%= image_tag "missing_photo.jpg", :style => "border-radius:5px;" %>
+      <% else %>
+          <%= image_tag @flat.photos.where('showcase_image=?', true).first.image.url(:lightbox), :style => "border-radius:5px" %>
+      <% end %>
+
+      <div class="span6">
+        <div class="show-block row" style="text-align: center; margin-left: -40px; position: relative;">
+          <% Facility.all.each do |facility| %>
+              <% if @flat.building.facilities.include?(facility) or @flat.facilities.include?(facility) %>
+                  <%= link_to facility.name, "#", :class => "btn btn-tbyellow span2 facility_blocks", :title => facility.name, :'data-content' => (@flat.building.facility_features.where('facility_id=?', facility)+@flat.facility_features.where('facility_id=?', facility)).map { |fi| fi.name }.join(", ") %>
+              <% else %>
+                  <%= link_to facility.name, "#", :class => "btn span2", :style => "color:lightgray;" %>
+              <% end %>
+          <% end %>
+        </div>
+        <br>
+
+        <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
+          <%= @flat.bathrooms.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" }.join(", ") %>
+          <br>
+          <%= @flat.balconies.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" }.join(", ") %>
+          <br>
+          <%= @flat.parkings.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" }.join(", ") %>
+          <br>
+          <br>
+        </div>
+        <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;color: darkred">
+          <%= @flat.restrictions.map { |r| r.name }.join(", ") %>
+          <br>
+        </div>
+        <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
+          <%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %>
+          <br>
+          <%= "Moving Charges: #{@flat.building.moving_charge}" unless @flat.building.moving_charge.blank? %>
+          <br>
+          <br>
+        </div>
+      </div>
+
+      <div class="span2 blocky pull-right" style="position:relative;width: 70%; height:227px; margin-top: -590px; left:225px;">
+
+        <!--<div class="small-head"><%#= image_tag "icons/address.png" %>Address</div>-->
+        <!--<div class="show-block" style="width: auto;">-->
+        <%#= f.name[0..20] %>
+        <!--<br>-->
+        <%#= f.name %>
+        <!--<br>-->
+        <!--<%# unless f.building.road.blank? %>-->
+        <%#= f.building.road %>
+        <!--<br>-->
+        <!--<%# end %>-->
+        <!--<%#= f.building.main_locality.name unless f.building.main_locality.nil? %>-->
+        <!--,-->
+        <!--<br/>-->
+        <!--<%#= f.building.main_locality.area.name %>-->
+        <!--<br>-->
+        <!--<%#= f.building.main_locality.area.city.name unless f.building.main_locality.area.city.nil? %>-->
+        <%#= f.building.pincode %>
+        <!--</div>-->
+        <br>
+
+        <div class="slabel">Area</div>
+        <div class="sval"><%= @flat.area unless @flat.area.nil? %> sq.ft.</div>
+        <br>
+
+        <div class="slabel">Floor</div>
+        <div class="sval"><%= @flat.floor unless @flat.direction.nil? %></div>
+        <br>
+
+        <div class="slabel">Facing</div>
+        <div class="sval"><%= @flat.direction.name unless @flat.direction.nil? %></div>
+        <br>
+
+        <div class="slabel">Bathrooms</div>
+        <div class="sval"><%= @flat.bathrooms.sum { |b| b.value } %></div>
+        <br>
+
+        <div class="slabel">Balconies</div>
+        <div class="sval"><%= @flat.balconies.sum { |b| b.value } %></div>
+        <br>
+
+        <div class="slabel">Parking</div>
+        <div class="sval"><%= @flat.parkings.sum { |b| b.value } %></div>
+        <br>
+        <br>
+
+
+        <%# f.flat_contacts.each do |flat_contact| %>
+
+        <!--<div class="slabel"><%#= flat_contact.labelling.name unless flat_contact.labelling_id.nil? %></div>-->
+        <!--<br>-->
+        <!--<%#= link_to flat_contact.contact.name+(flat_contact.contact.phones.first.blank? ? "" : "-" + flat_contact.contact.phones.first.name), flat_contact.contact %>-->
+        <!--<br>-->
+        <!--<span style="font-size:10px;font-style: italic; "><%#= flat_contact.name %></span>-->
+        <!--<br>-->
+        <%# end %>
+
+        <!--<br>-->
+      </div>
+
+
+</div>

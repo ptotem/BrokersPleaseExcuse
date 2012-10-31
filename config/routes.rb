@@ -3,9 +3,11 @@ BPEv075::Application.routes.draw do
   resources :deals
 
   resources :deal_stages
-  match 'flat/add',:to=>"flats#add",:as=>"add_flat"
+  match 'flat/add',:to=>"flats#add", :as=>"add_flat"
+  match 'res_data/:id',:to=>"searchings#res_data"
+
   match 'surveyor',:to=>"pois#surveyor", :as=>"surveyor"
-  match 'building/new',:to=>"buildings#new",:as=>"add_building"
+  match 'building/new',:to=>"buildings#new", :as=>"add_building"
   match 'search_results/:id', :to=>"searchings#results", :as=>"search_result"
   match 'property/(:building_id)/quick_form', :to => "buildings#quick_form", :as => "new_property"
   match 'flat_table/', :to => "flats#quick_index", :as => "quick_property_index"
