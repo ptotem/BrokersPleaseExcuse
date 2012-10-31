@@ -31,7 +31,7 @@
             <% @interaction=Interaction.new %>
             <% @interaction.taskings.build %>
 
-            <a class="interaction-link" data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>
+            <!--<a class="interaction-link" data-toggle="modal" href="#new_interaction_form" title="Add Interaction or Task" data-content="<table><tr><td><img src='/assets/icons/interaction.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add an Interaction or Task.</td></tr></table>"><%= image_tag "icons/interaction.png" %></a>-->
           <li><%= link_to image_tag("icons/pois.png"), new_poi_path, :title => "Points Of Interest", :'data-content' => "<table><tr><td><img src='/assets/icons/pois.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to populate the map.</td></tr></table>" %></li>
           <li><%= link_to image_tag("icons/deals.png"), deals_path, :title => "Deals", :'data-content' => "<table><tr><td><img src='/assets/icons/deals.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to capture and analyze deals.</td></tr></table>" %></li>
 
