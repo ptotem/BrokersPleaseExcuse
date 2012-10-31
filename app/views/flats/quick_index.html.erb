@@ -58,7 +58,7 @@
           <td <%= flat.id+7 %>><%= flat.available_froms.map { |af| af.name.strftime(" %b %y") unless af.name.nil? }.join(",")  %></td>
           <td <%= flat.id+8 %>><%= flat.facilities.map { |f| f.name }.join(",") %></td>
           <td <%= flat.id+9 %>><%= flat.building.facilities.map { |f| f.name }.join(",") %></td>
-          <td <%= flat.id+10 %>><%= flat.overall_quality %></td>
+          <td <%= flat.id+10 %>><%= flat.overall_quality unless flat.overall_quality.blank?%></td>
 
         </tr>
     <% end %>

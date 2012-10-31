@@ -22,6 +22,8 @@
 
       <div style="margin-left: 0px;margin-top: 10px">
         <ul style="list-style:none;" class="menu-list">
+          <li><%= link_to image_tag("icons/building1.png"), add_building_path, :title => "New Building", :'data-content' => "<table><tr><td><img src='/assets/icons/building1.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add new building.</td></tr></table>" %></li>
+          <li><%= link_to image_tag("icons/flats1.png"), add_flat_path, :title => "New Flat", :'data-content' => "<table><tr><td><img src='/assets/icons/flats1.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add information of new flat.</td></tr></table>" %></li>
           <li><%= link_to image_tag("icons/properties.png"), quick_property_index_path, :title => "Property Index", :'data-content' => "<table><tr><td><img src='/assets/icons/properties.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Properties.</td></tr></table>" %></li>
           <li><%= link_to image_tag("icons/new_property.png"), new_property_path, :title => "New Property", :'data-content' => "<table><tr><td><img src='/assets/icons/new_property.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to add a New Property.</td></tr></table>" %></li>
           <li><%= link_to image_tag("icons/contacts.png"), contacts_path, :title => "Contact List", :'data-content' => "<table><tr><td><img src='/assets/icons/contacts.png' style='width:128px;vertical-align:middle;'/></td><td>Click here to go to the List of Contacts.</td></tr></table>" %></li>

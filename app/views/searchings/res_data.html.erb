@@ -9,6 +9,9 @@ line-height: 0.8;
 }
 </style>
 
+<h3 style="margin-left: 30px;"><%= @flat.name %></h3>
+<br>
+
 <div class="span4" style="margin-top:0px;position: relative; height: 120px;">
 
       <% if @flat.photos.where('showcase_image=?', true).first.nil? %>
@@ -29,48 +32,8 @@ line-height: 0.8;
         </div>
         <br>
 
-        <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
-          <%= @flat.bathrooms.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.bathroom_type.name.pluralize : b.bathroom_type.name}" }.join(", ") %>
-          <br>
-          <%= @flat.balconies.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.balcony_type.name.pluralize : b.balcony_type.name}" }.join(", ") %>
-          <br>
-          <%= @flat.parkings.where("value>?", 0).map { |b| "#{b.value} #{(b.value>1) ? b.parking_type.name.pluralize : b.parking_type.name}" }.join(", ") %>
-          <br>
-          <br>
-        </div>
-        <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;color: darkred">
-          <%= @flat.restrictions.map { |r| r.name }.join(", ") %>
-          <br>
-        </div>
-        <div class="show-block row" style="text-align: center; font-size: 16px;line-height: 20px;">
-          <%= @flat.building.moving_requirements.map { |r| r.name }.join(", ") %>
-          <br>
-          <%= "Moving Charges: #{@flat.building.moving_charge}" unless @flat.building.moving_charge.blank? %>
-          <br>
-          <br>
-        </div>
-      </div>
+      <div class="span2 blocky pull-right" style="position: relative;width: 200px;; height:227px; margin-top: -430px; left:45px;">
 
-      <div class="span2 blocky pull-right" style="position:relative;width: 70%; height:227px; margin-top: -590px; left:225px;">
-
-        <!--<div class="small-head"><%#= image_tag "icons/address.png" %>Address</div>-->
-        <!--<div class="show-block" style="width: auto;">-->
-        <%#= f.name[0..20] %>
-        <!--<br>-->
-        <%#= f.name %>
-        <!--<br>-->
-        <!--<%# unless f.building.road.blank? %>-->
-        <%#= f.building.road %>
-        <!--<br>-->
-        <!--<%# end %>-->
-        <!--<%#= f.building.main_locality.name unless f.building.main_locality.nil? %>-->
-        <!--,-->
-        <!--<br/>-->
-        <!--<%#= f.building.main_locality.area.name %>-->
-        <!--<br>-->
-        <!--<%#= f.building.main_locality.area.city.name unless f.building.main_locality.area.city.nil? %>-->
-        <%#= f.building.pincode %>
-        <!--</div>-->
         <br>
 
         <div class="slabel">Area</div>

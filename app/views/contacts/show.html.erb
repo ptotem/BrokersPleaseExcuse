@@ -9,20 +9,19 @@
             color: #daa520;
         }
 
-        html,body {
+        html, body {
             background: white;
         }
 
-
         .chzn-container-multi .chzn-choices {
-            width:206px;
+            width: 206px;
         }
 
-        .timepicker123{
+        .timepicker123 {
             font-size: 12px;
             height: 24px;
             padding-left: 3px;
-            width:215px;
+            width: 215px;
         }
 
 
@@ -31,9 +30,9 @@
     <script type="text/javascript">
         $(function () {
 
-            $('select.label').change(function(){
-                var a="#edit_contacts_"+<%= @contact.id %>;
-                var b="'"+a+"'";
+            $('select.label').change(function () {
+                var a = "#edit_contacts_" +<%= @contact.id %>;
+                var b = "'" + a + "'";
                 $('.edit_contact').submit();
             });
 
@@ -44,42 +43,34 @@
 
 <% end %>
 
-<%= form_for @contact, :id=>'frm' do |f| %>
+<%= form_for @contact, :id => 'frm' do |f| %>
 
-    <div class="row-fluid page-sized" style="width:101%;margin-top: -5px;">
+    <div class="row-fluid page-sized" style="margin-top: -5px;">
 
       <!-- Left Banner -->
 
       <div class="span2" style="margin-left: -10px;font-size: 12px;">
-        <div class="info-unit" style="background: white;border:none;width:900px;height:50px;">
-          <h3 style="color:#000000;">
+        <div class="info-unit" style="background: white;border:none;width:900px;height:50px;margin-bottom: 40px;">
+          <h2 style="color:#000000;">
             <%= @contact.name.titlecase %>
-          </h3>
-          <%= link_to "(Edit)", edit_contact_path, :class=>"lefty", :style=>"font-size:10px;position:absolute;top:75px;left:160px;color:black;" %>
+            <%= select_tag "contact[labelling_ids][]", options_from_collection_for_select(Labelling.all, :id, :name, @contact.labelling_ids), :multiple => true, :class => "label", :'data-placeholder' => "Select Labels", :style => "border-radius:5px;" %>
+          </h2>
 
-          <div class="blocky" style="position:absolute;width:100px;top:65px;left:200px;">
-            <%= @contact.contact_types.first.name unless @contact.contact_types.blank? %>
-          </div>
-          <div class="blocky" style="position:absolute;top:65px;left:330px;">
+          <h3>
+            <%= @contact.contact_types.first.name unless @contact.contact_types.blank? %> |
             <% if @contact.phones.blank? %>
                 No Phones
             <% else %>
                 <%= @contact.phones.first.name %>
-            <% end %>
-          </div>
-          <div class="blocky" style="position:absolute;top:65px;left:430px;">
+            <% end %> |
             <% if @contact.emails.blank? %>
                 No Emails
             <% else %>
                 <a href="mailto: <%= @contact.emails.first.name %>"><%= @contact.emails.first.name %></a>
-            <% end %>
-          </div>
-
-          <div style="margin-left: -20px;margin-top: 10px; height:100px;">
-            <a href="#moreinfo" data-toggle="modal" data-backdrop="static" class="btn btn-info span2 sized" style="position:absolute;top:68px;left:840px;">More
-                    Info</a>
-
-          </div>
+            <% end %> |
+            <a href="#moreinfo" data-toggle="modal" data-backdrop="static">Details</a> |
+            <%= link_to "Edit", edit_contact_path %>
+          </h3>
 
           <div class="modal hide fade" id="new_connection">
             <div class="modal-header">
@@ -89,7 +80,7 @@
             <div class="modal-body">
               <%= f.fields_for :connections do |connection| %>
                   <% if connection.object.new_record? %>
-                      <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false, :include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Contact"} %>
+                      <%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false, :include_blank => ''}, {:class => "chzn-select", :'data-placeholder' => "Select Contact"} %>
                       <%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:-10px;" %>
                   <% end %>
               <% end %>
@@ -100,86 +91,44 @@
             </div>
           </div>
 
-          <div class="orangey" style="position:absolute;top:62px;left:570px;padding-top: 3px;padding-bottom: 0px;width: 250px;;">
-            <%= select_tag "contact[labelling_ids][]", options_from_collection_for_select(Labelling.all, :id, :name, @contact.labelling_ids), :multiple => true, :class => "label", :'data-placeholder' => "Select Options", :style => "width:150px;border-radius:5px;" %>
-            <%#= f.submit "Update", :style => "width:100%; height:40px;", :class => "btn btn-inverse" %>
-          </div>
 
-
-          <div class="content" style="display:none;padding:0;height:450px;overflow: auto;">
-            <div class="row-fluid">
-              <div class="span9" style="font-weight: bold;">
-                <h3 style="margin-bottom: 5px;height: 100px;overflow: auto;">Properties</h3>
-                <ul>
-                  <%= @contact.flats.each do |flat| %>
-                      <li><%= flat.name %></li>
-                      <br>
-                  <% end %>
-                </ul>
-              </div>
-              <%= link_to "Add Property", new_property_path(:contact => @contact.id) %>
-            </div>
-            <br/>
-
-            <div class="row-fluid">
-              <div class="span5" style="font-weight: bold;">
-                <h3>Connections</h3>
-                <table>
-                  <%= f.fields_for :connections do |connection| %>
-                      <% if connection.object.new_record? %>
-                          <tr>
-                            <td><%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false}, {:class => "chzn-select input-medium", :'data-placeholder' => "Select Contact"} %></td>
-                          </tr>
-                          <tr>
-                            <td><%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %></td>
-                          </tr>
-                          <tr>
-                            <td><%= f.submit "Add", :class => "btn btn-inverse span1", :style => "margin-top:-4px;" %></td>
-
-                          </tr>
-                      <% end %>
-                  <% end %>
-
-                </table>
-                <a data-backdrop="static" data-toggle="modal" href="#add_contact">Add contact!</a>
-                <br/>
-                <%= render :partial => 'connections_table' %>
-              </div>
-              <br/>
-            </div>
-          </div>
         </div>
+
+
       </div>
 
       <!--Tasks and Interactions Panel-->
 
-      <div class="span10" style="position:absolute;top: 90px;left:-5px;padding-left: 15px;">
+      <div class="span10" style="position:absolute;top: 120px;left:-5px;padding-left: 15px;">
         <div class="row-fluid">
           <%= render "/layouts/partials/interaction_tasks_partial", :f => f %>
         </div>
-        <div style="background: #ffffff;position: absolute;left:683px;top:306px;">
+        <div style="background: #ffffff;position: absolute;left:683px;top:340px;">
           <h3>Link a Property</h3>
           <table>
-          <%= f.fields_for :flat_contacts do |flat_contact| %>
+            <%= f.fields_for :flat_contacts do |flat_contact| %>
                 <% if flat_contact.object.new_record? %>
 
-                      <tr>
-                        <td>Property:</td>
-                        <td><%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false,:include_blank=>''}, {:class => "ss", :'data-placeholder' => "Select Property"} %></td>
-                        <td > </td>                        <td>Relationship:</td>
-                        <td><%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), {:multiple => false,:include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Relationship with Property", :style => "margin-top:5px;"} %></td>
-                      </tr>
-                      <tr>
-                        <td>Comment:</td>
-                        <td><%= flat_contact.text_field :name %></td>
+                    <tr>
+                      <td>Property:</td>
+                      <td><%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false, :include_blank => ''}, {:class => "ss", :'data-placeholder' => "Select Property"} %></td>
+                      <td></td>
+                      <td>Relationship:</td>
+                      <td><%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), {:multiple => false, :include_blank => ''}, {:class => "chzn-select", :'data-placeholder' => "Select Relationship with Property", :style => "margin-top:5px;"} %></td>
+                    </tr>
+                    <tr>
+                      <td>Comment:</td>
+                      <td><%= flat_contact.text_field :name %></td>
 
 
                 <% end %>
-            <% end %> <td></td>
-           <td><%= f.submit "Add", :class => "btn btn-inverse" %></td></tr>
+            <% end %>
+            <td></td>
+            <td><%= f.submit "Add", :class => "btn btn-inverse" %></td>
+            </tr>
 
           </table>
-          <div class="orangey" style="height: 80px;overflow: auto;">
+          <div class="orangey" style="height: 140px;overflow: auto;">
             <h3>Listing Properties</h3>
             <% @contact.flat_contacts.each do |flat_contact| %>
                 <% unless flat_contact.labelling.blank? %>
@@ -193,20 +142,23 @@
             <% end %>
           </div>
         </div>
-        <div id="new_connection1" style="background: #ffffff;position: absolute;left:683px;top:500px;padding: 2px;">
-
+        <div id="new_connection1" style="background: #ffffff;position: absolute;left:683px;top:610px;padding: 2px;">
+          <h3>Link a Contact</h3>
           <table>
-            <tr><td><p style="font-size: 20px;font-weight: bolder;">New</p></td><td><p style="font-size: 20px;font-weight: bolder;">Connection</p></td>
-          <%= f.fields_for :connections do |connection| %>
-                <% if connection.object.new_record? %>
-                    <td><%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false, :include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Contact"} %>
-                    </td><td><%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %>
-                    </td>
+            <tr>
+              <%= f.fields_for :connections do |connection| %>
+                  <% if connection.object.new_record? %>
+                      <td><%= connection.select :other_id, options_from_collection_for_select(@contacts, :id, :name), {:multiple => false, :include_blank => ''}, {:class => "chzn-select", :'data-placeholder' => "Select Contact"} %>
+                      </td>
+                      <td><%= connection.text_field :relationship, :class => "input-medium", :style => "margin-top:5px;" %>
+                      </td>
                   <% end %>
-                <% end %>
+              <% end %>
               <td><%= f.submit "Add", :class => "btn btn-inverse pull-right" %></td>
-          </tr>                                                                      </table>
-          <div class="orangey" style="height: 80px;">
+              <td><%= link_to "Network Map", network_map_path(@contact), :class => "btn btn-info span2 sized", :style => "" %></td>
+            </tr>
+          </table>
+          <div class="orangey">
 
             <h3>Listing connections</h3>
 
@@ -227,7 +179,7 @@
               <% end %>
 
             </table>
-            <%= link_to "Network Map", network_map_path(@contact), :class=>"btn btn-info span2 sized", :style=>"position:relative;left:250px;top:-90px"%>
+
           </div>
         </div>
 
@@ -291,11 +243,11 @@
                 <table>
                   <tr>
                     <td>Property:</td>
-                    <td><%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false,:include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Property"} %></td>
+                    <td><%= flat_contact.select :flat_id, options_from_collection_for_select(Flat.all, :id, :flat_key), {:multiple => false, :include_blank => ''}, {:class => "chzn-select", :'data-placeholder' => "Select Property"} %></td>
                   </tr>
                   <tr>
                     <td>Relationship:</td>
-                    <td><%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), {:multiple => false,:include_blank=>''}, {:class => "chzn-select", :'data-placeholder' => "Select Relationship with Property", :style => "margin-top:5px;"} %></td>
+                    <td><%= flat_contact.select :labelling_id, options_from_collection_for_select(@labellings, "id", "name"), {:multiple => false, :include_blank => ''}, {:class => "chzn-select", :'data-placeholder' => "Select Relationship with Property", :style => "margin-top:5px;"} %></td>
                   </tr>
                   <tr>
                     <td>Comment:</td>
@@ -348,8 +300,8 @@
     <% end %>
     </div>
 <style type="text/css">
-    #interaction_name{
-        width:88%;
+    #interaction_name {
+        width: 88%;
     }
 </style>
 
