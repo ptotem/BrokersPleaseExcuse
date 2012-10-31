@@ -19,9 +19,9 @@
         function re(this_obj){
 //            alert($(this_obj).prev().attr('id'));
             $('#final_res').children().remove();
-            var falt_id= $(this_obj).prev().attr('id');
+            var flat_id= $(this_obj).prev().attr('id');
             $.ajax({
-                url:'/res_data/'+falt_id,
+                url:'/res_data/'+flat_id,
                 type:"get",
                 success:function (data) {
                     //$(this_obj).find('.psection_front').append('<div class="the_pcontents">' + data + '</div>');
