@@ -31,7 +31,7 @@ RailsAdmin.config do |config|
 
   #  ==> Included models
   # Add all excluded models here:
-  # config.excluded_models = []
+  config.excluded_models = ['Address']
 
   # Add models here if you want to go 'whitelist mode':
   # config.included_models = []
@@ -81,6 +81,7 @@ RailsAdmin.config do |config|
       field :area_id
     end
     edit do
+      parent :area
       field :name
       field :area_id
     end
