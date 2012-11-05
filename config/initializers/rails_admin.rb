@@ -76,14 +76,11 @@ RailsAdmin.config do |config|
   # end
 
   config.model Locality do
-    parent :area
     list do
-      field :name
-      field :area_id
+      exclude_fields :primary_localities
     end
     edit do
-      field :name
-      field :area_id
+      exclude_fields :primary_localities
     end
   end
 
