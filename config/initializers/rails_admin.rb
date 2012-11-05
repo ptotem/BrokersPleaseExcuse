@@ -76,7 +76,7 @@ RailsAdmin.config do |config|
   # end
 
   config.model Locality do
-    parent area
+    parent :area
     list do
       field :name
       field :area_id
