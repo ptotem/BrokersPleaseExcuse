@@ -31,10 +31,12 @@ RailsAdmin.config do |config|
 
   #  ==> Included models
   # Add all excluded models here:
-  config.excluded_models = ['Address']
+  #config.excluded_models = ['Address']
 
   # Add models here if you want to go 'whitelist mode':
   # config.included_models = []
+
+  config.included_models = ["Area", "BalconyType", "BathroomType", "BhkConfig", "Building", "City", "Contact", "ContactType","DealRelation","DealStage","Direction","Facility","FacilityFeature","Flat","Flatype","Furnstat","InteractionType","Labelling","Locality","ParkingType","PoiType","Restriction","Searching","Service","Showing","User"]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
