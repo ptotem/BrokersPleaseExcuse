@@ -80,6 +80,10 @@ RailsAdmin.config do |config|
       field :name
       field :area_id
     end
+    edit do
+      field :name
+      field :area_id
+    end
   end
 
   # Your model's configuration, to help you get started:
