@@ -8,7 +8,7 @@ class Building < ActiveRecord::Base
   has_many :flats, :dependent => :destroy
   has_many :building_localities
   has_many :localities, :through => :building_localities
-  belongs_to :primary_locality, :foreign_key => 'primary_locality_id', :class_name => "Locality"
+  has_one :primary_locality
   has_and_belongs_to_many :moving_requirements
   has_and_belongs_to_many :restrictions
   has_many :building_notes, :dependent => :destroy
@@ -26,6 +26,7 @@ class Building < ActiveRecord::Base
   accepts_nested_attributes_for :building_routes, :reject_if => proc { |attrs| reject = %w(name).all? { |a| attrs[a].blank? } }, :allow_destroy => true
   accepts_nested_attributes_for :building_services, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :building_localities, :reject_if => lambda { |a| a[:locality_id].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :primary_locality, :reject_if => lambda { |a| a[:locality_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :building_facilities, :reject_if => lambda { |a| a[:facility_id].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :building_facility_features, :reject_if => lambda { |a| a[:facility_feature_id].blank? }, :allow_destroy => true
 
