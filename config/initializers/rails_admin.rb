@@ -77,15 +77,6 @@ RailsAdmin.config do |config|
   #   end
   # end
 
-  config.model Locality do
-    list do
-      exclude_fields :primary_localities
-    end
-    edit do
-      exclude_fields :primary_localities
-    end
-  end
-
   # Your model's configuration, to help you get started:
 
   # All fields marked as 'hidden' won't be shown anywhere in the rails_admin unless you mark them as visible. (visible(true))
