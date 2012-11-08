@@ -6,9 +6,8 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-#gem 'pg'
-#gem 'mysql2'
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem "rails_admin_import", :git => "git://github.com/stephskardal/rails_admin_import.git"
 gem 'thesilverspoon'
 gem 'geocoder'
 gem 'chosen-rails'

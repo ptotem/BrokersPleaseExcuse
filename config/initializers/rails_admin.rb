@@ -36,11 +36,28 @@ RailsAdmin.config do |config|
   # Add models here if you want to go 'whitelist mode':
   # config.included_models = []
 
-  config.included_models = ["Area", "BalconyType", "BathroomType", "BhkConfig", "Building", "City", "Contact", "ContactType","DealRelation","DealStage","Direction","Facility","FacilityFeature","Flat","Flatype","Furnstat","InteractionType","Labelling","Locality","ParkingType","PoiType","Restriction","Searching","Service","Showing","User"]
+  config.included_models = ["Area", "BalconyType", "BathroomType", "BhkConfig", "Building", "City", "Contact", "ContactType", "DealRelation", "DealStage", "Direction", "Facility", "FacilityFeature", "Flat", "Flatype", "Furnstat", "InteractionType", "Labelling", "Locality", "ParkingType", "PoiType", "Restriction", "Searching", "Service", "Showing", "User"]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
 
+  config.actions do
+      # root actions
+      dashboard                     # mandatory
+      # collection actions
+      index                         # mandatory
+      new
+      export
+      import
+      history_index
+      bulk_delete
+      # member actions
+      show
+      edit
+      delete
+      history_show
+      show_in_app
+    end
   #  ==> Global models configuration
   # config.models do
   #   # Configuration here will affect all included models in all scopes, handle with care!
@@ -80,5 +97,13 @@ RailsAdmin.config do |config|
   # Your model's configuration, to help you get started:
 
   # All fields marked as 'hidden' won't be shown anywhere in the rails_admin unless you mark them as visible. (visible(true))
+
+  RailsAdminImport.config do |config|
+    config.model Locality do
+      label :area
+      label :name
+    end
+  end
+
 
 end
